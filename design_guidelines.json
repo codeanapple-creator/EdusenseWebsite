@@ -1,0 +1,121 @@
+{
+  "project_name": "EDUSENSE By Codeanapple",
+  "theme": "Light",
+  "archetype": "6 (Vibrant Play)",
+  "emotional_tone": "Approachable, Trustworthy, Optimistic, Playful, Mystical (for astrology)",
+  "colors": {
+    "background": {
+      "default": "bg-amber-50",
+      "paper": "bg-white",
+      "astrology_section": "bg-slate-950"
+    },
+    "primary": {
+      "default": "bg-sky-500",
+      "hover": "hover:bg-sky-400",
+      "text": "text-sky-600",
+      "whatsapp": "bg-[#25D366]"
+    },
+    "secondary": {
+      "default": "bg-amber-400",
+      "hover": "hover:bg-amber-300",
+      "text": "text-amber-600"
+    },
+    "astrology_accent": {
+      "default": "bg-indigo-600",
+      "text": "text-indigo-200",
+      "border": "border-indigo-400/30",
+      "gold": "text-yellow-400"
+    },
+    "neutral": {
+      "text_main": "text-slate-900",
+      "text_muted": "text-slate-500",
+      "border": "border-slate-200"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "font-sans",
+      "body": "font-sans",
+      "recommended_google_fonts": "Nunito (Heading), Figtree (Body)"
+    },
+    "scales": {
+      "h1": "text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter",
+      "h2": "text-3xl md:text-4xl font-bold tracking-tight",
+      "h3": "text-xl md:text-2xl font-bold",
+      "body": "text-base leading-relaxed",
+      "small": "text-sm tracking-wide uppercase"
+    },
+    "instructions": "Do not use Inter, Roboto, or Open Sans for headings. Implement heavy weight contrast (font-black for headings, font-medium for body)."
+  },
+  "layout_spacing": {
+    "philosophy": "Generous Spacing (p-6 to p-12) to feel approachable and uncluttered. Use bento grids for dashboards.",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "grid_bento": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+    "border_radius": "rounded-2xl or rounded-3xl for cards/buttons to fit the Vibrant Play archetype"
+  },
+  "surface_styles": {
+    "dashboard_cards": "bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow",
+    "astrology_glass": "backdrop-blur-xl bg-slate-900/60 border border-indigo-500/20 shadow-2xl rounded-3xl",
+    "header": "sticky top-0 z-50 backdrop-blur-xl bg-amber-50/80 border-b border-amber-200/50"
+  },
+  "components_instructions": {
+    "buttons": "Chunky, rounded-full, px-6 py-3 font-bold transition-transform hover:-translate-y-1 active:translate-y-0 shadow-sm",
+    "forms": "Use Shadcn Form, Input, Select, DatePicker. Make inputs rounded-xl, bg-white, with subtle focus rings (focus:ring-2 focus:ring-sky-500).",
+    "icons": "Use lucide-react with bold strokes (strokeWidth={2.5}) to match the playful vibe.",
+    "marquee": "Use react-fast-marquee for the 'Books & Activities' ticker on the Parent Dashboard.",
+    "tables": "Use Shadcn Table for Principal Dashboard but style with alternating row colors (bg-slate-50) and rounded container."
+  },
+  "animations": {
+    "interactions": "Hover lifts (-translate-y-1), gentle scaling (scale-105) for cards and buttons.",
+    "astrology_reveal": "Use framer-motion to reveal the astrology result card with a glowing drop-shadow and slow fade-in."
+  },
+  "image_urls": {
+    "hero_landing": {
+      "url": "https://images.unsplash.com/photo-1765223085025-0405fcfbb338?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxraWQlMjByZWFkaW5nJTIwYm9vayUyMGVkdWNhdGlvbnxlbnwwfHx8fDE3NzgyMzY0MzB8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Child reading a colorful book, use for main hero section on landing page"
+    },
+    "books_activities": {
+      "url": "https://images.unsplash.com/photo-1774686030499-27af852cbc73?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHw0fHxraWQlMjByZWFkaW5nJTIwYm9vayUyMGVkdWNhdGlvbnxlbnwwfHx8fDE3NzgyMzY0MzB8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Children reading together, use in parent dashboard or recommendations section"
+    },
+    "astrology_bg": {
+      "url": "https://images.unsplash.com/photo-1710270822145-252ef537ffa6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxhc3Ryb2xvZ3klMjBjb25zdGVsbGF0aW9ucyUyMHNwYWNlJTIwbXlzdGljfGVufDB8fHx8MTc3ODIzNjQ1NHww&ixlib=rb-4.1.0&q=85",
+      "description": "Star cluster/space, use as a dark background overlay for the Western Astrology form section"
+    },
+    "principal_dashboard": {
+      "url": "https://images.unsplash.com/photo-1758270704925-fa59d93119c1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHxzY2hvb2wlMjB0ZWFjaGVyJTIwcHJpbmNpcGFsJTIwbWVldGluZ3xlbnwwfHx8fDE3NzgyMzY0MzB8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Teacher lecturing, use in the principal dashboard overview or school landing page"
+    },
+    "auth_bg": {
+      "url": "https://images.unsplash.com/photo-1771945701675-80f0a5ed7f8b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA0MTJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBjb2xvcmZ1bCUyMGdlb21ldHJpYyUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzc4MjM2NDU0fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Colorful abstract background, use for login/signup split screen side image"
+    }
+  },
+  "page_structures": {
+    "landing_page": {
+      "sections": [
+        "Hero Section (Image on right, Bold CTA, bg-amber-50)",
+        "Features Grid (Role-based logins: Parent, Teacher, Principal)",
+        "Astrology Teaser (Dark cosmic section mapping out niche finding)",
+        "Footer"
+      ]
+    },
+    "auth": {
+      "layout": "Split screen. Left: Abstract auth_bg with text overlay. Right: Sign In / Sign Up form with Role Selection Tabs (Parent, Teacher, Principal)."
+    },
+    "astrology_form": {
+      "layout": "Centered large card with glassmorphism over astrology_bg. Fields: Name, Place (City Search), Date/Time of Birth. Submit button triggers an AI suggestion screen.",
+      "result_view": "Cosmic result card displaying the AI-suggested Niche. Prominent 'Connect on WhatsApp' button (bg-green-500)."
+    },
+    "parent_dashboard": {
+      "layout": "Bento Grid Layout. Sidebar nav. Main content: Child Profile Card, Astrology Niche Card, Recommended Books (Marquee/Carousel), Suggested Activities List categorized by subject."
+    },
+    "teacher_dashboard": {
+      "layout": "Standard Admin Layout. Top stats cards (Students, Classes). Table for students view, File upload/Content sharing section."
+    },
+    "principal_dashboard": {
+      "layout": "Dense Control Room Grid. Key metrics (Enrollment, Teacher Perf). Charts for school-wide overview using Recharts."
+    }
+  },
+  "testing": "All interactive elements MUST have data-testid attributes (e.g., data-testid='role-select-parent', data-testid='astrology-submit-button')."
+}
