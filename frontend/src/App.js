@@ -12,6 +12,7 @@ import Astrology from "./pages/Astrology";
 import ParentDashboard from "./pages/ParentDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
+import Sentiment from "./pages/Sentiment";
 
 function DashboardRouter() {
   const { user } = useAuth();
@@ -34,6 +35,14 @@ function App() {
               element={
                 <ProtectedRoute roles={["parent", "teacher", "principal"]}>
                   <Astrology />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sentiment"
+              element={
+                <ProtectedRoute roles={["parent", "teacher", "principal"]}>
+                  <Sentiment />
                 </ProtectedRoute>
               }
             />

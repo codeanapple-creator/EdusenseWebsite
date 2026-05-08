@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "./ui/button";
-import { Sparkles, LogOut, LayoutDashboard } from "lucide-react";
+import { Sparkles, LogOut, LayoutDashboard, Activity } from "lucide-react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -33,6 +33,12 @@ export default function Navbar() {
                 <Button variant="ghost" className="rounded-full font-bold" data-testid="nav-dashboard-btn">
                   <LayoutDashboard size={16} strokeWidth={2.5} className="mr-1.5" />
                   Dashboard
+                </Button>
+              </Link>
+              <Link to="/sentiment">
+                <Button variant="ghost" className="rounded-full font-bold hidden sm:inline-flex" data-testid="nav-sentiment-btn">
+                  <Activity size={16} strokeWidth={2.5} className="mr-1.5" />
+                  Sentiment
                 </Button>
               </Link>
               <span className="hidden sm:inline text-xs uppercase tracking-wide font-bold text-slate-500 px-2">

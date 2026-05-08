@@ -9,7 +9,7 @@ import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
-import { Trash2, GraduationCap, BookOpen, Loader2, Sparkles, ExternalLink } from "lucide-react";
+import { Trash2, GraduationCap, BookOpen, Loader2, Sparkles, ExternalLink, Activity } from "lucide-react";
 import { toast } from "sonner";
 
 const SUBJECTS = ["Mathematics", "Science", "English", "Social Studies", "Coding", "Art", "Music", "Physical Education"];
@@ -77,11 +77,18 @@ export default function TeacherDashboard() {
     <div className="min-h-screen bg-amber-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-8">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-1">Teacher space</div>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="teacher-dashboard-title">
-            Welcome, {user.name.split(" ")[0]} 🍎
-          </h1>
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
+          <div>
+            <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-1">Teacher space</div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="teacher-dashboard-title">
+              Welcome, {user.name.split(" ")[0]} 🍎
+            </h1>
+          </div>
+          <Link to="/sentiment">
+            <Button variant="outline" className="rounded-full font-bold border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-6 py-3 btn-lift" data-testid="teacher-sentiment-btn">
+              <Activity size={16} className="mr-1.5" strokeWidth={2.5} /> Sentiment Lab
+            </Button>
+          </Link>
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mb-8">

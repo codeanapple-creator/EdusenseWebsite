@@ -215,3 +215,184 @@ def test_analytics_forbidden_for_teacher(s):
     r = s.get(f"{API}/analytics/overview",
               headers={"Authorization": f"Bearer {state['teacher_token']}"})
     assert r.status_code == 403
+
+
+
+# ---------- Sentiment Analysis (Tiwari 2024 hybrid lexicon+ML) ----------
+NRC_KEYS = {"anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust"}
+
+
+def _auth(token):
+    return {"Authorization": f"Bearer {token}"}
+
+
+def test_sentiment_analyze_unauth(s):
+    r = s.post(f"{API}/sentiment/analyze", json={"text": "Great class today"})
+    assert r.status_code == 401
+
+
+def test_sentiment_records_unauth(s):
+    r = s.get(f"{API}/sentiment/records")
+    assert r.status_code == 401
+
+
+def test_sentiment_summary_unauth(s):
+    r = s.get(f"{API}/sentiment/summary")
+    assert r.status_code == 401
+
+
+def test_sentiment_analyze_schema(s):
+    text = ("My daughter loved the science activity today. She participated actively, "
+            "shared materials with friends, and showed great curiosity. The teacher was patient and engaging.")
+    r = s.post(f"{API}/sentiment/analyze",
+               headers=_auth(state["parent_token"]),
+               json={"text": text}, timeout=120)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["sentiment"] in ("positive", "negative", "neutral", "mixed")
+    assert -1.0 <= d["polarity_score"] <= 1.0
+    assert 0.0 <= d["likert_score"] <= 5.0
+    assert 0.0 <= d["confidence"] <= 1.0
+    # NRC: all 8 keys present, values in [0,1]
+    assert set(d["nrc_emotions"].keys()) == NRC_KEYS, f"NRC keys mismatch: {d['nrc_emotions'].keys()}"
+    for k, v in d["nrc_emotions"].items():
+        assert 0.0 <= v <= 1.0, f"{k}={v}"
+    assert 0.0 <= d["satisfaction_score"] <= 1.0
+    assert 0.0 <= d["dissatisfaction_score"] <= 1.0
+    assert isinstance(d["aspects"], dict)
+    assert isinstance(d["key_themes"], list)
+    assert isinstance(d["summary"], str) and len(d["summary"]) > 0
+    # for the strongly positive example, expect positive-leaning
+    assert d["sentiment"] in ("positive", "mixed")
+    state["pos_polarity"] = d["polarity_score"]
+
+
+def test_sentiment_records_create_parent(s):
+    r = s.post(f"{API}/sentiment/records",
+               headers=_auth(state["parent_token"]),
+               json={"kind": "feedback",
+                     "text": "TEST_PARENT_FB: My child enjoyed the math lesson and felt confident.",
+                     "subject_name": "Aanya"}, timeout=120)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["kind"] == "feedback"
+    assert d["user_role"] == "parent"
+    assert d["user_name"] == "Parent Test"
+    assert "result" in d and "nrc_emotions" in d["result"]
+    state["parent_record_id"] = d["id"]
+
+
+def test_sentiment_records_create_teacher_journal(s):
+    r = s.post(f"{API}/sentiment/records",
+               headers=_auth(state["teacher_token"]),
+               json={"kind": "journal",
+                     "text": "TEST_TEACHER_JOURNAL: Student struggled with fractions but improved by end of class.",
+                     "subject_name": "Rahul"}, timeout=120)
+    assert r.status_code == 200, r.text
+    state["teacher_record_id"] = r.json()["id"]
+
+
+def test_sentiment_records_create_principal_note(s):
+    r = s.post(f"{API}/sentiment/records",
+               headers=_auth(state["principal_token"]),
+               json={"kind": "teacher_note",
+                     "text": "TEST_PRINCIPAL_NOTE: Faculty meeting was productive and collaborative."},
+               timeout=120)
+    assert r.status_code == 200, r.text
+    state["principal_record_id"] = r.json()["id"]
+
+
+def test_sentiment_records_visibility_parent(s):
+    r = s.get(f"{API}/sentiment/records", headers=_auth(state["parent_token"]))
+    assert r.status_code == 200
+    items = r.json()
+    user_ids = {x["user_id"] for x in items}
+    # parent must see only own records
+    assert all(x["user_role"] == "parent" for x in items)
+    assert len(user_ids) <= 1
+
+
+def test_sentiment_records_visibility_teacher(s):
+    r = s.get(f"{API}/sentiment/records", headers=_auth(state["teacher_token"]))
+    assert r.status_code == 200
+    items = r.json()
+    ids = {x["id"] for x in items}
+    # teacher sees own + parent feedback + journals
+    assert state["teacher_record_id"] in ids
+    assert state["parent_record_id"] in ids  # parent feedback visible
+    # principal's teacher_note should NOT be visible to teacher (not own, not feedback/journal)
+    assert state["principal_record_id"] not in ids
+
+
+def test_sentiment_records_visibility_principal(s):
+    r = s.get(f"{API}/sentiment/records", headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    items = r.json()
+    ids = {x["id"] for x in items}
+    assert state["parent_record_id"] in ids
+    assert state["teacher_record_id"] in ids
+    assert state["principal_record_id"] in ids
+
+
+def test_sentiment_records_kind_filter(s):
+    r = s.get(f"{API}/sentiment/records?kind=feedback", headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    items = r.json()
+    assert all(x["kind"] == "feedback" for x in items)
+    assert any(x["id"] == state["parent_record_id"] for x in items)
+
+
+def test_sentiment_summary_parent_forbidden(s):
+    r = s.get(f"{API}/sentiment/summary", headers=_auth(state["parent_token"]))
+    assert r.status_code == 403
+
+
+def test_sentiment_summary_teacher_ok(s):
+    r = s.get(f"{API}/sentiment/summary", headers=_auth(state["teacher_token"]))
+    assert r.status_code == 200
+    d = r.json()
+    assert "total_records" in d and isinstance(d["total_records"], int)
+    assert "overall" in d and set(["positive", "neutral", "negative", "mixed"]).issubset(d["overall"].keys())
+    assert "by_kind" in d and isinstance(d["by_kind"], dict)
+    assert d["total_records"] >= 3
+
+
+def test_sentiment_summary_principal_ok(s):
+    r = s.get(f"{API}/sentiment/summary", headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    d = r.json()
+    assert d["total_records"] >= 3
+
+
+def test_sentiment_delete_non_owner_forbidden(s):
+    # parent trying to delete teacher's record -> 404 (filtered by owner)
+    r = s.delete(f"{API}/sentiment/records/{state['teacher_record_id']}",
+                 headers=_auth(state["parent_token"]))
+    assert r.status_code == 404
+
+
+def test_sentiment_delete_owner(s):
+    r = s.delete(f"{API}/sentiment/records/{state['parent_record_id']}",
+                 headers=_auth(state["parent_token"]))
+    assert r.status_code == 200
+    # confirm gone
+    r2 = s.delete(f"{API}/sentiment/records/{state['parent_record_id']}",
+                  headers=_auth(state["parent_token"]))
+    assert r2.status_code == 404
+
+
+def test_sentiment_delete_principal_any(s):
+    # principal deletes teacher's record
+    r = s.delete(f"{API}/sentiment/records/{state['teacher_record_id']}",
+                 headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    # cleanup principal's own record
+    s.delete(f"{API}/sentiment/records/{state['principal_record_id']}",
+             headers=_auth(state["principal_token"]))
+
+
+def test_sentiment_analyze_validation(s):
+    r = s.post(f"{API}/sentiment/analyze",
+               headers=_auth(state["parent_token"]),
+               json={"text": "ab"})  # too short (<3)
+    assert r.status_code == 422

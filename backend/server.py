@@ -427,6 +427,216 @@ async def delete_student(student_id: str, user: dict = Depends(role_required(["t
     return {"ok": True}
 
 
+# ----- Sentiment Analysis -----
+SentimentKind = Literal["feedback", "journal", "teacher_note", "standalone"]
+
+
+class SentimentAnalyzeRequest(BaseModel):
+    text: str = Field(min_length=3, max_length=5000)
+
+
+class SentimentResult(BaseModel):
+    sentiment: Literal["positive", "neutral", "negative", "mixed"]
+    polarity_score: float  # -1.0 to 1.0
+    likert_score: float  # 0.0 to 5.0 (per Tiwari, 2024)
+    confidence: float  # 0.0 to 1.0
+    nrc_emotions: dict  # 8 NRC emotions -> intensity 0..1
+    satisfaction_score: float  # 0..1 weighted (joy + trust + anticipation)
+    dissatisfaction_score: float  # 0..1 weighted (anger + disgust + sadness + fear)
+    aspects: dict  # aspect category -> {sentiment, score}
+    key_themes: List[str]
+    summary: str
+
+
+class SentimentRecordCreate(BaseModel):
+    kind: SentimentKind
+    text: str = Field(min_length=3, max_length=5000)
+    subject_name: Optional[str] = None  # student name (for teacher_note / journal)
+    student_id: Optional[str] = None
+
+
+class SentimentRecord(BaseModel):
+    id: str
+    kind: str
+    text: str
+    subject_name: Optional[str] = None
+    student_id: Optional[str] = None
+    user_id: str
+    user_name: str
+    user_role: str
+    result: dict
+    created_at: str
+
+
+SENTIMENT_SYSTEM = (
+    "You are a hybrid (lexicon + ML) sentiment analysis engine implementing the methodology from "
+    "Bhawna Tiwari's 2024 PhD thesis 'Sentimental Analysis approach to improve teaching and learning "
+    "in primary education'. Apply: (a) 3-class polarity {positive, negative, neutral} plus 'mixed', "
+    "(b) NRC Emotion Lexicon with 8 emotions {anger, anticipation, disgust, fear, joy, sadness, surprise, trust}, "
+    "(c) Aspect-Based Sentiment Analysis using the thesis aspect-categories. For primary-education context, "
+    "use these aspects when applicable: 'happiness_index', 'active_participation', 'sharing', 'self_initiation', "
+    "'gross_motors', 'fine_motors_cognitive', 'behaviour', 'learning', 'teaching_effectiveness', 'course_content', 'instructor_quality'. "
+    "Compute a Likert score (0-5) consistent with polarity, where 0 = strongly negative and 5 = strongly positive. "
+    "Satisfaction = weighted mean of (joy*0.5 + trust*0.3 + anticipation*0.2). "
+    "Dissatisfaction = weighted mean of (anger*0.35 + disgust*0.25 + sadness*0.25 + fear*0.15). "
+    "Return ONLY valid JSON with keys: sentiment, polarity_score (-1..1), likert_score (0..5), confidence (0..1), "
+    "nrc_emotions (object with all 8 keys, intensities 0..1), satisfaction_score (0..1), dissatisfaction_score (0..1), "
+    "aspects (object: {<aspect_key>: {sentiment, score}}), key_themes (array of 2-5 short phrases), "
+    "summary (1-2 sentence interpretation). Output JSON only."
+)
+
+
+NRC_EMOTIONS = ["anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust"]
+
+
+def _clamp(v, lo, hi):
+    try:
+        v = float(v)
+    except (TypeError, ValueError):
+        v = 0.0
+    return max(lo, min(hi, v))
+
+
+async def run_sentiment(text: str, session_id: str) -> dict:
+    raw = await llm_json(SENTIMENT_SYSTEM, f"Text to analyze:\n\"\"\"\n{text}\n\"\"\"", session_id)
+    data = parse_json_text(raw)
+
+    sentiment = str(data.get("sentiment", "neutral")).lower()
+    if sentiment not in ("positive", "neutral", "negative", "mixed"):
+        sentiment = "neutral"
+
+    polarity_score = _clamp(data.get("polarity_score", data.get("score", 0)), -1.0, 1.0)
+    likert_score = _clamp(data.get("likert_score", (polarity_score + 1) * 2.5), 0.0, 5.0)
+    confidence = _clamp(data.get("confidence", 0.7), 0.0, 1.0)
+
+    nrc_raw = data.get("nrc_emotions", {}) or {}
+    nrc_emotions = {e: _clamp(nrc_raw.get(e, 0.0), 0.0, 1.0) for e in NRC_EMOTIONS}
+
+    sat = _clamp(
+        data.get("satisfaction_score",
+                 nrc_emotions["joy"] * 0.5 + nrc_emotions["trust"] * 0.3 + nrc_emotions["anticipation"] * 0.2),
+        0.0, 1.0,
+    )
+    dis = _clamp(
+        data.get("dissatisfaction_score",
+                 nrc_emotions["anger"] * 0.35 + nrc_emotions["disgust"] * 0.25
+                 + nrc_emotions["sadness"] * 0.25 + nrc_emotions["fear"] * 0.15),
+        0.0, 1.0,
+    )
+
+    aspects_raw = data.get("aspects", {}) or {}
+    aspects = {}
+    for key, val in aspects_raw.items():
+        if not isinstance(val, dict):
+            continue
+        a_sent = str(val.get("sentiment", "neutral")).lower()
+        if a_sent not in ("positive", "negative", "neutral", "mixed"):
+            a_sent = "neutral"
+        aspects[str(key)] = {
+            "sentiment": a_sent,
+            "score": _clamp(val.get("score", 0), -1.0, 1.0),
+        }
+
+    return {
+        "sentiment": sentiment,
+        "polarity_score": polarity_score,
+        "likert_score": round(likert_score, 2),
+        "confidence": confidence,
+        "nrc_emotions": nrc_emotions,
+        "satisfaction_score": round(sat, 3),
+        "dissatisfaction_score": round(dis, 3),
+        "aspects": aspects,
+        "key_themes": [str(t) for t in data.get("key_themes", [])][:6],
+        "summary": str(data.get("summary", "")),
+    }
+
+
+@api_router.post("/sentiment/analyze", response_model=SentimentResult)
+async def sentiment_analyze(req: SentimentAnalyzeRequest, user: dict = Depends(get_current_user)):
+    try:
+        result = await run_sentiment(req.text, f"sent-analyze-{user['id']}-{uuid.uuid4().hex[:8]}")
+    except Exception as e:
+        logger.exception("Sentiment analyze error")
+        raise HTTPException(status_code=502, detail=f"AI service error: {e}")
+    return SentimentResult(**result)
+
+
+@api_router.post("/sentiment/records", response_model=SentimentRecord)
+async def create_sentiment_record(req: SentimentRecordCreate, user: dict = Depends(get_current_user)):
+    try:
+        result = await run_sentiment(req.text, f"sent-rec-{user['id']}-{uuid.uuid4().hex[:8]}")
+    except Exception as e:
+        logger.exception("Sentiment record error")
+        raise HTTPException(status_code=502, detail=f"AI service error: {e}")
+    record = {
+        "id": str(uuid.uuid4()),
+        "kind": req.kind,
+        "text": req.text,
+        "subject_name": req.subject_name,
+        "student_id": req.student_id,
+        "user_id": user["id"],
+        "user_name": user["name"],
+        "user_role": user["role"],
+        "result": result,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.sentiment_records.insert_one(record)
+    return SentimentRecord(**{k: v for k, v in record.items() if k != "_id"})
+
+
+@api_router.get("/sentiment/records", response_model=List[SentimentRecord])
+async def list_sentiment_records(
+    kind: Optional[str] = None,
+    user: dict = Depends(get_current_user),
+):
+    query: dict = {}
+    if kind:
+        query["kind"] = kind
+    # Role-based visibility
+    if user["role"] == "principal":
+        pass  # see all
+    elif user["role"] == "teacher":
+        # Teachers can see their own records + all journals + all parent feedback
+        query = {**query, "$or": [
+            {"user_id": user["id"]},
+            {"kind": {"$in": ["feedback", "journal"]}},
+        ]}
+    else:  # parent
+        query["user_id"] = user["id"]
+    items = await db.sentiment_records.find(query, {"_id": 0}).sort("created_at", -1).to_list(200)
+    return items
+
+
+@api_router.delete("/sentiment/records/{record_id}")
+async def delete_sentiment_record(record_id: str, user: dict = Depends(get_current_user)):
+    q = {"id": record_id}
+    if user["role"] != "principal":
+        q["user_id"] = user["id"]
+    result = await db.sentiment_records.delete_one(q)
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Record not found")
+    return {"ok": True}
+
+
+@api_router.get("/sentiment/summary")
+async def sentiment_summary(user: dict = Depends(role_required(["principal", "teacher"]))):
+    # Aggregate counts by sentiment + kind
+    pipeline = [
+        {"$group": {"_id": {"kind": "$kind", "sentiment": "$result.sentiment"}, "count": {"$sum": 1}}},
+    ]
+    by_kind: dict = {}
+    overall: dict = {"positive": 0, "neutral": 0, "negative": 0, "mixed": 0}
+    async for doc in db.sentiment_records.aggregate(pipeline):
+        k = doc["_id"]["kind"]
+        s = doc["_id"]["sentiment"]
+        c = doc["count"]
+        by_kind.setdefault(k, {"positive": 0, "neutral": 0, "negative": 0, "mixed": 0})
+        by_kind[k][s] = c
+        overall[s] = overall.get(s, 0) + c
+    total = await db.sentiment_records.count_documents({})
+    return {"total_records": total, "overall": overall, "by_kind": by_kind}
+
+
 # Principal: analytics
 @api_router.get("/analytics/overview")
 async def analytics_overview(user: dict = Depends(role_required(["principal"]))):
@@ -473,6 +683,8 @@ app.add_middleware(
 async def on_startup():
     await db.users.create_index("email", unique=True)
     await db.students.create_index("teacher_id")
+    await db.sentiment_records.create_index("user_id")
+    await db.sentiment_records.create_index("kind")
     # Seed admin (principal)
     admin_email = os.environ.get("ADMIN_EMAIL", "principal@edusense.com").lower()
     admin_password = os.environ.get("ADMIN_PASSWORD", "Admin@123")

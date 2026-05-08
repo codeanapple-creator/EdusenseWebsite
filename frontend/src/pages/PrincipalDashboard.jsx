@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
 import { api, formatApiErrorDetail } from "../lib/api";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Pie, PieChart, Cell, Legend } from "recharts";
-import { Users, GraduationCap, ShieldCheck, Stars, BookOpen, TrendingUp } from "lucide-react";
+import { Users, GraduationCap, ShieldCheck, Stars, BookOpen, TrendingUp, Activity, Smile, Frown, Meh } from "lucide-react";
 import { toast } from "sonner";
 
 const ROLE_COLORS = ["#0ea5e9", "#f59e0b", "#6366f1"];
@@ -15,10 +17,15 @@ export default function PrincipalDashboard() {
   const { user } = useAuth();
   const [overview, setOverview] = useState(null);
   const [students, setStudents] = useState([]);
+  const [sentSummary, setSentSummary] = useState(null);
 
   useEffect(() => {
-    Promise.all([api.get("/analytics/overview"), api.get("/students")])
-      .then(([a, b]) => { setOverview(a.data); setStudents(b.data); })
+    Promise.all([
+      api.get("/analytics/overview"),
+      api.get("/students"),
+      api.get("/sentiment/summary"),
+    ])
+      .then(([a, b, c]) => { setOverview(a.data); setStudents(b.data); setSentSummary(c.data); })
       .catch((e) => toast.error(formatApiErrorDetail(e.response?.data?.detail) || e.message));
   }, []);
 
@@ -41,11 +48,18 @@ export default function PrincipalDashboard() {
     <div className="min-h-screen bg-amber-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mb-8">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-1">Principal control room</div>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="principal-dashboard-title">
-            School pulse · {user.name}
-          </h1>
+        <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
+          <div>
+            <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-1">Principal control room</div>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="principal-dashboard-title">
+              School pulse · {user.name}
+            </h1>
+          </div>
+          <Link to="/sentiment">
+            <Button variant="outline" className="rounded-full font-bold border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-6 py-3 btn-lift" data-testid="principal-sentiment-btn">
+              <Activity size={16} className="mr-1.5" strokeWidth={2.5} /> Sentiment Lab
+            </Button>
+          </Link>
         </div>
 
         {/* Stats */}
@@ -109,6 +123,53 @@ export default function PrincipalDashboard() {
             )}
           </Card>
         </div>
+
+        {/* Sentiment overview (Tiwari, 2024) */}
+        <Card className="rounded-3xl p-6 bg-white border-slate-100 mb-6" data-testid="sentiment-overview-card">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center"><Activity className="text-indigo-600" size={20} strokeWidth={2.5} /></div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900">Sentiment overview</h3>
+                <p className="text-xs text-slate-500">Hybrid lexicon + ML · Tiwari (2024) methodology</p>
+              </div>
+            </div>
+            <Badge className="rounded-full bg-amber-100 text-amber-700 border-amber-200 font-bold">{sentSummary?.total_records ?? 0} records</Badge>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
+              <div className="flex items-center gap-2 text-emerald-700 text-xs uppercase tracking-widest font-bold mb-1"><Smile size={14} strokeWidth={2.5} /> Positive</div>
+              <div className="text-2xl font-black text-emerald-700">{sentSummary?.overall?.positive ?? 0}</div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-center gap-2 text-slate-700 text-xs uppercase tracking-widest font-bold mb-1"><Meh size={14} strokeWidth={2.5} /> Neutral</div>
+              <div className="text-2xl font-black text-slate-700">{sentSummary?.overall?.neutral ?? 0}</div>
+            </div>
+            <div className="rounded-2xl border border-rose-100 bg-rose-50/60 p-4">
+              <div className="flex items-center gap-2 text-rose-700 text-xs uppercase tracking-widest font-bold mb-1"><Frown size={14} strokeWidth={2.5} /> Negative</div>
+              <div className="text-2xl font-black text-rose-700">{sentSummary?.overall?.negative ?? 0}</div>
+            </div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-4">
+              <div className="flex items-center gap-2 text-amber-700 text-xs uppercase tracking-widest font-bold mb-1"><Activity size={14} strokeWidth={2.5} /> Mixed</div>
+              <div className="text-2xl font-black text-amber-700">{sentSummary?.overall?.mixed ?? 0}</div>
+            </div>
+          </div>
+          {sentSummary?.by_kind && Object.keys(sentSummary.by_kind).length > 0 && (
+            <div className="mt-5 grid md:grid-cols-3 gap-3">
+              {Object.entries(sentSummary.by_kind).map(([kind, vals]) => (
+                <div key={kind} className="rounded-2xl border border-slate-200 p-4">
+                  <div className="text-xs uppercase tracking-widest font-bold text-slate-500 mb-2 capitalize">{kind.replace("_", " ")}</div>
+                  <div className="flex gap-3 text-sm">
+                    <span className="font-bold text-emerald-700">+{vals.positive || 0}</span>
+                    <span className="font-bold text-slate-600">·{vals.neutral || 0}</span>
+                    <span className="font-bold text-rose-700">−{vals.negative || 0}</span>
+                    <span className="font-bold text-amber-700">~{vals.mixed || 0}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
 
         {/* Students table */}
         <Card className="rounded-3xl p-6 bg-white border-slate-100" data-testid="principal-students-card">
