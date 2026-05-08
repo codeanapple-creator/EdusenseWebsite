@@ -1,0 +1,46 @@
+{
+  "summary": "Iteration 4 (DatePicker + $group aggregation + LLM 45s timeout) verified end-to-end. Backend: 60/60 pytest pass (~80s) — all prior 59 + 1 new aggregation-correctness test. The new test creates a sentiment record then GETs /api/sentiment/trend?days=1 and asserts today's bucket reflects the new record (total>=1, sentiment count incremented). Trend endpoint contract preserved: days=30 → 30 buckets; days=7 → 7 buckets; days=181/0 → 422; parent → 403; teacher allowed; bucket schema unchanged. Re-raise pattern (`except HTTPException: raise`) confirmed in routes/astrology.py, routes/recommendations.py, routes/sentiment.py (analyze + records) — preserves 504 from asyncio.wait_for timeout in core/llm.py (LLM_TIMEOUT_SECONDS=45). Frontend Playwright: parent register → /dashboard/parent → ChildrenManager card → Add child dialog opens with DialogDescription rendered → child-dob-input is a BUTTON (not native input[type=date]) with calendar icon → click opens shadcn Popover (`child-dob-input-popover`) showing rdp Calendar → day selection populates the button label as a formatted date and saves child to /api/children → DOB badge ('DOB YYYY-MM-DD') visible in children-list. Astrology page (/astrology): astro-dob-input is a BUTTON; clicking opens astro-dob-input-popover with Calendar widget. All preserved testids functional.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Astrology page DOB Popover",
+        "issues": ["Popover positioned at top-left of viewport instead of anchored under the trigger button on a 1440x900 desktop view (the trigger button sits at row containing PLACE OF BIRTH; popover renders above it floating at x≈280,y≈90). Functionally OK, but anchoring/collision-detection looks off — likely because the trigger is inside a dark card container with overflow rules. Worth verifying align/sideOffset/collisionPadding props."]
+      },
+      {
+        "screen": "Astrology DOB Calendar caption (captionLayout=dropdown)",
+        "issues": ["Caption row renders duplicated month/year labels: 'May 2026' header + 'Month: May / May ▾' + 'Year: 2026 / 2026 ▾'. Likely the shadcn Calendar template renders both the dropdown trigger and the static label. Cosmetic but cluttered. ChildrenManager DatePicker has same fromYear/toYear config so likely same issue there."]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "(Minor UI) Fix shadcn Calendar caption-dropdown duplicate-label rendering when fromYear/toYear are passed (see DatePicker.jsx + ui/calendar.jsx).",
+    "(Minor UI) Tweak Popover positioning on Astrology DOB so it anchors under the trigger button (sideOffset/align/avoidCollisions or move the trigger out of the dark card's overflow-clipped region)."
+  ],
+  "critical_code_review_comments": [
+    "core/llm.py timeout wrapper is correct: asyncio.wait_for(45s) on chat.send_message raises HTTPException(504). Re-raise pattern in callers (`except HTTPException: raise; except Exception: 502`) properly preserves 504 vs wrapping it as 502.",
+    "routes/sentiment.py /trend $group pipeline uses {$substr: ['$created_at', 0, 10]} which assumes ISO-8601 strings — consistent with create_sentiment_record where created_at = datetime.now(timezone.utc).isoformat(). Safe given current writes; if any non-ISO writer is added later the bucket date would silently drift. Minor: consider $dateFromString + $dateToString for robustness.",
+    "DatePicker.jsx: parses incoming value with date-fns parse('yyyy-MM-dd') — accepts only ISO date strings. Good. fromYear/toYear toggles captionLayout='dropdown' — current shadcn calendar template seems to render duplicate dropdown labels (see design_issues above).",
+    "ChildrenManager.jsx: DialogDescription added (resolves prior a11y warning). DatePicker integration clean; submits date_of_birth as YYYY-MM-DD or null.",
+    "Carry-over: CORS_ORIGINS='*' with allow_credentials=True is still a misconfig (no current impact since auth uses Bearer header)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py (added test_sentiment_trend_aggregation_today_bucket — creates a record then GET /api/sentiment/trend?days=1 to verify it lands in today's bucket; suite is 60 tests)"
+  ],
+  "success_rate": {"backend": "100% (60/60)", "frontend": "100% (DatePicker on ChildrenManager + Astrology verified live)"},
+  "test_credentials": "Pre-seeded principal: principal@edusense.com / Admin@123. Runtime parents/teachers TEST_*_<ts>@edusense.com / Test@1234.",
+  "seed_data_creation": "Pytest creates and cleans up its own data (children, sentiment records, students). One TEST_DP_Child child remains in DB from the Playwright UI run (not cleaned by the script).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest at /app/backend/tests/backend_test.py runs 60 tests in ~80s (LLM-bound). Aggregation correctness test verifies $group pipeline by inserting then querying days=1. Frontend datepicker testids are still child-dob-input and astro-dob-input but they are BUTTONs now — to interact: page.click('[data-testid=\"child-dob-input\"]') opens popover then click 'button[name=\"day\"]:not([disabled])' inside the rdp grid. On Playwright the calendar caption with fromYear/toYear shows 'Month: ▾ / Year: ▾' selects.",
+  "rca of the issue": "No bugs. Minor cosmetic issues only (calendar caption duplicate labels, astrology popover anchor)."
+}

@@ -578,6 +578,34 @@ def test_sentiment_trend_days_out_of_range(s):
     assert r2.status_code == 422
 
 
+# Iter4: Aggregation correctness — created sentiment record for today must reflect in days=1 bucket.
+def test_sentiment_trend_aggregation_today_bucket(s):
+    # Create a record as parent (positive, will land in today's bucket)
+    r = s.post(f"{API}/sentiment/records",
+               headers=_auth(state["parent_token"]),
+               json={"kind": "feedback",
+                     "text": "TEST_AGG_TODAY: My child had an absolutely wonderful, joyful, fantastic day learning."},
+               timeout=120)
+    assert r.status_code == 200, r.text
+    rec_id = r.json()["id"]
+    rec_sent = r.json()["result"]["sentiment"]
+    try:
+        # days=1 -> single bucket = today
+        r2 = s.get(f"{API}/sentiment/trend?days=1",
+                   headers=_auth(state["principal_token"]))
+        assert r2.status_code == 200
+        data = r2.json()
+        assert data["days"] == 1
+        assert len(data["series"]) == 1
+        bucket = data["series"][0]
+        # Today's bucket must include our newly created record
+        assert bucket["total"] >= 1
+        assert bucket[rec_sent] >= 1
+    finally:
+        s.delete(f"{API}/sentiment/records/{rec_id}",
+                 headers=_auth(state["parent_token"]))
+
+
 # ===================================================================
 # Analytics overview includes total_children
 # ===================================================================

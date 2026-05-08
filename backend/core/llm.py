@@ -1,10 +1,14 @@
-"""LLM helpers (emergentintegrations + JSON parsing)."""
+"""LLM helpers (emergentintegrations + JSON parsing) with timeout."""
+import asyncio
 import json
 import re
 
+from fastapi import HTTPException
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
-from .config import EMERGENT_LLM_KEY
+from .config import EMERGENT_LLM_KEY, logger
+
+LLM_TIMEOUT_SECONDS = 45
 
 
 async def llm_json(system: str, prompt: str, session_id: str) -> str:
@@ -13,7 +17,14 @@ async def llm_json(system: str, prompt: str, session_id: str) -> str:
         session_id=session_id,
         system_message=system,
     ).with_model("anthropic", "claude-sonnet-4-5-20250929")
-    return await chat.send_message(UserMessage(text=prompt))
+    try:
+        return await asyncio.wait_for(
+            chat.send_message(UserMessage(text=prompt)),
+            timeout=LLM_TIMEOUT_SECONDS,
+        )
+    except asyncio.TimeoutError:
+        logger.warning(f"LLM call timed out after {LLM_TIMEOUT_SECONDS}s (session={session_id})")
+        raise HTTPException(status_code=504, detail=f"AI service timed out after {LLM_TIMEOUT_SECONDS}s. Please retry.")
 
 
 def parse_json_text(text: str) -> dict:

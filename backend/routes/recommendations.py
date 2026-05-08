@@ -56,6 +56,8 @@ async def recommendations(req: RecommendationRequest, user: dict = Depends(get_c
     try:
         raw = await llm_json(system, prompt, f"rec-{user['id']}-{uuid.uuid4().hex[:8]}")
         data = parse_json_text(raw)
+    except HTTPException:
+        raise
     except Exception as e:
         logger.exception("Recommendation LLM error")
         raise HTTPException(status_code=502, detail=f"AI service error: {e}")

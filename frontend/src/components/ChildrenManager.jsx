@@ -6,6 +6,7 @@ import { Label } from "./ui/label";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "./ui/dialog";
+import DatePicker from "./DatePicker";
 import { Baby, Plus, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
@@ -110,7 +111,14 @@ export default function ChildrenManager({ onChildrenChange }) {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label className="text-xs uppercase tracking-widest font-bold text-slate-500">Date of birth</Label>
-                  <Input type="date" value={form.date_of_birth} onChange={(e) => setForm({ ...form, date_of_birth: e.target.value })} className="rounded-xl" data-testid="child-dob-input" />
+                  <DatePicker
+                    value={form.date_of_birth}
+                    onChange={(v) => setForm({ ...form, date_of_birth: v })}
+                    placeholder="Pick DOB"
+                    testid="child-dob-input"
+                    fromYear={2005}
+                    toYear={new Date().getFullYear()}
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs uppercase tracking-widest font-bold text-slate-500">Age</Label>

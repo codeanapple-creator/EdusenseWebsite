@@ -90,6 +90,8 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
     try:
         raw = await llm_json(system, prompt, f"astro-{user['id']}-{uuid.uuid4().hex[:8]}")
         data = parse_json_text(raw)
+    except HTTPException:
+        raise
     except Exception as e:
         logger.exception("Astrology LLM error")
         raise HTTPException(status_code=502, detail=f"AI service error: {e}")

@@ -141,6 +141,8 @@ async def run_sentiment(text: str, session_id: str) -> dict:
 async def sentiment_analyze(req: SentimentAnalyzeRequest, user: dict = Depends(get_current_user)):
     try:
         result = await run_sentiment(req.text, f"sent-analyze-{user['id']}-{uuid.uuid4().hex[:8]}")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.exception("Sentiment analyze error")
         raise HTTPException(status_code=502, detail=f"AI service error: {e}")
@@ -151,6 +153,8 @@ async def sentiment_analyze(req: SentimentAnalyzeRequest, user: dict = Depends(g
 async def create_sentiment_record(req: SentimentRecordCreate, user: dict = Depends(get_current_user)):
     try:
         result = await run_sentiment(req.text, f"sent-rec-{user['id']}-{uuid.uuid4().hex[:8]}")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.exception("Sentiment record error")
         raise HTTPException(status_code=502, detail=f"AI service error: {e}")
@@ -231,61 +235,56 @@ async def sentiment_trend(
     days: int = Query(30, ge=1, le=180),
     user: dict = Depends(role_required(["principal", "teacher"])),
 ):
-    """Daily sentiment trend over the last N days. Returns evenly-spaced buckets."""
+    """Daily sentiment trend over the last N days.
+    Aggregation: MongoDB $group bucket by date (YYYY-MM-DD), then fill missing days as zero.
+    """
     now = datetime.now(timezone.utc)
     start = (now - timedelta(days=days - 1)).replace(hour=0, minute=0, second=0, microsecond=0)
     start_iso = start.isoformat()
 
-    # Fetch in range
-    cursor = db.sentiment_records.find(
-        {"created_at": {"$gte": start_iso}},
-        {"_id": 0, "created_at": 1, "result": 1, "kind": 1},
-    )
-    buckets: dict = {}
-    for i in range(days):
-        d = (start + timedelta(days=i)).date().isoformat()
-        buckets[d] = {
-            "date": d,
-            "positive": 0, "neutral": 0, "negative": 0, "mixed": 0,
-            "total": 0,
-            "polarity_sum": 0.0,
-            "likert_sum": 0.0,
-        }
+    pipeline = [
+        {"$match": {"created_at": {"$gte": start_iso}}},
+        {"$addFields": {
+            "_date": {"$substr": ["$created_at", 0, 10]},
+            "_pol": {"$ifNull": ["$result.polarity_score", 0]},
+            "_lik": {"$ifNull": ["$result.likert_score", 0]},
+            "_sent": {"$ifNull": ["$result.sentiment", "neutral"]},
+        }},
+        {"$group": {
+            "_id": "$_date",
+            "positive": {"$sum": {"$cond": [{"$eq": ["$_sent", "positive"]}, 1, 0]}},
+            "neutral":  {"$sum": {"$cond": [{"$eq": ["$_sent", "neutral"]},  1, 0]}},
+            "negative": {"$sum": {"$cond": [{"$eq": ["$_sent", "negative"]}, 1, 0]}},
+            "mixed":    {"$sum": {"$cond": [{"$eq": ["$_sent", "mixed"]},    1, 0]}},
+            "total":    {"$sum": 1},
+            "avg_polarity": {"$avg": "$_pol"},
+            "avg_likert":   {"$avg": "$_lik"},
+        }},
+    ]
 
-    async for doc in cursor:
-        try:
-            d = datetime.fromisoformat(doc["created_at"]).date().isoformat()
-        except (ValueError, KeyError):
-            continue
-        b = buckets.get(d)
-        if not b:
-            continue
-        result = doc.get("result") or {}
-        s = str(result.get("sentiment", "neutral")).lower()
-        if s in ("positive", "neutral", "negative", "mixed"):
-            b[s] += 1
-        b["total"] += 1
-        try:
-            b["polarity_sum"] += float(result.get("polarity_score", 0) or 0)
-        except (TypeError, ValueError):
-            pass
-        try:
-            b["likert_sum"] += float(result.get("likert_score", 0) or 0)
-        except (TypeError, ValueError):
-            pass
+    by_date: dict = {}
+    async for doc in db.sentiment_records.aggregate(pipeline):
+        by_date[doc["_id"]] = doc
 
     series = []
-    for d in sorted(buckets.keys()):
-        b = buckets[d]
-        total = b["total"]
-        series.append({
-            "date": b["date"],
-            "positive": b["positive"],
-            "neutral": b["neutral"],
-            "negative": b["negative"],
-            "mixed": b["mixed"],
-            "total": total,
-            "avg_polarity": round(b["polarity_sum"] / total, 3) if total else 0.0,
-            "avg_likert": round(b["likert_sum"] / total, 3) if total else 0.0,
-        })
+    for i in range(days):
+        d = (start + timedelta(days=i)).date().isoformat()
+        bucket = by_date.get(d)
+        if bucket:
+            series.append({
+                "date": d,
+                "positive": int(bucket.get("positive", 0)),
+                "neutral":  int(bucket.get("neutral", 0)),
+                "negative": int(bucket.get("negative", 0)),
+                "mixed":    int(bucket.get("mixed", 0)),
+                "total":    int(bucket.get("total", 0)),
+                "avg_polarity": round(float(bucket.get("avg_polarity") or 0.0), 3),
+                "avg_likert":   round(float(bucket.get("avg_likert") or 0.0), 3),
+            })
+        else:
+            series.append({
+                "date": d,
+                "positive": 0, "neutral": 0, "negative": 0, "mixed": 0,
+                "total": 0, "avg_polarity": 0.0, "avg_likert": 0.0,
+            })
     return {"days": days, "series": series}

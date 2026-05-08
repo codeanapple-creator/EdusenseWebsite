@@ -6,6 +6,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import DatePicker from "../components/DatePicker";
 import { api, formatApiErrorDetail } from "../lib/api";
 import { toast } from "sonner";
 import { Stars, Sparkles, Compass, Loader2 } from "lucide-react";
@@ -59,7 +60,16 @@ export default function Astrology() {
               </div>
               <div className="space-y-1.5">
                 <Label className="text-indigo-200 text-xs uppercase tracking-widest font-bold">Date of birth</Label>
-                <Input required type="date" value={form.date_of_birth} onChange={onChange("date_of_birth")} className="bg-slate-900/60 border-indigo-500/30 text-white rounded-xl" data-testid="astro-dob-input" />
+                <DatePicker
+                  value={form.date_of_birth}
+                  onChange={(v) => setForm({ ...form, date_of_birth: v })}
+                  placeholder="Select date of birth"
+                  className="bg-slate-900/60 border-indigo-500/30 text-white hover:bg-slate-900/80 hover:text-white"
+                  testid="astro-dob-input"
+                  fromYear={1980}
+                  toYear={new Date().getFullYear()}
+                  required
+                />
               </div>
               <div className="space-y-1.5">
                 <Label className="text-indigo-200 text-xs uppercase tracking-widest font-bold">Time of birth</Label>
