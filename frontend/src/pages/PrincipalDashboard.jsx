@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import SentimentTrendChart from "../components/SentimentTrendChart";
 import { useAuth } from "../context/AuthContext";
 import { api, formatApiErrorDetail } from "../lib/api";
 import { Card } from "../components/ui/card";
@@ -170,6 +171,11 @@ export default function PrincipalDashboard() {
             </div>
           )}
         </Card>
+
+        {/* Sentiment trend over time */}
+        <div className="mb-6">
+          <SentimentTrendChart />
+        </div>
 
         {/* Students table */}
         <Card className="rounded-3xl p-6 bg-white border-slate-100" data-testid="principal-students-card">

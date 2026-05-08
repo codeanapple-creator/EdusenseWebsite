@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
+import ChildrenManager from "../components/ChildrenManager";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -58,6 +59,11 @@ export default function ParentDashboard() {
               <Stars size={16} className="mr-1.5" strokeWidth={2.5} /> Find a child's niche
             </Button>
           </Link>
+        </div>
+
+        {/* Children manager */}
+        <div className="mb-6">
+          <ChildrenManager />
         </div>
 
         {/* Bento grid */}

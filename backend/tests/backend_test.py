@@ -396,3 +396,212 @@ def test_sentiment_analyze_validation(s):
                headers=_auth(state["parent_token"]),
                json={"text": "ab"})  # too short (<3)
     assert r.status_code == 422
+
+
+
+# ===================================================================
+# Children CRUD + RBAC (iteration 3)
+# ===================================================================
+def test_children_create_parent(s):
+    r = s.post(f"{API}/children",
+               headers=_auth(state["parent_token"]),
+               json={"name": "TEST_Aarav", "date_of_birth": "2016-03-12",
+                     "grade": "3", "age": 8, "notes": "Loves science"})
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data["name"] == "TEST_Aarav"
+    assert data["parent_id"]
+    assert data["age"] == 8
+    assert data["grade"] == "3"
+    assert "id" in data
+    state["child_id"] = data["id"]
+
+
+def test_children_create_teacher_forbidden(s):
+    r = s.post(f"{API}/children",
+               headers=_auth(state["teacher_token"]),
+               json={"name": "TEST_NotAllowed"})
+    assert r.status_code == 403
+
+
+def test_children_list_parent_sees_own(s):
+    r = s.get(f"{API}/children", headers=_auth(state["parent_token"]))
+    assert r.status_code == 200
+    data = r.json()
+    assert isinstance(data, list)
+    assert any(c["id"] == state["child_id"] for c in data)
+
+
+def test_children_list_principal_sees_all(s):
+    r = s.get(f"{API}/children", headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    data = r.json()
+    assert isinstance(data, list)
+    # Principal sees parent's child
+    assert any(c["id"] == state["child_id"] for c in data)
+
+
+def test_children_list_teacher_forbidden(s):
+    r = s.get(f"{API}/children", headers=_auth(state["teacher_token"]))
+    assert r.status_code == 403
+
+
+def test_children_patch_parent(s):
+    r = s.patch(f"{API}/children/{state['child_id']}",
+                headers=_auth(state["parent_token"]),
+                json={"grade": "4", "age": 9})
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data["grade"] == "4"
+    assert data["age"] == 9
+    # Verify persistence via GET list
+    r2 = s.get(f"{API}/children", headers=_auth(state["parent_token"]))
+    assert any(c["id"] == state["child_id"] and c["grade"] == "4" for c in r2.json())
+
+
+def test_children_patch_other_parent_404(s):
+    # Register another parent
+    other_email = f"TEST_other_parent_{TS}@edusense.com"
+    rr = s.post(f"{API}/auth/register", json={
+        "name": "Other Parent", "email": other_email, "password": PASS, "role": "parent"})
+    assert rr.status_code == 200
+    other_token = rr.json()["token"]
+    state["other_parent_token"] = other_token
+    # Other parent tries to patch the first parent's child -> 404 (filtered by parent_id)
+    r = s.patch(f"{API}/children/{state['child_id']}",
+                headers=_auth(other_token),
+                json={"grade": "5"})
+    assert r.status_code == 404
+
+
+def test_children_delete_other_parent_404(s):
+    r = s.delete(f"{API}/children/{state['child_id']}",
+                 headers=_auth(state["other_parent_token"]))
+    assert r.status_code == 404
+
+
+# ===================================================================
+# child_id linkage on astrology
+# ===================================================================
+def test_astrology_with_child_id(s):
+    r = s.post(f"{API}/astrology/niche",
+               headers=_auth(state["parent_token"]),
+               json={"name": "TEST_Aarav", "place": "Pune",
+                     "date_of_birth": "2016-03-12", "time_of_birth": "10:30",
+                     "child_id": state["child_id"]})
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data.get("child_id") == state["child_id"]
+    assert data.get("sun_sign")
+
+
+def test_astrology_history_filter_child_id(s):
+    r = s.get(f"{API}/astrology/history?child_id={state['child_id']}",
+              headers=_auth(state["parent_token"]))
+    assert r.status_code == 200
+    items = r.json()
+    assert isinstance(items, list)
+    assert len(items) >= 1
+    assert all(it.get("child_id") == state["child_id"] for it in items)
+
+
+# ===================================================================
+# child_id linkage on sentiment records
+# ===================================================================
+def test_sentiment_record_with_child_id(s):
+    r = s.post(f"{API}/sentiment/records",
+               headers=_auth(state["parent_token"]),
+               json={"kind": "journal",
+                     "text": "TEST_child_link Aarav had a wonderful day at school today.",
+                     "child_id": state["child_id"]})
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data.get("child_id") == state["child_id"]
+    state["parent_child_record_id"] = data["id"]
+
+
+def test_sentiment_records_filter_child_id(s):
+    r = s.get(f"{API}/sentiment/records?child_id={state['child_id']}",
+              headers=_auth(state["parent_token"]))
+    assert r.status_code == 200
+    items = r.json()
+    assert isinstance(items, list)
+    assert len(items) >= 1
+    assert all(it.get("child_id") == state["child_id"] for it in items)
+
+
+# ===================================================================
+# Sentiment trend
+# ===================================================================
+def test_sentiment_trend_default_30(s):
+    r = s.get(f"{API}/sentiment/trend",
+              headers=_auth(state["principal_token"]))
+    assert r.status_code == 200, r.text
+    data = r.json()
+    assert data["days"] == 30
+    assert isinstance(data["series"], list)
+    assert len(data["series"]) == 30
+    sample = data["series"][0]
+    for k in ("date", "positive", "neutral", "negative", "mixed",
+              "total", "avg_polarity", "avg_likert"):
+        assert k in sample, f"Missing key {k}"
+
+
+def test_sentiment_trend_days_7(s):
+    r = s.get(f"{API}/sentiment/trend?days=7",
+              headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    data = r.json()
+    assert data["days"] == 7
+    assert len(data["series"]) == 7
+
+
+def test_sentiment_trend_teacher_allowed(s):
+    r = s.get(f"{API}/sentiment/trend?days=14",
+              headers=_auth(state["teacher_token"]))
+    assert r.status_code == 200
+    assert len(r.json()["series"]) == 14
+
+
+def test_sentiment_trend_parent_forbidden(s):
+    r = s.get(f"{API}/sentiment/trend",
+              headers=_auth(state["parent_token"]))
+    assert r.status_code == 403
+
+
+def test_sentiment_trend_days_out_of_range(s):
+    r = s.get(f"{API}/sentiment/trend?days=181",
+              headers=_auth(state["principal_token"]))
+    assert r.status_code == 422
+    r2 = s.get(f"{API}/sentiment/trend?days=0",
+               headers=_auth(state["principal_token"]))
+    assert r2.status_code == 422
+
+
+# ===================================================================
+# Analytics overview includes total_children
+# ===================================================================
+def test_analytics_includes_total_children(s):
+    r = s.get(f"{API}/analytics/overview",
+              headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    data = r.json()
+    assert "total_children" in data
+    assert isinstance(data["total_children"], int)
+    assert data["total_children"] >= 1  # at least our test child
+
+
+# ===================================================================
+# Children delete (cleanup)
+# ===================================================================
+def test_children_delete_parent_own(s):
+    # First cleanup the linked sentiment record
+    if state.get("parent_child_record_id"):
+        s.delete(f"{API}/sentiment/records/{state['parent_child_record_id']}",
+                 headers=_auth(state["parent_token"]))
+    r = s.delete(f"{API}/children/{state['child_id']}",
+                 headers=_auth(state["parent_token"]))
+    assert r.status_code == 200
+    # GET should no longer return it
+    r2 = s.get(f"{API}/children", headers=_auth(state["parent_token"]))
+    assert not any(c["id"] == state["child_id"] for c in r2.json())
