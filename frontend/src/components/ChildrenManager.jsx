@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "./ui/dialog";
 import { Baby, Plus, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
@@ -100,6 +100,7 @@ export default function ChildrenManager({ onChildrenChange }) {
           <DialogContent data-testid="child-dialog">
             <DialogHeader>
               <DialogTitle>{editing ? "Edit child" : "Add a child"}</DialogTitle>
+              <DialogDescription>Track niche, sentiment and recommendations per child.</DialogDescription>
             </DialogHeader>
             <form onSubmit={submit} className="space-y-3">
               <div className="space-y-1.5">

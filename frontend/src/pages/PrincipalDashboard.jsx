@@ -9,7 +9,7 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "../components/ui/table";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Pie, PieChart, Cell, Legend } from "recharts";
-import { Users, GraduationCap, ShieldCheck, Stars, BookOpen, TrendingUp, Activity, Smile, Frown, Meh } from "lucide-react";
+import { Users, GraduationCap, ShieldCheck, Stars, BookOpen, TrendingUp, Activity, Smile, Frown, Meh, Baby } from "lucide-react";
 import { toast } from "sonner";
 
 const ROLE_COLORS = ["#0ea5e9", "#f59e0b", "#6366f1"];
@@ -64,7 +64,7 @@ export default function PrincipalDashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
           <Card className="rounded-3xl p-5 bg-white border-slate-100" data-testid="stat-users">
             <div className="flex items-center gap-2 text-slate-500 text-xs uppercase tracking-widest font-bold mb-2"><Users size={14} strokeWidth={2.5} /> Total users</div>
             <div className="text-3xl font-black text-slate-900">{overview.total_users}</div>
@@ -76,6 +76,10 @@ export default function PrincipalDashboard() {
           <Card className="rounded-3xl p-5 bg-white border-slate-100" data-testid="stat-teachers">
             <div className="flex items-center gap-2 text-slate-500 text-xs uppercase tracking-widest font-bold mb-2"><ShieldCheck size={14} strokeWidth={2.5} /> Teachers</div>
             <div className="text-3xl font-black text-slate-900">{overview.total_teachers}</div>
+          </Card>
+          <Card className="rounded-3xl p-5 bg-white border-slate-100" data-testid="stat-children">
+            <div className="flex items-center gap-2 text-slate-500 text-xs uppercase tracking-widest font-bold mb-2"><Baby size={14} strokeWidth={2.5} /> Children</div>
+            <div className="text-3xl font-black text-slate-900">{overview.total_children ?? 0}</div>
           </Card>
           <Card className="rounded-3xl p-5 bg-gradient-to-br from-indigo-600 to-violet-500 text-white border-0" data-testid="stat-astro">
             <div className="flex items-center gap-2 text-white/80 text-xs uppercase tracking-widest font-bold mb-2"><Stars size={14} strokeWidth={2.5} /> Astro consults</div>
