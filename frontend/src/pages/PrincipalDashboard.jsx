@@ -75,8 +75,8 @@ export default function PrincipalDashboard() {
               <div className="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center"><Users className="text-sky-600" size={18} strokeWidth={2.5} /></div>
               <h3 className="text-lg font-bold text-slate-900">Users by role</h3>
             </div>
-            <div className="h-[260px]">
-              <ResponsiveContainer width="100%" height="100%">
+            <div style={{ width: "100%", height: 280 }}>
+              <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
                   <Pie data={roleData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label>
                     {roleData.map((_, i) => <Cell key={i} fill={ROLE_COLORS[i]} />)}
@@ -93,8 +93,8 @@ export default function PrincipalDashboard() {
               <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center"><TrendingUp className="text-amber-600" size={18} strokeWidth={2.5} /></div>
               <h3 className="text-lg font-bold text-slate-900">Students by grade</h3>
             </div>
-            <div className="h-[260px]">
-              <ResponsiveContainer width="100%" height="100%">
+            <div style={{ width: "100%", height: 280 }}>
+              <ResponsiveContainer width="100%" height={280}>
                 <BarChart data={overview.grade_distribution}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="grade" />
