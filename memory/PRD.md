@@ -20,6 +20,13 @@
 - **Teacher** — manages students, generates curated content, records sentiment-tagged notes, sees trend.
 - **Principal** — school-wide analytics, sentiment overview + **trend over time** (stacked area + avg-Likert line chart), all students, all children counter.
 
+## Implemented (v1.3 — Feb 2026)
+- ✅ All v1.0–v1.2 features.
+- ✅ **Reusable `<DatePicker>`** (shadcn Calendar + Popover) replacing native date inputs in Astrology DOB and ChildrenManager.
+- ✅ **MongoDB `$group` pipeline** for `/api/sentiment/trend` (date bucketing + zero-fill missing days; replaces in-process aggregation).
+- ✅ **`asyncio.wait_for(45s)` timeout** wrapping every LLM call in `core/llm.py`; surfaces clean `504 AI service timed out` instead of silently stalling workers. Route handlers updated with `except HTTPException: raise` to preserve the 504 vs wrapping as 502.
+- ✅ Tested end-to-end: **60/60 backend tests pass · 100% frontend flows pass.**
+
 ## Implemented (v1.2 — Feb 2026)
 - ✅ Three-role JWT auth, pre-seeded principal admin.
 - ✅ Western Astrology niche finder + AI book/link/activity recommendations.

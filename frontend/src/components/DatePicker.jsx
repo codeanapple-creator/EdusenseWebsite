@@ -44,14 +44,20 @@ export default function DatePicker({
           {required && !value && <span className="sr-only">required</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start" data-testid={`${testid}-popover`}>
+      <PopoverContent
+        className="w-auto p-0"
+        align="start"
+        sideOffset={8}
+        collisionPadding={16}
+        data-testid={`${testid}-popover`}
+      >
         <Calendar
           mode="single"
           selected={parsed || undefined}
           onSelect={(d) => onChange(d ? format(d, "yyyy-MM-dd") : "")}
-          captionLayout={(fromYear || toYear) ? "dropdown" : undefined}
-          fromYear={fromYear}
-          toYear={toYear}
+          defaultMonth={parsed || (toYear ? new Date(toYear, 0, 1) : undefined)}
+          fromDate={fromYear ? new Date(fromYear, 0, 1) : undefined}
+          toDate={toYear ? new Date(toYear, 11, 31) : undefined}
           initialFocus
         />
       </PopoverContent>
