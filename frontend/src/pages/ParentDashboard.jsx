@@ -57,9 +57,9 @@ export default function ParentDashboard() {
             <div className="text-xs uppercase tracking-[0.22em] font-bold text-sky-600 mb-1">Parent space</div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="parent-dashboard-title">Hello, {user.name.split(" ")[0]} 👋</h1>
           </div>
-          <Link to="/astrology">
+          <Link to="/behaviourscope">
             <Button className="rounded-full bg-indigo-600 hover:bg-indigo-500 font-bold px-6 py-3 btn-lift" data-testid="parent-find-niche-btn">
-              <Stars size={16} className="mr-1.5" strokeWidth={2.5} /> Find a child's niche
+              <Stars size={16} className="mr-1.5" strokeWidth={2.5} /> BehaviourScope
             </Button>
           </Link>
         </div>
@@ -95,7 +95,7 @@ export default function ParentDashboard() {
               <>
                 <div className="text-2xl font-bold">No reading yet</div>
                 <p className="text-indigo-100/70 mt-2 text-sm">Begin by entering your child's birth details to discover their niche.</p>
-                <Link to="/astrology" className="inline-block mt-4">
+                <Link to="/behaviourscope" className="inline-block mt-4">
                   <Button className="rounded-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold">Start reading</Button>
                 </Link>
               </>

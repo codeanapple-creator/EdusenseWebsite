@@ -11,7 +11,7 @@ import { Input } from "../components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
 import SentimentResultCard from "../components/SentimentResultCard";
 import { toast } from "sonner";
-import { BookOpen, Sparkles, Loader2, MessageSquareQuote, NotebookPen, Activity, Trash2 } from "lucide-react";
+import { BookOpen, Sparkles, Loader2, MessageSquareQuote, NotebookPen, Activity, Trash2, ScrollText } from "lucide-react";
 
 const SUBJECTS = ["Mathematics", "Science", "English", "Social Studies", "Coding", "Art", "Music", "Physical Education"];
 
@@ -100,12 +100,15 @@ export default function Sentiment() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-3 py-1 text-[10px] uppercase tracking-[0.25em] font-bold text-emerald-700 mb-3">
+            <ScrollText size={12} strokeWidth={2.5} /> A Codeanapple product · built on Tiwari (2025)
+          </div>
           <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-1">Sentiment lab</div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="sentiment-page-title">
             Sentiment Analyzer
           </h1>
           <p className="text-slate-600 mt-1 text-sm max-w-3xl">
-            Hybrid lexicon + ML analyzer based on <span className="font-bold">Tiwari (2024) — "Sentimental Analysis approach to improve teaching and learning in primary education"</span>. NRC 8-emotion lexicon, aspect-based categories, polarity, Likert (0–5) and satisfaction/dissatisfaction scoring.
+            Hybrid lexicon + ML analyzer based on <span className="font-bold">Tiwari (2025) — "Sentimental Analysis approach to improve teaching and learning in primary education"</span>. NRC 8-emotion lexicon, 8 aspect categories, polarity, Likert (0–5) and satisfaction/dissatisfaction scoring.
           </p>
         </div>
 
@@ -195,7 +198,7 @@ export default function Sentiment() {
                       <Activity className="text-indigo-600" size={28} strokeWidth={2.5} />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2">Analyze any educational text</h3>
-                    <p className="text-sm text-slate-600 max-w-sm">Submit text on the left to see polarity, NRC emotions, satisfaction scores, and aspect-based categories grounded in Tiwari (2024).</p>
+                    <p className="text-sm text-slate-600 max-w-sm">Submit text on the left to see polarity, NRC emotions, satisfaction scores, and aspect-based categories grounded in Tiwari (2025).</p>
                   </Card>
                 )}
               </div>

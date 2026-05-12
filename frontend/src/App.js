@@ -39,6 +39,14 @@ function App() {
               }
             />
             <Route
+              path="/behaviourscope"
+              element={
+                <ProtectedRoute roles={["parent", "teacher", "principal"]}>
+                  <Astrology />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/sentiment"
               element={
                 <ProtectedRoute roles={["parent", "teacher", "principal"]}>

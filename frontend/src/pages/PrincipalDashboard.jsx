@@ -137,14 +137,14 @@ export default function PrincipalDashboard() {
           </Card>
         </div>
 
-        {/* Sentiment overview (Tiwari, 2024) */}
+        {/* Sentiment overview (Tiwari, 2025) */}
         <Card className="rounded-3xl p-6 bg-white border-slate-100 mb-6" data-testid="sentiment-overview-card">
           <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center"><Activity className="text-indigo-600" size={20} strokeWidth={2.5} /></div>
               <div>
                 <h3 className="text-lg font-bold text-slate-900">Sentiment overview</h3>
-                <p className="text-xs text-slate-500">Hybrid lexicon + ML · Tiwari (2024) methodology</p>
+                <p className="text-xs text-slate-500">Hybrid lexicon + ML · Tiwari (2025) methodology</p>
               </div>
             </div>
             <Badge className="rounded-full bg-amber-100 text-amber-700 border-amber-200 font-bold">{sentSummary?.total_records ?? 0} records</Badge>

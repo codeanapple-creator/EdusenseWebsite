@@ -1,4 +1,4 @@
-"""Sentiment analysis (Tiwari, 2024) — analyze, records CRUD, summary, trend."""
+"""Sentiment analysis (Tiwari, 2025) — analyze, records CRUD, summary, trend."""
 import asyncio
 import uuid
 from datetime import datetime, timezone, timedelta
@@ -91,7 +91,7 @@ class SentimentRecord(BaseModel):
 
 SENTIMENT_SYSTEM = (
     "You are a hybrid (lexicon + ML) sentiment analysis engine implementing the methodology from "
-    "Bhawna Tiwari's 2024 PhD thesis 'Sentimental Analysis approach to improve teaching and learning "
+    "Bhawna Tiwari's 2025 PhD thesis 'Sentimental Analysis approach to improve teaching and learning "
     "in primary education'. Apply: (a) 3-class polarity {positive, negative, neutral} plus 'mixed', "
     "(b) NRC Emotion Lexicon with 8 emotions {anger, anticipation, disgust, fear, joy, sadness, surprise, trust}, "
     "(c) Aspect-Based Sentiment Analysis using the thesis aspect-categories. For primary-education context, "

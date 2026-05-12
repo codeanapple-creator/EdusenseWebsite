@@ -50,7 +50,7 @@ export default function SentimentTrendChart({ showChildFilter = false }) {
           </div>
           <div>
             <h3 className="text-lg font-bold text-slate-900">Sentiment trend over time</h3>
-            <p className="text-xs text-slate-500">Daily volume by polarity · Tiwari (2024)</p>
+            <p className="text-xs text-slate-500">Daily volume by polarity · Tiwari (2025)</p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">

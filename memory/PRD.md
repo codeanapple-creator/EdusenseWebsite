@@ -15,6 +15,15 @@
 - **Teacher** — student CRUD with subject focus + sentiment-tagged notes; joins a school via 6-char code.
 - **Principal** — owns a **School** with auto-generated join code, manages plan (Free/Pro), sees stats + sentiment overview + **trend over time with kind filter** + member roster.
 
+## Implemented (v1.7 — Feb 2026)
+- ✅ All v1.0–v1.6 features.
+- ✅ **Rebrand**: Astrology niche-finder repositioned as **"BehaviourScope™ Western Astrology"** — flagship product of EDUSENSE by Codeanapple.
+- ✅ Landing page restructured: hero ("BehaviourScope™ — for the primary years"), new Products section (3 product cards with BehaviourScope marked Flagship), Methodology Strip citing Tiwari (2025), Roles section moved below.
+- ✅ New `/behaviourscope` route as primary URL; `/astrology` preserved as legacy alias.
+- ✅ Sentiment Lab page header updated with "A Codeanapple product · built on Tiwari (2025)" badge.
+- ✅ Backend prompt + all UI references updated from Tiwari (2024) → **Tiwari (2025)** per new thesis (19 Apr 2025 version) — methodology identical, citation refreshed.
+- ✅ Parent dashboard CTA + history dashboards now reference BehaviourScope branding.
+
 ## Implemented (v1.6 — Feb 2026)
 - ✅ All v1.0–v1.5 features.
 - ✅ **Astrology Behaviour Scope** — `behaviour_scope` object returned by `/api/astrology/niche` containing `behavioural_traits[]`, `social_style`, `emotional_pattern`, `learning_style`, `strengths[]`, `growth_areas[]`, `parenting_tips[]`. Rendered as `<BehaviourScopeCard>` on the Astrology page below the niche card.

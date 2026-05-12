@@ -41,12 +41,14 @@ export default function Astrology() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-white">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/20 border border-indigo-400/30 px-4 py-1.5 text-xs uppercase tracking-[0.22em] font-bold text-indigo-200 mb-5">
-              <Stars size={14} strokeWidth={2.5} /> Western Astrology Niche Finder
+              <Stars size={14} strokeWidth={2.5} /> BehaviourScope™ Western Astrology · a Codeanapple product
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight">
               Decode your child's <span className="font-script text-yellow-400 text-5xl md:text-7xl">calling</span>.
             </h1>
-            <p className="mt-4 text-indigo-100/80 max-w-2xl mx-auto">Enter the birth details below. Our AI-guided western astrology lens reveals their natural niche.</p>
+            <p className="mt-4 text-indigo-100/80 max-w-2xl mx-auto">
+              Enter the birth details below. Get niche, career paths, behavioural traits, learning style and concrete parenting tips — all in one reading.
+            </p>
           </div>
 
           <div className="glass rounded-3xl p-7 md:p-10" data-testid="astrology-form-card">
