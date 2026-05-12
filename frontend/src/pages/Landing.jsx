@@ -5,6 +5,8 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Sparkles, Users, GraduationCap, ShieldCheck, BookOpen, Stars, ArrowRight, Compass, HeartHandshake, Activity, ScrollText } from "lucide-react";
+import SampleReadingCard from "../components/SampleReadingCard";
+import { SAMPLE_READINGS } from "../lib/sampleReadings";
 
 const HERO = "https://images.unsplash.com/photo-1765223085025-0405fcfbb338?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxraWQlMjByZWFkaW5nJTIwYm9vayUyMGVkdWNhdGlvbnxlbnwwfHx8fDE3NzgyMzY0MzB8MA&ixlib=rb-4.1.0&q=85";
 
@@ -18,7 +20,7 @@ const PRODUCTS = [
     icon: Stars,
     accent: "from-indigo-600 via-violet-500 to-pink-500",
     cta: "Explore BehaviourScope",
-    href: "/behaviourscope",
+    href: "/products/behaviourscope",
     testid: "product-behaviourscope",
   },
   {
@@ -141,6 +143,27 @@ export default function Landing() {
               </Card>
             );
           })}
+        </div>
+      </section>
+
+      {/* SAMPLE READINGS GALLERY */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-testid="sample-readings-gallery">
+        <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+          <div>
+            <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-3">Sample BehaviourScope™ readings</div>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Three children. Three compasses.</h2>
+            <p className="text-slate-600 mt-2 text-sm max-w-xl">A peek at what every BehaviourScope™ reading delivers — niche, traits, learning style and a concrete parenting tip.</p>
+          </div>
+          <Link to="/products/behaviourscope">
+            <Button variant="outline" className="rounded-full font-bold border-slate-300" data-testid="see-all-readings-cta">
+              See the full product <ArrowRight size={16} className="ml-1.5" strokeWidth={2.5} />
+            </Button>
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {SAMPLE_READINGS.map((r) => (
+            <SampleReadingCard key={r.sign} reading={r} testid={`landing-sample-${r.sign.toLowerCase()}`} />
+          ))}
         </div>
       </section>
 

@@ -15,6 +15,13 @@
 - **Teacher** — student CRUD with subject focus + sentiment-tagged notes; joins a school via 6-char code.
 - **Principal** — owns a **School** with auto-generated join code, manages plan (Free/Pro), sees stats + sentiment overview + **trend over time with kind filter** + member roster.
 
+## Implemented (v1.8 — Feb 2026)
+- ✅ All v1.0–v1.7 features.
+- ✅ **Dedicated marketing page** at `/products/behaviourscope` (public, no auth) with: cosmic hero (shimmer "BehaviourScope™" headline), "What's in every reading" 4-feature grid, **3 sample readings** (Gemini / Aries / Cancer), pricing (Free / Pro ₹1,499), availability, testimonial, **FAQ accordion** (7 questions), final CTA. Includes dynamic `<title>` and `<meta name="description">` for SEO.
+- ✅ **Sample-output gallery on Landing** — new section "Three children. Three compasses." with the same 3 sample reading cards + CTA "See the full product" → `/products/behaviourscope`.
+- ✅ Reusable `<SampleReadingCard>` component + static `lib/sampleReadings.js` data (single source of truth).
+- ✅ Frontend lint clean.
+
 ## Implemented (v1.7 — Feb 2026)
 - ✅ All v1.0–v1.6 features.
 - ✅ **Rebrand**: Astrology niche-finder repositioned as **"BehaviourScope™ Western Astrology"** — flagship product of EDUSENSE by Codeanapple.

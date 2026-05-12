@@ -13,6 +13,7 @@ import ParentDashboard from "./pages/ParentDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import Sentiment from "./pages/Sentiment";
+import ProductBehaviourScope from "./pages/ProductBehaviourScope";
 
 function DashboardRouter() {
   const { user } = useAuth();
@@ -27,6 +28,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/products/behaviourscope" element={<ProductBehaviourScope />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<DashboardRouter />} />

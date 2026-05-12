@@ -1,0 +1,36 @@
+// Static sample BehaviourScope readings used for marketing & landing gallery.
+export const SAMPLE_READINGS = [
+  {
+    sign: "Gemini",
+    age: 9,
+    accent: "from-amber-400 via-yellow-300 to-orange-400",
+    niche: "Curious Communicator",
+    sun_sign_dates: "May 21 – Jun 20",
+    traits: ["Quick-witted", "Verbal", "Adaptable", "Sociable"],
+    careers: ["Writer", "Journalist", "Designer", "Podcaster"],
+    learning_style: "Visual + verbal pairings; learns best through dialogue and storytelling.",
+    parenting_tip: "Set 20-minute 'deep dive' rituals so curiosity converts into mastery.",
+  },
+  {
+    sign: "Aries",
+    age: 8,
+    accent: "from-rose-500 via-red-500 to-orange-500",
+    niche: "Bold Initiator",
+    sun_sign_dates: "Mar 21 – Apr 19",
+    traits: ["Energetic", "Brave", "Direct", "Pioneering"],
+    careers: ["Athlete", "Entrepreneur", "Surgeon", "Pilot"],
+    learning_style: "Hands-on, fast-paced challenges with clear stages and rewards.",
+    parenting_tip: "Channel competitive energy into solo skill ladders before team play.",
+  },
+  {
+    sign: "Cancer",
+    age: 7,
+    accent: "from-sky-400 via-cyan-300 to-emerald-400",
+    niche: "Empathic Caregiver",
+    sun_sign_dates: "Jun 21 – Jul 22",
+    traits: ["Empathetic", "Imaginative", "Loyal", "Sensitive"],
+    careers: ["Pediatrician", "Counsellor", "Illustrator", "Chef"],
+    learning_style: "Story-led, calm settings; absorbs through emotional connection.",
+    parenting_tip: "Pair every new concept with a tiny narrative or character to anchor it.",
+  },
+];
