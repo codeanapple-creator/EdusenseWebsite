@@ -23,6 +23,7 @@ from routes.recommendations import router as recommendations_router
 from routes.schools import router as schools_router
 from routes.sentiment import router as sentiment_router
 from routes.students import router as students_router
+from routes.webhooks import router as webhooks_router
 from routes.whatsapp import router as whatsapp_router
 
 
@@ -45,6 +46,9 @@ async def lifespan(_: FastAPI):
     await db.astrology_results.create_index("school_id")
     await db.schools.create_index("code", unique=True)
     await db.schools.create_index("principal_id")
+    await db.schools.create_index("razorpay_subscription_id")
+    await db.webhook_events.create_index("event_id", unique=True, sparse=True)
+    await db.webhook_events.create_index("received_at")
 
     # Seed principal admin (idempotent)
     existing = await db.users.find_one({"email": ADMIN_EMAIL})
@@ -125,6 +129,7 @@ api_router.include_router(children_router)
 api_router.include_router(schools_router)
 api_router.include_router(sentiment_router)
 api_router.include_router(analytics_router)
+api_router.include_router(webhooks_router)
 api_router.include_router(whatsapp_router)
 
 app.include_router(api_router)

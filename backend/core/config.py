@@ -19,6 +19,9 @@ WHATSAPP_NUMBER = os.environ.get("WHATSAPP_NUMBER", "+919999999999")
 CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "*").split(",")
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "principal@edusense.com").lower()
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "Admin@123")
+RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID", "")
+RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET", "")
+RAZORPAY_WEBHOOK_SECRET = os.environ.get("RAZORPAY_WEBHOOK_SECRET", "")
 
 # Mongo
 mongo_client = AsyncIOMotorClient(MONGO_URL)

@@ -15,6 +15,17 @@
 - **Teacher** — student CRUD with subject focus + sentiment-tagged notes; joins a school via 6-char code.
 - **Principal** — owns a **School** with auto-generated join code, manages plan (Free/Pro), sees stats + sentiment overview + **trend over time with kind filter** + member roster.
 
+## Implemented (v1.5 — Feb 2026)
+- ✅ All v1.0–v1.4 features.
+- ✅ **Razorpay webhook endpoint** `POST /api/webhooks/razorpay`:
+  - HMAC-SHA256 signature verification via `X-Razorpay-Signature` (returns 401 on mismatch, 503 if `RAZORPAY_WEBHOOK_SECRET` not configured)
+  - Idempotency dedupe via `X-Razorpay-Event-Id` + `webhook_events` collection (unique sparse index)
+  - Event handlers: `subscription.activated/charged/resumed` → flip to Pro + extend period from `current_end`; `subscription.paused` → grace; `subscription.cancelled/completed/halted` → downgrade to Free
+  - School resolution via `payload.subscription.entity.notes.school_id` fallback to `razorpay_subscription_id`
+  - Persists `razorpay_subscription_id` on the school
+- ✅ `refresh_subscription_state` no longer overrides webhook-driven `grace/expired` statuses.
+- ✅ End-to-end verified with HMAC-signed test payloads — all 6 scenarios pass (503, 401, charge, idempotent duplicate, pause, cancel).
+
 ## Implemented (v1.4 — Feb 2026)
 - ✅ Three-role JWT auth, pre-seeded principal admin.
 - ✅ Western Astrology niche finder + AI book/link/activity recommendations.

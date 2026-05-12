@@ -76,7 +76,9 @@ def school_view(doc: dict) -> dict:
 
 
 async def refresh_subscription_state(school: dict) -> dict:
-    """Move pro→grace→expired based on dates."""
+    """Move active→grace→expired based on dates.
+    Webhook-driven states (already 'grace' or 'expired') are NOT auto-reverted to 'active'.
+    """
     now = datetime.now(timezone.utc)
     if school.get("plan") != "pro":
         return school
@@ -87,19 +89,17 @@ async def refresh_subscription_state(school: dict) -> dict:
         period_end = datetime.fromisoformat(cpe)
     except ValueError:
         return school
+    current_status = school.get("subscription_status", "active")
     if now <= period_end:
-        # active
-        if school.get("subscription_status") != "active":
-            await db.schools.update_one({"id": school["id"]}, {"$set": {"subscription_status": "active"}})
-            school["subscription_status"] = "active"
+        # Only auto-set to active if not in webhook-driven grace/expired
+        if current_status == "active":
+            return school
+        # Respect grace/expired set by webhook
         return school
     grace_until = period_end + timedelta(days=GRACE_DAYS)
     if now <= grace_until:
-        if school.get("subscription_status") != "grace":
-            await db.schools.update_one(
-                {"id": school["id"]},
-                {"$set": {"subscription_status": "grace", "grace_until": grace_until.isoformat()}},
-            )
+        if current_status != "grace":
+            await db.schools.update_one({"id": school["id"]}, {"$set": {"subscription_status": "grace", "grace_until": grace_until.isoformat()}})
             school["subscription_status"] = "grace"
             school["grace_until"] = grace_until.isoformat()
         return school
