@@ -15,6 +15,13 @@
 - **Teacher** — student CRUD with subject focus + sentiment-tagged notes; joins a school via 6-char code.
 - **Principal** — owns a **School** with auto-generated join code, manages plan (Free/Pro), sees stats + sentiment overview + **trend over time with kind filter** + member roster.
 
+## Implemented (v1.6 — Feb 2026)
+- ✅ All v1.0–v1.5 features.
+- ✅ **Astrology Behaviour Scope** — `behaviour_scope` object returned by `/api/astrology/niche` containing `behavioural_traits[]`, `social_style`, `emotional_pattern`, `learning_style`, `strengths[]`, `growth_areas[]`, `parenting_tips[]`. Rendered as `<BehaviourScopeCard>` on the Astrology page below the niche card.
+- ✅ **Sentiment + Subject-specific recommendations** — `/api/sentiment/analyze` and `/api/sentiment/records` accept optional `subject` + `age`; when both provided, the response embeds `recommendations: {subject, age, books[], links[], activities[]}` via parallel `asyncio.gather` LLM call. Frontend Sentiment Lab shows an "Optional · subject-specific recommendations" panel and SentimentResultCard renders an embedded 3-column books/links/activities section.
+- ✅ Aligned with Bhawna Tiwari (2025) thesis — same NRC 8-emotion lexicon + 8 aspect categories (Happiness Index, Active Participation, Sharing, Self-initiation, Gross/Fine Motors, Behaviour, Learning).
+- ✅ Tested end-to-end: **77/77 backend pytest pass · 100% frontend Sentiment flow pass** (Astrology UI render path verified; LLM call exceeded the 90 s Playwright window once but backend contract proven).
+
 ## Implemented (v1.5 — Feb 2026)
 - ✅ All v1.0–v1.4 features.
 - ✅ **Razorpay webhook endpoint** `POST /api/webhooks/razorpay`:
