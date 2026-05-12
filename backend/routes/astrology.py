@@ -59,6 +59,16 @@ class AstrologyRequest(BaseModel):
     child_id: Optional[str] = None
 
 
+class BehaviourScope(BaseModel):
+    behavioural_traits: List[str]
+    social_style: str
+    emotional_pattern: str
+    learning_style: str
+    strengths: List[str]
+    growth_areas: List[str]
+    parenting_tips: List[str]
+
+
 class AstrologyResponse(BaseModel):
     name: str
     sun_sign: str
@@ -66,6 +76,7 @@ class AstrologyResponse(BaseModel):
     traits: List[str]
     career_paths: List[str]
     summary: str
+    behaviour_scope: BehaviourScope
     whatsapp_number: str
     whatsapp_link: str
     child_id: Optional[str] = None
@@ -75,10 +86,21 @@ class AstrologyResponse(BaseModel):
 async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_current_user)):
     sun_sign = get_sun_sign(req.date_of_birth)
     system = (
-        "You are an expert western astrologer and child career counselor. "
-        "Given birth details, return ONLY valid JSON with keys: niche (single short phrase), "
-        "traits (array of 4-5 short strings), career_paths (array of 4-6 specific career suggestions), "
-        "summary (2-3 sentence supportive paragraph for parents). No prose outside JSON."
+        "You are an expert western astrologer and child development counselor. "
+        "Given birth details, return ONLY valid JSON with keys: "
+        "niche (single short phrase), "
+        "traits (array of 4-5 short strings), "
+        "career_paths (array of 4-6 specific career suggestions), "
+        "summary (2-3 sentence supportive paragraph for parents), "
+        "behaviour_scope (object with: "
+        "  behavioural_traits (array of 4-6 short observations on how the child typically behaves), "
+        "  social_style (1-2 sentence description of social tendencies), "
+        "  emotional_pattern (1-2 sentence description of emotional regulation tendencies), "
+        "  learning_style (1-2 sentence description of preferred learning approach), "
+        "  strengths (array of 3-5 short strengths), "
+        "  growth_areas (array of 3-5 short, gently-framed growth areas), "
+        "  parenting_tips (array of 4-6 concrete actionable parenting strategies)). "
+        "No prose outside JSON."
     )
     prompt = (
         f"Child Name: {req.name}\n"
@@ -86,7 +108,7 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
         f"Date of Birth: {req.date_of_birth}\n"
         f"Time of Birth: {req.time_of_birth}\n"
         f"Sun Sign: {sun_sign}\n\n"
-        "Provide career niche guidance in JSON only."
+        "Provide niche + behaviour scope guidance in JSON only."
     )
     try:
         raw = await llm_json(system, prompt, f"astro-{user['id']}-{uuid.uuid4().hex[:8]}")
@@ -113,6 +135,17 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
     wa_text = f"Hi! I would like to know more about my child {req.name}'s niche guidance from EDUSENSE."
     wa_link = f"https://wa.me/{wa_num_clean}?text={urllib.parse.quote(wa_text)}"
 
+    bs_raw = data.get("behaviour_scope") or {}
+    behaviour_scope = BehaviourScope(
+        behavioural_traits=[str(x) for x in bs_raw.get("behavioural_traits", [])][:6],
+        social_style=str(bs_raw.get("social_style", "")),
+        emotional_pattern=str(bs_raw.get("emotional_pattern", "")),
+        learning_style=str(bs_raw.get("learning_style", "")),
+        strengths=[str(x) for x in bs_raw.get("strengths", [])][:5],
+        growth_areas=[str(x) for x in bs_raw.get("growth_areas", [])][:5],
+        parenting_tips=[str(x) for x in bs_raw.get("parenting_tips", [])][:6],
+    )
+
     return AstrologyResponse(
         name=req.name,
         sun_sign=sun_sign,
@@ -120,6 +153,7 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
         traits=[str(x) for x in data.get("traits", [])],
         career_paths=[str(x) for x in data.get("career_paths", [])],
         summary=str(data.get("summary", "")),
+        behaviour_scope=behaviour_scope,
         whatsapp_number=WHATSAPP_NUMBER,
         whatsapp_link=wa_link,
         child_id=req.child_id,

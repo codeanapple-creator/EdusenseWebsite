@@ -1,4 +1,5 @@
 """Sentiment analysis (Tiwari, 2024) — analyze, records CRUD, summary, trend."""
+import asyncio
 import uuid
 from datetime import datetime, timezone, timedelta
 from typing import List, Literal, Optional
@@ -19,6 +20,34 @@ SENTIMENTS = ("positive", "neutral", "negative", "mixed")
 
 class SentimentAnalyzeRequest(BaseModel):
     text: str = Field(min_length=3, max_length=5000)
+    subject: Optional[str] = None
+    age: Optional[int] = Field(default=None, ge=3, le=18)
+
+
+class BookItem(BaseModel):
+    title: str
+    author: str
+    description: str
+
+
+class LinkItem(BaseModel):
+    title: str
+    url: str
+    description: str
+
+
+class ActivityItem(BaseModel):
+    title: str
+    description: str
+    duration_minutes: int
+
+
+class SubjectRecommendations(BaseModel):
+    subject: str
+    age: int
+    books: List[BookItem]
+    links: List[LinkItem]
+    activities: List[ActivityItem]
 
 
 class SentimentResult(BaseModel):
@@ -32,6 +61,7 @@ class SentimentResult(BaseModel):
     aspects: dict
     key_themes: List[str]
     summary: str
+    recommendations: Optional[SubjectRecommendations] = None
 
 
 class SentimentRecordCreate(BaseModel):
@@ -40,6 +70,8 @@ class SentimentRecordCreate(BaseModel):
     subject_name: Optional[str] = None
     student_id: Optional[str] = None
     child_id: Optional[str] = None
+    subject: Optional[str] = None
+    age: Optional[int] = Field(default=None, ge=3, le=18)
 
 
 class SentimentRecord(BaseModel):
@@ -84,6 +116,28 @@ def _clamp(v, lo, hi):
     except (TypeError, ValueError):
         v = 0.0
     return max(lo, min(hi, v))
+
+
+RECS_SYSTEM = (
+    "You are an expert child education curator. Given a subject and age, return ONLY valid JSON with: "
+    "books (array of 4 objects {title, author, description}), "
+    "links (array of 3 objects {title, url, description} - real, well-known educational sites like Khan Academy, NASA Kids, BBC Bitesize, National Geographic Kids, Scratch, Code.org, Duolingo), "
+    "activities (array of 4 objects {title, description, duration_minutes}). "
+    "All age-appropriate. No prose outside JSON."
+)
+
+
+async def run_recommendations(subject: str, age: int, session_id: str) -> dict:
+    prompt = f"Subject: {subject}\nChild Age: {age} years\n\nReturn JSON only."
+    raw = await llm_json(RECS_SYSTEM, prompt, session_id)
+    data = parse_json_text(raw)
+    return {
+        "subject": subject,
+        "age": age,
+        "books": [BookItem(**b).model_dump() for b in (data.get("books") or [])][:5],
+        "links": [LinkItem(**lnk).model_dump() for lnk in (data.get("links") or [])][:5],
+        "activities": [ActivityItem(**a).model_dump() for a in (data.get("activities") or [])][:5],
+    }
 
 
 async def run_sentiment(text: str, session_id: str) -> dict:
@@ -142,7 +196,13 @@ async def run_sentiment(text: str, session_id: str) -> dict:
 @router.post("/analyze", response_model=SentimentResult)
 async def sentiment_analyze(req: SentimentAnalyzeRequest, user: dict = Depends(get_current_user)):
     try:
-        result = await run_sentiment(req.text, f"sent-analyze-{user['id']}-{uuid.uuid4().hex[:8]}")
+        sent_task = run_sentiment(req.text, f"sent-analyze-{user['id']}-{uuid.uuid4().hex[:8]}")
+        if req.subject and req.age:
+            rec_task = run_recommendations(req.subject, req.age, f"rec-sent-{user['id']}-{uuid.uuid4().hex[:8]}")
+            result, recs = await asyncio.gather(sent_task, rec_task)
+            result["recommendations"] = recs
+        else:
+            result = await sent_task
     except HTTPException:
         raise
     except Exception as e:
@@ -154,7 +214,13 @@ async def sentiment_analyze(req: SentimentAnalyzeRequest, user: dict = Depends(g
 @router.post("/records", response_model=SentimentRecord)
 async def create_sentiment_record(req: SentimentRecordCreate, user: dict = Depends(get_current_user)):
     try:
-        result = await run_sentiment(req.text, f"sent-rec-{user['id']}-{uuid.uuid4().hex[:8]}")
+        sent_task = run_sentiment(req.text, f"sent-rec-{user['id']}-{uuid.uuid4().hex[:8]}")
+        if req.subject and req.age:
+            rec_task = run_recommendations(req.subject, req.age, f"rec-sent-{user['id']}-{uuid.uuid4().hex[:8]}")
+            result, recs = await asyncio.gather(sent_task, rec_task)
+            result["recommendations"] = recs
+        else:
+            result = await sent_task
     except HTTPException:
         raise
     except Exception as e:

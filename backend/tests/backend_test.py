@@ -806,3 +806,98 @@ def test_sentiment_trend_child_id_filter_parent(s):
     s.delete(f"{API}/sentiment/records/{rec_id}", headers=_auth(state["parent_token"]))
     s.delete(f"{API}/children/{cid}", headers=_auth(state["parent_token"]))
 
+
+# ===================================================================
+# Iter 6 — Behaviour scope on astrology + Subject recommendations on sentiment
+# ===================================================================
+def test_astrology_includes_behaviour_scope(s):
+    """POST /api/astrology/niche should return a fully formed behaviour_scope object."""
+    r = s.post(f"{API}/astrology/niche",
+               headers=_auth(state["parent_token"]),
+               json={"name": "TEST_BS_Child", "place": "Bengaluru, India",
+                     "date_of_birth": "2014-09-15", "time_of_birth": "11:00"},
+               timeout=120)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    # Old fields preserved
+    for k in ("niche", "traits", "career_paths", "summary", "sun_sign",
+              "whatsapp_number", "whatsapp_link"):
+        assert k in d, f"missing old key {k}"
+    # New: behaviour_scope
+    assert "behaviour_scope" in d
+    bs = d["behaviour_scope"]
+    for k in ("behavioural_traits", "social_style", "emotional_pattern",
+              "learning_style", "strengths", "growth_areas", "parenting_tips"):
+        assert k in bs, f"behaviour_scope missing {k}"
+    assert isinstance(bs["behavioural_traits"], list) and len(bs["behavioural_traits"]) >= 1
+    assert isinstance(bs["strengths"], list) and len(bs["strengths"]) >= 1
+    assert isinstance(bs["growth_areas"], list) and len(bs["growth_areas"]) >= 1
+    assert isinstance(bs["parenting_tips"], list) and len(bs["parenting_tips"]) >= 1
+    assert isinstance(bs["social_style"], str) and len(bs["social_style"]) > 0
+    assert isinstance(bs["emotional_pattern"], str) and len(bs["emotional_pattern"]) > 0
+    assert isinstance(bs["learning_style"], str) and len(bs["learning_style"]) > 0
+
+
+def test_sentiment_analyze_no_recommendations_when_missing(s):
+    """recommendations should be null when subject/age absent."""
+    r = s.post(f"{API}/sentiment/analyze",
+               headers=_auth(state["parent_token"]),
+               json={"text": "A simple neutral analysis text for testing."},
+               timeout=120)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d.get("recommendations") is None
+
+
+def test_sentiment_analyze_with_recommendations(s):
+    """When subject+age provided, recommendations payload must be present and well-formed."""
+    r = s.post(f"{API}/sentiment/analyze",
+               headers=_auth(state["parent_token"]),
+               json={"text": "My child loves doing fraction puzzles and asks for more.",
+                     "subject": "Mathematics", "age": 9},
+               timeout=120)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    recs = d.get("recommendations")
+    assert recs is not None, "recommendations should be present"
+    assert recs["subject"] == "Mathematics"
+    assert recs["age"] == 9
+    assert isinstance(recs["books"], list) and len(recs["books"]) >= 1
+    assert isinstance(recs["links"], list) and len(recs["links"]) >= 1
+    assert isinstance(recs["activities"], list) and len(recs["activities"]) >= 1
+    for b in recs["books"]:
+        assert "title" in b and "author" in b and "description" in b
+    for lnk in recs["links"]:
+        assert "title" in lnk and "url" in lnk
+    for a in recs["activities"]:
+        assert "title" in a and "duration_minutes" in a
+
+
+def test_sentiment_analyze_age_out_of_range_422(s):
+    r = s.post(f"{API}/sentiment/analyze",
+               headers=_auth(state["parent_token"]),
+               json={"text": "valid text", "subject": "Science", "age": 2})
+    assert r.status_code == 422
+    r2 = s.post(f"{API}/sentiment/analyze",
+                headers=_auth(state["parent_token"]),
+                json={"text": "valid text", "subject": "Science", "age": 19})
+    assert r2.status_code == 422
+
+
+def test_sentiment_records_with_recommendations(s):
+    r = s.post(f"{API}/sentiment/records",
+               headers=_auth(state["parent_token"]),
+               json={"kind": "feedback",
+                     "text": "TEST_REC_REC: My son enjoyed reading time and asked to keep going.",
+                     "subject": "English", "age": 7},
+               timeout=120)
+    assert r.status_code == 200, r.text
+    d = r.json()
+    res = d["result"]
+    assert res.get("recommendations") is not None
+    assert res["recommendations"]["subject"] == "English"
+    assert res["recommendations"]["age"] == 7
+    assert len(res["recommendations"]["books"]) >= 1
+    # cleanup
+    s.delete(f"{API}/sentiment/records/{d['id']}", headers=_auth(state["parent_token"]))
+

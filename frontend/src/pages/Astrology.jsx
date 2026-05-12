@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
+import BehaviourScopeCard from "../components/BehaviourScopeCard";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -131,6 +132,11 @@ export default function Astrology() {
               <WhatsAppButton link={result.whatsapp_link} label={`Chat on WhatsApp ${result.whatsapp_number}`} />
             </div>
           </Card>
+
+          {/* Behaviour scope card */}
+          <div className="mt-8">
+            <BehaviourScopeCard scope={result.behaviour_scope} />
+          </div>
         </section>
       )}
     </div>

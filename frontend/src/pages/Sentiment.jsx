@@ -13,6 +13,8 @@ import SentimentResultCard from "../components/SentimentResultCard";
 import { toast } from "sonner";
 import { BookOpen, Sparkles, Loader2, MessageSquareQuote, NotebookPen, Activity, Trash2 } from "lucide-react";
 
+const SUBJECTS = ["Mathematics", "Science", "English", "Social Studies", "Coding", "Art", "Music", "Physical Education"];
+
 const KIND_LABELS = {
   feedback: "Parent Feedback",
   journal: "Student Journal",
@@ -25,6 +27,8 @@ export default function Sentiment() {
   const [text, setText] = useState("");
   const [kind, setKind] = useState("standalone");
   const [subjectName, setSubjectName] = useState("");
+  const [subject, setSubject] = useState("");
+  const [age, setAge] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [persist, setPersist] = useState(true);
@@ -54,16 +58,17 @@ export default function Sentiment() {
     e.preventDefault();
     setLoading(true);
     setResult(null);
+    const extras = (subject && age) ? { subject, age: Number(age) } : {};
     try {
       if (persist && kind !== "standalone") {
         const { data } = await api.post("/sentiment/records", {
-          kind, text, subject_name: subjectName || null,
+          kind, text, subject_name: subjectName || null, ...extras,
         });
         setResult(data.result);
         toast.success("Saved & analyzed");
         loadRecords();
       } else {
-        const { data } = await api.post("/sentiment/analyze", { text });
+        const { data } = await api.post("/sentiment/analyze", { text, ...extras });
         setResult(data);
         toast.success("Analysis ready");
       }
@@ -132,6 +137,26 @@ export default function Sentiment() {
                       <Input value={subjectName} onChange={(e) => setSubjectName(e.target.value)} className="rounded-xl bg-white" placeholder="e.g., Aanya, Grade 4" data-testid="sentiment-subject-input" />
                     </div>
                   )}
+
+                  <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-4 space-y-3">
+                    <div className="text-xs uppercase tracking-widest font-bold text-amber-700">Optional · subject-specific recommendations</div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label className="text-xs font-bold text-slate-600">Subject</Label>
+                        <Select value={subject} onValueChange={setSubject}>
+                          <SelectTrigger className="rounded-xl bg-white" data-testid="sentiment-rec-subject-select"><SelectValue placeholder="None" /></SelectTrigger>
+                          <SelectContent>
+                            {SUBJECTS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label className="text-xs font-bold text-slate-600">Child age</Label>
+                        <Input type="number" min={3} max={18} value={age} onChange={(e) => setAge(e.target.value)} className="rounded-xl bg-white" placeholder="8" data-testid="sentiment-rec-age-input" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-600">When both filled, we'll attach age-appropriate books, links and activities for that subject.</p>
+                  </div>
 
                   <div className="space-y-1.5">
                     <Label className="text-xs uppercase tracking-widest font-bold text-slate-500">Text to analyze</Label>
