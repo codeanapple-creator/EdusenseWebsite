@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
 import BehaviourScopeCard from "../components/BehaviourScopeCard";
+import ShareScopeButton from "../components/ShareScopeButton";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -131,7 +132,10 @@ export default function Astrology() {
                 <div className="text-xs uppercase tracking-widest font-bold text-slate-500 mb-1">For a deeper, personalised reading</div>
                 <div className="font-bold text-slate-900">Connect with our team on WhatsApp</div>
               </div>
-              <WhatsAppButton link={result.whatsapp_link} label={`Chat on WhatsApp ${result.whatsapp_number}`} />
+              <div className="flex flex-wrap gap-2">
+                <ShareScopeButton result={result} />
+                <WhatsAppButton link={result.whatsapp_link} label={`Chat on WhatsApp ${result.whatsapp_number}`} />
+              </div>
             </div>
           </Card>
 

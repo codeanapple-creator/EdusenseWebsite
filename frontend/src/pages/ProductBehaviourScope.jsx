@@ -58,6 +58,71 @@ export default function ProductBehaviourScope() {
       document.head.appendChild(m);
     }
     m.setAttribute("content", desc);
+
+    // JSON-LD structured data
+    const productLd = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: "BehaviourScope™ Western Astrology",
+      description: desc,
+      brand: { "@type": "Brand", name: "EDUSENSE by Codeanapple" },
+      category: "Educational SaaS",
+      audience: { "@type": "PeopleAudience", suggestedMinAge: 3, suggestedMaxAge: 14 },
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Free",
+          price: "0",
+          priceCurrency: "INR",
+          availability: "https://schema.org/InStock",
+          eligibleQuantity: { "@type": "QuantitativeValue", value: 1, unitText: "child" },
+        },
+        {
+          "@type": "Offer",
+          name: "Pro for schools",
+          price: "1499",
+          priceCurrency: "INR",
+          availability: "https://schema.org/InStock",
+          priceSpecification: {
+            "@type": "UnitPriceSpecification",
+            price: "1499",
+            priceCurrency: "INR",
+            unitCode: "MON",
+            billingDuration: "P1M",
+          },
+        },
+      ],
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "1",
+        bestRating: "5",
+        worstRating: "1",
+      },
+    };
+    const faqLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQS.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    };
+    const tag1 = document.createElement("script");
+    tag1.type = "application/ld+json";
+    tag1.id = "ld-behaviourscope-product";
+    tag1.textContent = JSON.stringify(productLd);
+    document.head.appendChild(tag1);
+    const tag2 = document.createElement("script");
+    tag2.type = "application/ld+json";
+    tag2.id = "ld-behaviourscope-faq";
+    tag2.textContent = JSON.stringify(faqLd);
+    document.head.appendChild(tag2);
+    return () => {
+      tag1.remove();
+      tag2.remove();
+    };
   }, []);
 
   return (
@@ -262,10 +327,10 @@ export default function ProductBehaviourScope() {
       <footer className="bg-amber-50 border-t border-amber-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-600">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-pink-500 flex items-center justify-center"><Sparkles className="text-white" size={14} strokeWidth={2.5} /></div>
+            <img src="/codeanapple-logo.png" alt="Code An Apple" className="w-8 h-8 rounded-lg object-cover bg-slate-900" data-testid="bs-footer-logo" />
             <span className="font-bold text-slate-900">EDUSENSE</span>
             <span className="text-slate-400">·</span>
-            <span>by Codeanapple</span>
+            <span>by Code An Apple</span>
           </div>
           <div>BehaviourScope™ is a product of EDUSENSE · © {new Date().getFullYear()}</div>
         </div>

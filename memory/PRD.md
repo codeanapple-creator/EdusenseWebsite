@@ -15,6 +15,12 @@
 - **Teacher** — student CRUD with subject focus + sentiment-tagged notes; joins a school via 6-char code.
 - **Principal** — owns a **School** with auto-generated join code, manages plan (Free/Pro), sees stats + sentiment overview + **trend over time with kind filter** + member roster.
 
+## Implemented (v1.9 — Feb 2026)
+- ✅ **Branding refresh**: Replaced gradient-square Sparkles logo with new **Code An Apple** logo (red apple + `</>` glyph) across Navbar, Landing footer, BehaviourScope footer; added as favicon + apple-touch-icon in `index.html`. Saved to `/app/frontend/public/codeanapple-logo.png`.
+- ✅ **Credit & methodology copy**: Replaced all "Tiwari (2025) / Tiwari, 2025" references with **"Dr Bhawna Tiwari"** (Landing hero, products section, methodology strip, Sentiment page, SentimentResultCard, SentimentTrendChart, PrincipalDashboard, backend prompt + docstring + tests).
+- ✅ Removed standalone "2025" year mentions from user-facing copy.
+- ✅ Smoke-tested: Landing + `/products/behaviourscope` render with new logo, JSON-LD tags (`ld-behaviourscope-product`, `ld-behaviourscope-faq`) confirmed present in DOM.
+
 ## Implemented (v1.8 — Feb 2026)
 - ✅ All v1.0–v1.7 features.
 - ✅ **Dedicated marketing page** at `/products/behaviourscope` (public, no auth) with: cosmic hero (shimmer "BehaviourScope™" headline), "What's in every reading" 4-feature grid, **3 sample readings** (Gemini / Aries / Cancer), pricing (Free / Pro ₹1,499), availability, testimonial, **FAQ accordion** (7 questions), final CTA. Includes dynamic `<title>` and `<meta name="description">` for SEO.

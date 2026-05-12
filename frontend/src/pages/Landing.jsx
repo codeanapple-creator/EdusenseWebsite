@@ -26,7 +26,7 @@ const PRODUCTS = [
   {
     key: "sentiment",
     title: "Sentiment Lab",
-    tagline: "Tiwari (2025) methodology in your pocket",
+    tagline: "Dr Bhawna Tiwari's methodology in your pocket",
     desc: "Decode parent feedback, student journals and teacher notes with NRC 8-emotion lexicon, polarity, Likert scoring and aspect-based categories from primary-education research.",
     icon: Activity,
     accent: "from-emerald-500 to-sky-500",
@@ -69,7 +69,7 @@ export default function Landing() {
               <span className="shimmer-text">BehaviourScope™</span> — for the primary years.
             </h1>
             <p className="mt-6 text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
-              EDUSENSE blends <b>western astrology</b> with <b>research-backed sentiment analysis</b> (Tiwari, 2025) to help parents, teachers and principals see <i>who the child really is</i> — and then nurture it with the right books, links and activities.
+              EDUSENSE blends <b>western astrology</b> with <b>research-backed sentiment analysis</b> by <b>Dr Bhawna Tiwari</b> to help parents, teachers and principals see <i>who the child really is</i> — and then nurture it with the right books, links and activities.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/register?role=parent">
@@ -86,7 +86,7 @@ export default function Landing() {
 
             <div className="mt-10 flex flex-wrap gap-6 text-sm text-slate-600">
               <div className="flex items-center gap-2"><Stars size={16} className="text-indigo-500" strokeWidth={2.5} /> Western-astrology niche + behaviour scope</div>
-              <div className="flex items-center gap-2"><ScrollText size={16} className="text-emerald-600" strokeWidth={2.5} /> NRC 8-emotion lexicon (Tiwari, 2025)</div>
+              <div className="flex items-center gap-2"><ScrollText size={16} className="text-emerald-600" strokeWidth={2.5} /> NRC 8-emotion lexicon · Dr Bhawna Tiwari</div>
               <div className="flex items-center gap-2"><Compass size={16} className="text-amber-600" strokeWidth={2.5} /> Subject-tied activity recommendations</div>
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function Landing() {
             </div>
             <div className="md:col-span-7">
               <div className="text-xs uppercase tracking-widest font-bold text-emerald-700 mb-2">Built on peer-reviewed research</div>
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-2">Sentiment Lab implements Tiwari (2025)'s thesis.</h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-2">Sentiment Lab implements Dr Bhawna Tiwari's thesis.</h3>
               <p className="text-slate-700 text-sm leading-relaxed">
                 <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> — NRC 8-emotion lexicon (anger, anticipation, disgust, fear, joy, sadness, surprise, trust), 3-class polarity + mixed, Likert (0–5), and 8 aspect categories (Happiness Index, Active Participation, Sharing, Self-initiation, Gross/Fine Motors, Behaviour, Learning).
               </p>
@@ -278,12 +278,12 @@ export default function Landing() {
       <footer className="bg-amber-50 border-t border-amber-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-600">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-pink-500 flex items-center justify-center"><Sparkles className="text-white" size={14} strokeWidth={2.5} /></div>
+            <img src="/codeanapple-logo.png" alt="Code An Apple" className="w-8 h-8 rounded-lg object-cover bg-slate-900" data-testid="footer-logo" />
             <span className="font-bold text-slate-900">EDUSENSE</span>
             <span className="text-slate-400">·</span>
-            <span>by Codeanapple</span>
+            <span>by Code An Apple</span>
             <span className="text-slate-400 hidden sm:inline">·</span>
-            <span className="hidden sm:inline text-xs text-slate-500">BehaviourScope™ for primary years</span>
+            <span className="hidden sm:inline text-xs text-slate-500">Sentiment research by Dr Bhawna Tiwari</span>
           </div>
           <div>© {new Date().getFullYear()} EDUSENSE. Crafted with curiosity.</div>
         </div>

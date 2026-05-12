@@ -218,7 +218,7 @@ def test_analytics_forbidden_for_teacher(s):
 
 
 
-# ---------- Sentiment Analysis (Tiwari 2024 hybrid lexicon+ML) ----------
+# ---------- Sentiment Analysis (Dr Bhawna Tiwari hybrid lexicon+ML) ----------
 NRC_KEYS = {"anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust"}
 
 

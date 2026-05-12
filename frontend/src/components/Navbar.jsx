@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "./ui/button";
-import { Sparkles, LogOut, LayoutDashboard, Activity } from "lucide-react";
+import { LogOut, LayoutDashboard, Activity } from "lucide-react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -16,13 +16,16 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-xl bg-amber-50/80 border-b border-amber-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group" data-testid="brand-link">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-            <Sparkles className="text-white" size={18} strokeWidth={2.5} />
-          </div>
+        <Link to="/" className="flex items-center gap-2.5 group" data-testid="brand-link">
+          <img
+            src="/codeanapple-logo.png"
+            alt="Code An Apple logo"
+            className="w-10 h-10 rounded-xl object-cover bg-slate-900 shadow-md group-hover:scale-105 transition-transform"
+            data-testid="brand-logo-img"
+          />
           <div className="leading-none">
             <div className="font-extrabold text-lg tracking-tight text-slate-900">EDUSENSE</div>
-            <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500">by Codeanapple</div>
+            <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500">by Code An Apple</div>
           </div>
         </Link>
 

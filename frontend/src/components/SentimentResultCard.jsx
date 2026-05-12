@@ -82,7 +82,7 @@ export default function SentimentResultCard({ result, compact = false, testid = 
       </div>
 
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-widest font-bold text-slate-500 mb-3">NRC Emotions (Tiwari, 2025)</div>
+        <div className="text-xs uppercase tracking-widest font-bold text-slate-500 mb-3">NRC Emotions (Dr Bhawna Tiwari)</div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {nrcEntries.map(([k, v]) => (
             <div key={k} className="rounded-lg border border-slate-200 p-2.5">
