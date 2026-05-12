@@ -5,20 +5,36 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Activity, TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend, Line, LineChart } from "recharts";
 
-export default function SentimentTrendChart() {
+const KIND_OPTIONS = [
+  { value: "all", label: "All types" },
+  { value: "feedback", label: "Parent feedback" },
+  { value: "journal", label: "Student journal" },
+  { value: "teacher_note", label: "Teacher note" },
+  { value: "standalone", label: "Standalone" },
+];
+
+export default function SentimentTrendChart({ showChildFilter = false }) {
   const [days, setDays] = useState("30");
+  const [kind, setKind] = useState("all");
+  const [childId, setChildId] = useState("all");
+  const [children, setChildren] = useState([]);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!showChildFilter) return;
+    api.get("/children").then((r) => setChildren(r.data || [])).catch(() => {});
+  }, [showChildFilter]);
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    api.get(`/sentiment/trend`, { params: { days: Number(days) } })
+    const params = { days: Number(days) };
+    if (kind !== "all") params.kind = kind;
+    if (childId !== "all") params.child_id = childId;
+    api.get(`/sentiment/trend`, { params })
       .then((r) => { if (!cancelled) setData(r.data.series || []); })
-      .catch(() => {})
-      .finally(() => { if (!cancelled) setLoading(false); });
+      .catch(() => {});
     return () => { cancelled = true; };
-  }, [days]);
+  }, [days, kind, childId]);
 
   const formatTick = (d) => {
     const dt = new Date(d);
@@ -37,16 +53,33 @@ export default function SentimentTrendChart() {
             <p className="text-xs text-slate-500">Daily volume by polarity · Tiwari (2024)</p>
           </div>
         </div>
-        <Select value={days} onValueChange={setDays}>
-          <SelectTrigger className="w-[140px] rounded-full bg-white" data-testid="trend-range-select"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="14">Last 14 days</SelectItem>
-            <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="60">Last 60 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex flex-wrap items-center gap-2">
+          <Select value={kind} onValueChange={setKind}>
+            <SelectTrigger className="w-[160px] rounded-full bg-white" data-testid="trend-kind-select"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {KIND_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          {showChildFilter && children.length > 0 && (
+            <Select value={childId} onValueChange={setChildId}>
+              <SelectTrigger className="w-[160px] rounded-full bg-white" data-testid="trend-child-select"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All children</SelectItem>
+                {children.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          )}
+          <Select value={days} onValueChange={setDays}>
+            <SelectTrigger className="w-[140px] rounded-full bg-white" data-testid="trend-range-select"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Last 7 days</SelectItem>
+              <SelectItem value="14">Last 14 days</SelectItem>
+              <SelectItem value="30">Last 30 days</SelectItem>
+              <SelectItem value="60">Last 60 days</SelectItem>
+              <SelectItem value="90">Last 90 days</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div style={{ width: "100%", height: 280 }}>
@@ -100,8 +133,8 @@ export default function SentimentTrendChart() {
         </div>
       </div>
 
-      {!loading && data.every((d) => d.total === 0) && (
-        <div className="text-center text-sm text-slate-500 mt-3">No sentiment records in this range yet.</div>
+      {data.every((d) => d.total === 0) && (
+        <div className="text-center text-sm text-slate-500 mt-3" data-testid="trend-empty">No sentiment records in this range yet.</div>
       )}
     </Card>
   );

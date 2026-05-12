@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SentimentTrendChart from "../components/SentimentTrendChart";
+import SchoolManager from "../components/SchoolManager";
+import SubscriptionBanner from "../components/SubscriptionBanner";
 import { useAuth } from "../context/AuthContext";
 import { api, formatApiErrorDetail } from "../lib/api";
 import { Card } from "../components/ui/card";
@@ -49,6 +51,7 @@ export default function PrincipalDashboard() {
     <div className="min-h-screen bg-amber-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <SubscriptionBanner />
         <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
           <div>
             <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-1">Principal control room</div>
@@ -61,6 +64,11 @@ export default function PrincipalDashboard() {
               <Activity size={16} className="mr-1.5" strokeWidth={2.5} /> Sentiment Lab
             </Button>
           </Link>
+        </div>
+
+        {/* School management */}
+        <div className="mb-6" id="school">
+          <SchoolManager />
         </div>
 
         {/* Stats */}

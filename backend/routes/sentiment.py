@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 from core.auth import get_current_user, role_required
 from core.config import db, logger
 from core.llm import llm_json, parse_json_text
+from core.tenancy import require_user_school
 
 router = APIRouter(prefix="/sentiment", tags=["sentiment"])
 
@@ -49,6 +50,7 @@ class SentimentRecord(BaseModel):
     student_id: Optional[str] = None
     child_id: Optional[str] = None
     user_id: str
+    school_id: Optional[str] = None
     user_name: str
     user_role: str
     result: dict
@@ -166,6 +168,7 @@ async def create_sentiment_record(req: SentimentRecordCreate, user: dict = Depen
         "student_id": req.student_id,
         "child_id": req.child_id,
         "user_id": user["id"],
+        "school_id": await require_user_school(user),
         "user_name": user["name"],
         "user_role": user["role"],
         "result": result,
@@ -233,22 +236,52 @@ async def sentiment_summary(user: dict = Depends(role_required(["principal", "te
 @router.get("/trend")
 async def sentiment_trend(
     days: int = Query(30, ge=1, le=180),
-    user: dict = Depends(role_required(["principal", "teacher"])),
+    kind: Optional[str] = None,
+    child_id: Optional[str] = None,
+    user: dict = Depends(role_required(["principal", "teacher", "parent"])),
 ):
-    """Daily sentiment trend over the last N days.
-    Aggregation: MongoDB $group bucket by date (YYYY-MM-DD), then fill missing days as zero.
+    """Daily sentiment trend over the last N days using $dateFromString/$dateToString.
+
+    Filters: ?kind=feedback|journal|teacher_note|standalone, ?child_id=...
+    Visibility:
+      - parent: own records only
+      - teacher: own + all journals + all feedback (within school)
+      - principal: full school
     """
     now = datetime.now(timezone.utc)
     start = (now - timedelta(days=days - 1)).replace(hour=0, minute=0, second=0, microsecond=0)
     start_iso = start.isoformat()
 
+    base_match: dict = {"created_at": {"$gte": start_iso}}
+    if kind:
+        base_match["kind"] = kind
+    if child_id:
+        base_match["child_id"] = child_id
+
+    # Role-based visibility (school-scoped if school_id present on user)
+    school_id = user.get("school_id")
+    if school_id:
+        base_match["school_id"] = school_id
+    if user["role"] == "parent":
+        base_match["user_id"] = user["id"]
+    elif user["role"] == "teacher":
+        base_match["$or"] = [
+            {"user_id": user["id"]},
+            {"kind": {"$in": ["feedback", "journal"]}},
+        ]
+    # principal: no extra restriction beyond school
+
     pipeline = [
-        {"$match": {"created_at": {"$gte": start_iso}}},
+        {"$match": base_match},
         {"$addFields": {
-            "_date": {"$substr": ["$created_at", 0, 10]},
+            "_dt": {"$dateFromString": {"dateString": "$created_at", "onError": None, "onNull": None}},
             "_pol": {"$ifNull": ["$result.polarity_score", 0]},
             "_lik": {"$ifNull": ["$result.likert_score", 0]},
             "_sent": {"$ifNull": ["$result.sentiment", "neutral"]},
+        }},
+        {"$match": {"_dt": {"$ne": None}}},
+        {"$addFields": {
+            "_date": {"$dateToString": {"format": "%Y-%m-%d", "date": "$_dt", "timezone": "UTC"}},
         }},
         {"$group": {
             "_id": "$_date",
@@ -287,4 +320,4 @@ async def sentiment_trend(
                 "positive": 0, "neutral": 0, "negative": 0, "mixed": 0,
                 "total": 0, "avg_polarity": 0.0, "avg_likert": 0.0,
             })
-    return {"days": days, "series": series}
+    return {"days": days, "kind": kind, "child_id": child_id, "series": series}

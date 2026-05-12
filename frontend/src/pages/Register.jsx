@@ -24,6 +24,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [schoolCode, setSchoolCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -37,12 +38,22 @@ export default function Register() {
     setError("");
     setSubmitting(true);
     const res = await register({ name, email, password, role });
-    setSubmitting(false);
     if (!res.ok) {
+      setSubmitting(false);
       setError(res.error);
       toast.error(res.error);
       return;
     }
+    // Auto-join school for non-principals if code provided
+    if (role !== "principal" && schoolCode.trim()) {
+      try {
+        const { api } = await import("../lib/api");
+        await api.post("/schools/join", { code: schoolCode.trim().toUpperCase() });
+      } catch (err) {
+        toast.message("Account created — could not join school: " + (err.response?.data?.detail || err.message));
+      }
+    }
+    setSubmitting(false);
     toast.success(`Welcome, ${res.user.name}!`);
     navigate(`/dashboard/${res.user.role}`, { replace: true });
   };
@@ -95,6 +106,13 @@ export default function Register() {
                 <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="rounded-xl bg-white" data-testid="register-password-input" />
                 <p className="text-xs text-slate-500">Minimum 6 characters.</p>
               </div>
+              {role !== "principal" && (
+                <div className="space-y-1.5">
+                  <Label htmlFor="school-code" className="text-sm font-bold">School code <span className="text-slate-400 font-normal">(optional)</span></Label>
+                  <Input id="school-code" value={schoolCode} onChange={(e) => setSchoolCode(e.target.value.toUpperCase())} className="rounded-xl bg-white uppercase tracking-widest" placeholder="e.g., DEMO01" data-testid="register-school-code-input" maxLength={12} />
+                  <p className="text-xs text-slate-500">Get this 6-char code from your school's principal.</p>
+                </div>
+              )}
               {error && <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl p-3" data-testid="register-error">{error}</div>}
               <Button type="submit" disabled={submitting} className="w-full rounded-full bg-sky-500 hover:bg-sky-400 font-bold py-6 btn-lift" data-testid="register-submit-btn">
                 {submitting ? "Creating account…" : `Sign up as ${role}`}

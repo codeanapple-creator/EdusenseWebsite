@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import WhatsAppButton from "../components/WhatsAppButton";
 import ChildrenManager from "../components/ChildrenManager";
+import SubscriptionBanner from "../components/SubscriptionBanner";
+import SentimentTrendChart from "../components/SentimentTrendChart";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -49,6 +51,7 @@ export default function ParentDashboard() {
     <div className="min-h-screen bg-amber-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <SubscriptionBanner />
         <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
           <div>
             <div className="text-xs uppercase tracking-[0.22em] font-bold text-sky-600 mb-1">Parent space</div>
@@ -64,6 +67,11 @@ export default function ParentDashboard() {
         {/* Children manager */}
         <div className="mb-6">
           <ChildrenManager />
+        </div>
+
+        {/* Sentiment trend with child filter */}
+        <div className="mb-6">
+          <SentimentTrendChart showChildFilter />
         </div>
 
         {/* Bento grid */}

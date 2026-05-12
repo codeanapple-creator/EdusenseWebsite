@@ -563,10 +563,15 @@ def test_sentiment_trend_teacher_allowed(s):
     assert len(r.json()["series"]) == 14
 
 
-def test_sentiment_trend_parent_forbidden(s):
+def test_sentiment_trend_parent_allowed(s):
+    # iter5: parent is now allowed and scoped to own records
     r = s.get(f"{API}/sentiment/trend",
               headers=_auth(state["parent_token"]))
-    assert r.status_code == 403
+    assert r.status_code == 200
+    data = r.json()
+    assert data["days"] == 30
+    assert "kind" in data and "child_id" in data
+    assert len(data["series"]) == 30
 
 
 def test_sentiment_trend_days_out_of_range(s):
@@ -633,3 +638,171 @@ def test_children_delete_parent_own(s):
     # GET should no longer return it
     r2 = s.get(f"{API}/children", headers=_auth(state["parent_token"]))
     assert not any(c["id"] == state["child_id"] for c in r2.json())
+
+
+# ===================================================================
+# Iter 5 — Schools multi-tenancy + subscription (MOCKED)
+# ===================================================================
+def test_schools_me_principal_demo(s):
+    r = s.get(f"{API}/schools/me", headers=_auth(state["principal_token"]))
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["code"] == "DEMO01"
+    assert d["name"] == "EDUSENSE Demo"
+    assert d["plan"] in ("free", "pro")
+    assert isinstance(d.get("member_count"), int)
+    assert isinstance(d.get("student_count"), int)
+    assert d["member_count"] >= 1
+    state["demo_school_plan"] = d["plan"]
+    state["demo_school_id"] = d["id"]
+
+
+def test_schools_join_bad_code(s):
+    # parent already in demo school → first leave (parent is in DEMO01 from earlier auto-assign)
+    # Actually parent has been auto-assigned via require_user_school in earlier sentiment tests.
+    # So join with bad code should still 400 (already in school) or 404. Use a fresh user instead.
+    fresh_email = f"TEST_join_{TS}_a@edusense.com"
+    rr = s.post(f"{API}/auth/register", json={
+        "name": "Join A", "email": fresh_email, "password": PASS, "role": "teacher"})
+    assert rr.status_code == 200
+    tk = rr.json()["token"]
+    r = s.post(f"{API}/schools/join", headers=_auth(tk), json={"code": "ZZZZZZ"})
+    assert r.status_code == 404
+    state["fresh_join_token"] = tk
+    state["fresh_join_email"] = fresh_email
+
+
+def test_schools_join_principal_forbidden(s):
+    r = s.post(f"{API}/schools/join", headers=_auth(state["principal_token"]),
+               json={"code": "DEMO01"})
+    assert r.status_code == 400
+
+
+def test_schools_join_valid_demo(s):
+    r = s.post(f"{API}/schools/join", headers=_auth(state["fresh_join_token"]),
+               json={"code": "DEMO01"})
+    assert r.status_code == 200, r.text
+    assert r.json()["code"] == "DEMO01"
+
+
+def test_schools_create_principal_already_has_school(s):
+    # Pre-seeded principal already manages DEMO01
+    r = s.post(f"{API}/schools", headers=_auth(state["principal_token"]),
+               json={"name": "Should Fail"})
+    assert r.status_code == 400
+
+
+def test_schools_create_new_principal_school_b(s):
+    """Register a NEW principal with no prior school, then create School B."""
+    p_email = f"TEST_principalB_{TS}@edusense.com"
+    rr = s.post(f"{API}/auth/register", json={
+        "name": "Principal B", "email": p_email, "password": PASS, "role": "principal"})
+    assert rr.status_code == 200
+    pb_token = rr.json()["token"]
+    state["principalB_token"] = pb_token
+
+    r = s.post(f"{API}/schools", headers=_auth(pb_token),
+               json={"name": "TEST School B"})
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["name"] == "TEST School B"
+    assert len(d["code"]) == 6
+    assert d["code"].isupper() or any(c.isdigit() for c in d["code"])
+    assert d["plan"] == "free"
+    assert d["student_limit"] == 30
+    state["schoolB_id"] = d["id"]
+    state["schoolB_code"] = d["code"]
+
+
+def test_schools_subscribe_mocked_pro(s):
+    """Use principal B (free) to subscribe → flips to pro 30d, student_limit large."""
+    r = s.post(f"{API}/schools/subscribe", headers=_auth(state["principalB_token"]))
+    assert r.status_code == 200, r.text
+    d = r.json()
+    assert d["plan"] == "pro"
+    assert d["subscription_status"] == "active"
+    assert d["current_period_end"] is not None
+    assert d["student_limit"] >= 100000
+
+    # Verify via /schools/me
+    r2 = s.get(f"{API}/schools/me", headers=_auth(state["principalB_token"]))
+    assert r2.status_code == 200
+    assert r2.json()["plan"] == "pro"
+
+
+def test_schools_isolation_school_a_vs_b(s):
+    """Teacher in DEMO01 creates a student; principalB GET /students sees nothing of A's."""
+    # Create student as the existing TEST teacher (in DEMO01 via auto-assign)
+    rs = s.post(f"{API}/students", headers=_auth(state["teacher_token"]),
+                json={"name": "TEST_IsoStudent", "grade": "5", "age": 11, "subject_focus": "Sci"})
+    assert rs.status_code == 200, rs.text
+    iso_id = rs.json()["id"]
+    state["iso_student_id"] = iso_id
+
+    # principalB lists students -> empty (different school)
+    r = s.get(f"{API}/students", headers=_auth(state["principalB_token"]))
+    assert r.status_code == 200
+    ids = [x["id"] for x in r.json()]
+    assert iso_id not in ids, "School isolation breach"
+
+    # teacher_token sees own
+    rt = s.get(f"{API}/students", headers=_auth(state["teacher_token"]))
+    ids2 = [x["id"] for x in rt.json()]
+    assert iso_id in ids2
+
+    # Cleanup
+    s.delete(f"{API}/students/{iso_id}", headers=_auth(state["teacher_token"]))
+
+
+def test_schools_leave_principal_forbidden(s):
+    r = s.delete(f"{API}/schools/leave", headers=_auth(state["principal_token"]))
+    assert r.status_code == 400
+
+
+def test_schools_leave_teacher_ok(s):
+    # fresh_join_token teacher is in DEMO01
+    r = s.delete(f"{API}/schools/leave", headers=_auth(state["fresh_join_token"]))
+    assert r.status_code == 200
+    assert r.json().get("ok") is True
+
+
+# ===================================================================
+# Iter 5 — Trend kind + child_id filters
+# ===================================================================
+def test_sentiment_trend_kind_filter(s):
+    r = s.get(f"{API}/sentiment/trend?days=7&kind=feedback",
+              headers=_auth(state["principal_token"]))
+    assert r.status_code == 200
+    d = r.json()
+    assert d["kind"] == "feedback"
+    assert d["days"] == 7
+    assert len(d["series"]) == 7
+
+
+def test_sentiment_trend_child_id_filter_parent(s):
+    # Create a child + sentiment record for that child
+    rc = s.post(f"{API}/children", headers=_auth(state["parent_token"]),
+                json={"name": "TEST_TrendChild", "grade": "2", "age": 7})
+    assert rc.status_code == 200
+    cid = rc.json()["id"]
+    state["trend_child_id"] = cid
+    rr = s.post(f"{API}/sentiment/records", headers=_auth(state["parent_token"]),
+                json={"kind": "journal",
+                      "text": "TEST_TC: today was a happy productive day for my child.",
+                      "child_id": cid}, timeout=120)
+    assert rr.status_code == 200, rr.text
+    rec_id = rr.json()["id"]
+    state["trend_child_rec_id"] = rec_id
+
+    # Parent trend with child_id filter -> non-zero today bucket
+    rt = s.get(f"{API}/sentiment/trend?days=1&child_id={cid}",
+               headers=_auth(state["parent_token"]))
+    assert rt.status_code == 200
+    data = rt.json()
+    assert data["child_id"] == cid
+    assert data["series"][0]["total"] >= 1
+
+    # Cleanup
+    s.delete(f"{API}/sentiment/records/{rec_id}", headers=_auth(state["parent_token"]))
+    s.delete(f"{API}/children/{cid}", headers=_auth(state["parent_token"]))
+

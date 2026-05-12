@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from core.auth import get_current_user
 from core.config import db, logger, WHATSAPP_NUMBER
 from core.llm import llm_json, parse_json_text
+from core.tenancy import require_user_school
 
 router = APIRouter(prefix="/astrology", tags=["astrology"])
 
@@ -99,6 +100,7 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
     record = {
         "id": str(uuid.uuid4()),
         "user_id": user["id"],
+        "school_id": await require_user_school(user),
         "child_id": req.child_id,
         "request": req.model_dump(),
         "sun_sign": sun_sign,

@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 
 from core.auth import role_required, get_current_user
 from core.config import db
+from core.tenancy import require_user_school
 
 router = APIRouter(prefix="/children", tags=["children"])
 
@@ -31,6 +32,7 @@ class ChildUpdate(BaseModel):
 class Child(BaseModel):
     id: str
     parent_id: str
+    school_id: str
     name: str
     date_of_birth: Optional[str] = None
     grade: Optional[str] = None
@@ -41,10 +43,12 @@ class Child(BaseModel):
 
 @router.post("", response_model=Child)
 async def create_child(payload: ChildCreate, user: dict = Depends(role_required(["parent"]))):
+    school_id = await require_user_school(user)
     child_id = str(uuid.uuid4())
     doc = {
         "id": child_id,
         "parent_id": user["id"],
+        "school_id": school_id,
         "name": payload.name,
         "date_of_birth": payload.date_of_birth,
         "grade": payload.grade,
@@ -58,12 +62,12 @@ async def create_child(payload: ChildCreate, user: dict = Depends(role_required(
 
 @router.get("", response_model=List[Child])
 async def list_children(user: dict = Depends(get_current_user)):
+    school_id = await require_user_school(user)
     if user["role"] == "parent":
-        q = {"parent_id": user["id"]}
+        q = {"parent_id": user["id"], "school_id": school_id}
     elif user["role"] == "principal":
-        q = {}
+        q = {"school_id": school_id}
     else:
-        # teachers don't have children list
         raise HTTPException(status_code=403, detail="Forbidden: role not allowed")
     return await db.children.find(q, {"_id": 0}).sort("created_at", -1).to_list(200)
 

@@ -11,6 +11,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from ".
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Trash2, GraduationCap, BookOpen, Loader2, Sparkles, ExternalLink, Activity } from "lucide-react";
 import { toast } from "sonner";
+import SubscriptionBanner from "../components/SubscriptionBanner";
 
 const SUBJECTS = ["Mathematics", "Science", "English", "Social Studies", "Coding", "Art", "Music", "Physical Education"];
 
@@ -77,6 +78,7 @@ export default function TeacherDashboard() {
     <div className="min-h-screen bg-amber-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <SubscriptionBanner />
         <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
           <div>
             <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-1">Teacher space</div>
