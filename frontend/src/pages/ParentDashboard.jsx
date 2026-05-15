@@ -118,7 +118,7 @@ export default function ParentDashboard() {
             </div>
             <div>
               <h2 className="text-2xl font-bold text-slate-900">Books, links & activities</h2>
-              <p className="text-sm text-slate-500">AI-curated, age-appropriate, by subject.</p>
+              <p className="text-sm text-slate-500">The system generates age-appropriate picks, by subject.</p>
             </div>
           </div>
 

@@ -187,7 +187,7 @@ export default function TeacherDashboard() {
             <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center"><BookOpen className="text-indigo-600" size={20} strokeWidth={2.5} /></div>
             <div>
               <h2 className="text-xl font-bold text-slate-900">Share content with students</h2>
-              <p className="text-sm text-slate-500">Generate AI-curated books, links and activities by subject and age.</p>
+              <p className="text-sm text-slate-500">The system generates curated books, links and activities by subject and age.</p>
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-4 items-end">
