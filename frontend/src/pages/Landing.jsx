@@ -278,7 +278,7 @@ export default function Landing() {
       <footer className="bg-amber-50 border-t border-amber-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-600">
           <div className="flex items-center gap-2">
-            <img src="/codeanapple-logo.png" alt="Code An Apple" className="w-8 h-8 rounded-lg object-cover bg-slate-900" data-testid="footer-logo" />
+            <img src="/codeanapple-logo.png" alt="Code An Apple" className="w-8 h-8 rounded-lg object-contain bg-white p-0.5 border border-slate-200" data-testid="footer-logo" />
             <span className="font-bold text-slate-900">EDUSENSE</span>
             <span className="text-slate-400">·</span>
             <span>by Code An Apple</span>

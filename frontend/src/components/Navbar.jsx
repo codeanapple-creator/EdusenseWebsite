@@ -20,7 +20,7 @@ export default function Navbar() {
           <img
             src="/codeanapple-logo.png"
             alt="Code An Apple logo"
-            className="w-10 h-10 rounded-xl object-cover bg-slate-900 shadow-md group-hover:scale-105 transition-transform"
+            className="w-10 h-10 rounded-xl object-contain bg-white p-1 shadow-md group-hover:scale-105 transition-transform"
             data-testid="brand-logo-img"
           />
           <div className="leading-none">
