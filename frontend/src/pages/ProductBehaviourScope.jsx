@@ -257,7 +257,7 @@ export default function ProductBehaviourScope() {
               <div className="text-xs uppercase tracking-widest font-bold text-emerald-700 mb-2">Availability</div>
               <h3 className="text-2xl font-bold text-slate-900 mb-2">Live across India · works for parents worldwide.</h3>
               <p className="text-sm text-slate-700 leading-relaxed">
-                BehaviourScope™ runs on Claude Sonnet 4.5 and is hosted on EDUSENSE's secure cloud. Currently optimised for English; Hindi and Marathi are on the roadmap. WhatsApp consultations are available in IST (9:00 – 19:00).
+                BehaviourScope™ runs on Claude Sonnet 4.5 and is hosted on EDUSENSE's secure cloud. Available in <b>English and हिंदी</b> (toggle on the reading page); Marathi is on the roadmap. WhatsApp consultations are available in IST (9:00 – 19:00).
               </p>
             </div>
           </div>

@@ -15,6 +15,10 @@
 - **Teacher** — student CRUD with subject focus + sentiment-tagged notes; joins a school via 6-char code.
 - **Principal** — owns a **School** with auto-generated join code, manages plan (Free/Pro), sees stats + sentiment overview + **trend over time with kind filter** + member roster.
 
+## Implemented (v2.0 — Feb 2026)
+- ✅ **Hindi localisation for BehaviourScope™ readings**: added EN/हिंदी toggle on `/astrology` form. Sends `language: "hi"` to `POST /api/astrology/niche`; backend instructs Claude Sonnet 4.5 to return all string values (niche, traits, career paths, summary, behaviour_scope.*) in Devanagari Hindi. WhatsApp consultation deep-link text also localised. Verified end-to-end via curl + screenshot.
+- ✅ Updated availability copy on `/products/behaviourscope`: "Available in English and हिंदी".
+
 ## Implemented (v1.9 — Feb 2026)
 - ✅ **Branding refresh**: Replaced gradient-square Sparkles logo with new **Code An Apple** logo (red apple + `</>` glyph) across Navbar, Landing footer, BehaviourScope footer; added as favicon + apple-touch-icon in `index.html`. Saved to `/app/frontend/public/codeanapple-logo.png`.
 - ✅ **Credit & methodology copy**: Replaced all "Tiwari (2025) / Tiwari, 2025" references with **"Dr Bhawna Tiwari"** (Landing hero, products section, methodology strip, Sentiment page, SentimentResultCard, SentimentTrendChart, PrincipalDashboard, backend prompt + docstring + tests).

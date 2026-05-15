@@ -11,10 +11,10 @@ import { Badge } from "../components/ui/badge";
 import DatePicker from "../components/DatePicker";
 import { api, formatApiErrorDetail } from "../lib/api";
 import { toast } from "sonner";
-import { Stars, Sparkles, Compass, Loader2 } from "lucide-react";
+import { Stars, Sparkles, Compass, Loader2, Languages } from "lucide-react";
 
 export default function Astrology() {
-  const [form, setForm] = useState({ name: "", place: "", date_of_birth: "", time_of_birth: "" });
+  const [form, setForm] = useState({ name: "", place: "", date_of_birth: "", time_of_birth: "", language: "en" });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
@@ -79,6 +79,31 @@ export default function Astrology() {
                 <Label className="text-indigo-200 text-xs uppercase tracking-widest font-bold">Time of birth</Label>
                 <Input required type="time" value={form.time_of_birth} onChange={onChange("time_of_birth")} className="bg-slate-900/60 border-indigo-500/30 text-white rounded-xl" data-testid="astro-tob-input" />
               </div>
+              <div className="md:col-span-2 flex items-center justify-between gap-3 flex-wrap rounded-2xl border border-indigo-500/30 bg-slate-900/40 px-4 py-3" data-testid="astro-language-toggle">
+                <div className="flex items-center gap-2 text-indigo-200">
+                  <Languages size={16} strokeWidth={2.5} />
+                  <span className="text-xs uppercase tracking-widest font-bold">Reading language</span>
+                </div>
+                <div className="flex items-center gap-1 rounded-full bg-slate-950/60 border border-indigo-500/30 p-1">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, language: "en" })}
+                    className={`rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider transition-colors ${form.language === "en" ? "bg-yellow-400 text-slate-900" : "text-indigo-200 hover:text-white"}`}
+                    data-testid="astro-lang-en"
+                  >
+                    English
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, language: "hi" })}
+                    className={`rounded-full px-4 py-1.5 text-xs font-bold tracking-wider transition-colors ${form.language === "hi" ? "bg-yellow-400 text-slate-900" : "text-indigo-200 hover:text-white"}`}
+                    data-testid="astro-lang-hi"
+                  >
+                    हिंदी
+                  </button>
+                </div>
+              </div>
+
               <div className="md:col-span-2 mt-2">
                 <Button type="submit" disabled={loading} className="w-full rounded-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold py-6 btn-lift" data-testid="astrology-submit-btn">
                   {loading ? (<><Loader2 className="animate-spin mr-2" size={18} /> Reading the stars…</>) : (<><Sparkles className="mr-2" size={18} strokeWidth={2.5} /> Reveal my child's niche</>)}

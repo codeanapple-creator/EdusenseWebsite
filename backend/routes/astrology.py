@@ -57,6 +57,7 @@ class AstrologyRequest(BaseModel):
     date_of_birth: str
     time_of_birth: str
     child_id: Optional[str] = None
+    language: Optional[str] = "en"  # "en" or "hi"
 
 
 class BehaviourScope(BaseModel):
@@ -85,6 +86,14 @@ class AstrologyResponse(BaseModel):
 @router.post("/niche", response_model=AstrologyResponse)
 async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_current_user)):
     sun_sign = get_sun_sign(req.date_of_birth)
+    lang = (req.language or "en").lower()
+    lang_instruction = (
+        "Write ALL string values (niche, traits, career_paths, summary, behaviour_scope.*) in natural, "
+        "parent-friendly Hindi using Devanagari script. Keep all JSON keys in English. "
+        "Avoid heavy Sanskrit; use everyday spoken Hindi a parent would use at home."
+        if lang == "hi" else
+        "Write all string values in clear, parent-friendly English."
+    )
     system = (
         "You are an expert western astrologer and child development counselor. "
         "Given birth details, return ONLY valid JSON with keys: "
@@ -100,6 +109,7 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
         "  strengths (array of 3-5 short strengths), "
         "  growth_areas (array of 3-5 short, gently-framed growth areas), "
         "  parenting_tips (array of 4-6 concrete actionable parenting strategies)). "
+        f"{lang_instruction} "
         "No prose outside JSON."
     )
     prompt = (
@@ -132,7 +142,10 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
     await db.astrology_results.insert_one(record)
 
     wa_num_clean = WHATSAPP_NUMBER.replace("+", "").replace(" ", "")
-    wa_text = f"Hi! I would like to know more about my child {req.name}'s niche guidance from EDUSENSE."
+    if lang == "hi":
+        wa_text = f"नमस्ते! मैं अपने बच्चे {req.name} के लिए EDUSENSE से niche guidance के बारे में और जानना चाहता/चाहती हूँ।"
+    else:
+        wa_text = f"Hi! I would like to know more about my child {req.name}'s niche guidance from EDUSENSE."
     wa_link = f"https://wa.me/{wa_num_clean}?text={urllib.parse.quote(wa_text)}"
 
     bs_raw = data.get("behaviour_scope") or {}
@@ -146,10 +159,11 @@ async def astrology_niche(req: AstrologyRequest, user: dict = Depends(get_curren
         parenting_tips=[str(x) for x in bs_raw.get("parenting_tips", [])][:6],
     )
 
+    default_niche = "रचनात्मक खोजकर्ता" if lang == "hi" else "Creative Explorer"
     return AstrologyResponse(
         name=req.name,
         sun_sign=sun_sign,
-        niche=str(data.get("niche", "Creative Explorer")),
+        niche=str(data.get("niche", default_niche)),
         traits=[str(x) for x in data.get("traits", [])],
         career_paths=[str(x) for x in data.get("career_paths", [])],
         summary=str(data.get("summary", "")),
