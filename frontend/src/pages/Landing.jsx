@@ -27,7 +27,7 @@ const PRODUCTS = [
     key: "sentiment",
     title: "Sentiment Lab",
     tagline: "Dr Bhawna Tiwari's methodology in your pocket",
-    desc: "Decode parent feedback, student journals and teacher notes with NRC 8-emotion lexicon, polarity, Likert scoring and aspect-based categories from primary-education research.",
+    desc: "Paste any parent feedback, student journal or teacher note - and instantly see how the child is feeling, what's going well, and what needs your attention, in plain language.",
     icon: Activity,
     accent: "from-emerald-500 to-sky-500",
     cta: "Open Sentiment Lab",
@@ -86,7 +86,7 @@ export default function Landing() {
 
             <div className="mt-10 flex flex-wrap gap-6 text-sm text-slate-600">
               <div className="flex items-center gap-2"><Stars size={16} className="text-indigo-500" strokeWidth={2.5} /> Western-astrology niche + behaviour scope</div>
-              <div className="flex items-center gap-2"><ScrollText size={16} className="text-emerald-600" strokeWidth={2.5} /> NRC 8-emotion lexicon · Dr Bhawna Tiwari</div>
+              <div className="flex items-center gap-2"><ScrollText size={16} className="text-emerald-600" strokeWidth={2.5} /> Feelings made simple, by Dr Bhawna Tiwari</div>
               <div className="flex items-center gap-2"><Compass size={16} className="text-amber-600" strokeWidth={2.5} /> Subject-tied activity recommendations</div>
             </div>
           </div>
@@ -233,7 +233,7 @@ export default function Landing() {
               <div className="text-xs uppercase tracking-widest font-bold text-emerald-700 mb-2">Built on peer-reviewed research</div>
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-2">Sentiment Lab implements Dr Bhawna Tiwari's thesis.</h3>
               <p className="text-slate-700 text-sm leading-relaxed">
-                <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> - NRC 8-emotion lexicon (anger, anticipation, disgust, fear, joy, sadness, surprise, trust), 3-class polarity + mixed, Likert (0-5), and 8 aspect categories (Happiness Index, Active Participation, Sharing, Self-initiation, Gross/Fine Motors, Behaviour, Learning).
+                <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> - we read parent feedback, child journals and teacher notes and tell you, in everyday words: the 8 feelings showing up (joy, trust, sadness, anger and more), whether things feel positive, negative or mixed, a simple 0-to-5 happiness score, and which part of school life it's about - participation, sharing, behaviour, learning or motor skills.
               </p>
             </div>
             <div className="md:col-span-3 flex md:justify-end">

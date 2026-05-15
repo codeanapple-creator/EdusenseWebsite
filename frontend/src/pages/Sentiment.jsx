@@ -108,7 +108,7 @@ export default function Sentiment() {
             Sentiment Analyzer
           </h1>
           <p className="text-slate-600 mt-1 text-sm max-w-3xl">
-            Hybrid lexicon + ML analyzer based on <span className="font-bold">Dr Bhawna Tiwari - "Sentimental Analysis approach to improve teaching and learning in primary education"</span>. NRC 8-emotion lexicon, 8 aspect categories, polarity, Likert (0-5) and satisfaction/dissatisfaction scoring.
+            A simple tool, built on the research of <span className="font-bold">Dr Bhawna Tiwari - "Sentimental Analysis approach to improve teaching and learning in primary education"</span>. Paste any parent feedback, child's journal entry or teacher note - we read between the lines and tell you, in plain English: how the child (or family) is feeling, what's going well, what's hurting, and a 0-to-5 happiness rating you can track week after week.
           </p>
         </div>
 
@@ -198,7 +198,7 @@ export default function Sentiment() {
                       <Activity className="text-indigo-600" size={28} strokeWidth={2.5} />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2">Analyze any educational text</h3>
-                    <p className="text-sm text-slate-600 max-w-sm">Submit text on the left to see polarity, NRC emotions, satisfaction scores, and aspect-based categories grounded in Dr Bhawna Tiwari's research.</p>
+                    <p className="text-sm text-slate-600 max-w-sm">Submit any feedback, journal or note on the left - we'll show you the 8 feelings inside it, a happiness score, and what part of school life it's really about. All in plain English.</p>
                   </Card>
                 )}
               </div>

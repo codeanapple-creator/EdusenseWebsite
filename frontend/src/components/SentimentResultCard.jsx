@@ -56,7 +56,7 @@ export default function SentimentResultCard({ result, compact = false, testid = 
             <div className="font-bold text-slate-900" data-testid="sentiment-polarity">{(result.polarity_score ?? 0).toFixed(2)}</div>
           </div>
           <div className="rounded-xl bg-amber-50 border border-amber-200 px-3 py-1.5">
-            <div className="text-[10px] uppercase tracking-widest text-amber-700 font-bold">Likert (0-5)</div>
+            <div className="text-[10px] uppercase tracking-widest text-amber-700 font-bold">Happiness score (0-5)</div>
             <div className="font-bold text-amber-900" data-testid="sentiment-likert">{(result.likert_score ?? 0).toFixed(2)}</div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function SentimentResultCard({ result, compact = false, testid = 
       </div>
 
       <div className="mb-5">
-        <div className="text-xs uppercase tracking-widest font-bold text-slate-500 mb-3">NRC Emotions (Dr Bhawna Tiwari)</div>
+        <div className="text-xs uppercase tracking-widest font-bold text-slate-500 mb-3">The 8 feelings we picked up</div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {nrcEntries.map(([k, v]) => (
             <div key={k} className="rounded-lg border border-slate-200 p-2.5">

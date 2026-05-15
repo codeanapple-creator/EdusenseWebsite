@@ -118,7 +118,7 @@ export default function SentimentTrendChart({ showChildFilter = false }) {
 
       <div className="mt-4 pt-4 border-t border-slate-100">
         <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-slate-500 mb-3">
-          <Activity size={12} strokeWidth={2.5} /> Avg Likert score (0-5)
+          <Activity size={12} strokeWidth={2.5} /> Average happiness score (0-5)
         </div>
         <div style={{ width: "100%", height: 140 }}>
           <ResponsiveContainer width="100%" height={140}>
@@ -127,7 +127,7 @@ export default function SentimentTrendChart({ showChildFilter = false }) {
               <XAxis dataKey="date" tickFormatter={formatTick} fontSize={11} />
               <YAxis domain={[0, 5]} fontSize={11} />
               <Tooltip labelFormatter={formatTick} />
-              <Line type="monotone" dataKey="avg_likert" stroke="#6366f1" strokeWidth={2.5} dot={{ r: 3 }} name="Avg Likert" />
+              <Line type="monotone" dataKey="avg_likert" stroke="#6366f1" strokeWidth={2.5} dot={{ r: 3 }} name="Avg happiness" />
             </LineChart>
           </ResponsiveContainer>
         </div>
