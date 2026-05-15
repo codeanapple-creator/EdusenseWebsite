@@ -56,7 +56,7 @@ export default function SentimentResultCard({ result, compact = false, testid = 
             <div className="font-bold text-slate-900" data-testid="sentiment-polarity">{(result.polarity_score ?? 0).toFixed(2)}</div>
           </div>
           <div className="rounded-xl bg-amber-50 border border-amber-200 px-3 py-1.5">
-            <div className="text-[10px] uppercase tracking-widest text-amber-700 font-bold">Likert (0–5)</div>
+            <div className="text-[10px] uppercase tracking-widest text-amber-700 font-bold">Likert (0-5)</div>
             <div className="font-bold text-amber-900" data-testid="sentiment-likert">{(result.likert_score ?? 0).toFixed(2)}</div>
           </div>
         </div>

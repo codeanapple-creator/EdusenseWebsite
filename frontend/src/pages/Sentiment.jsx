@@ -108,7 +108,7 @@ export default function Sentiment() {
             Sentiment Analyzer
           </h1>
           <p className="text-slate-600 mt-1 text-sm max-w-3xl">
-            Hybrid lexicon + ML analyzer based on <span className="font-bold">Dr Bhawna Tiwari — "Sentimental Analysis approach to improve teaching and learning in primary education"</span>. NRC 8-emotion lexicon, 8 aspect categories, polarity, Likert (0–5) and satisfaction/dissatisfaction scoring.
+            Hybrid lexicon + ML analyzer based on <span className="font-bold">Dr Bhawna Tiwari - "Sentimental Analysis approach to improve teaching and learning in primary education"</span>. NRC 8-emotion lexicon, 8 aspect categories, polarity, Likert (0-5) and satisfaction/dissatisfaction scoring.
           </p>
         </div>
 

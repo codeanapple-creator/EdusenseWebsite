@@ -20,15 +20,15 @@ export default function BehaviourScopeCard({ scope, testid = "behaviour-scope-ca
       <div className="grid md:grid-cols-3 gap-4 mb-6">
         <div className="rounded-2xl bg-amber-50/60 border border-amber-100 p-4">
           <div className="flex items-center gap-2 text-amber-700 text-xs uppercase tracking-widest font-bold mb-2"><Users size={14} strokeWidth={2.5} /> Social</div>
-          <p className="text-sm text-slate-800 leading-relaxed" data-testid="bs-social">{scope.social_style || "—"}</p>
+          <p className="text-sm text-slate-800 leading-relaxed" data-testid="bs-social">{scope.social_style || "-"}</p>
         </div>
         <div className="rounded-2xl bg-sky-50/60 border border-sky-100 p-4">
           <div className="flex items-center gap-2 text-sky-700 text-xs uppercase tracking-widest font-bold mb-2"><Smile size={14} strokeWidth={2.5} /> Emotional</div>
-          <p className="text-sm text-slate-800 leading-relaxed" data-testid="bs-emotional">{scope.emotional_pattern || "—"}</p>
+          <p className="text-sm text-slate-800 leading-relaxed" data-testid="bs-emotional">{scope.emotional_pattern || "-"}</p>
         </div>
         <div className="rounded-2xl bg-indigo-50/60 border border-indigo-100 p-4">
           <div className="flex items-center gap-2 text-indigo-700 text-xs uppercase tracking-widest font-bold mb-2"><Brain size={14} strokeWidth={2.5} /> Learning</div>
-          <p className="text-sm text-slate-800 leading-relaxed" data-testid="bs-learning">{scope.learning_style || "—"}</p>
+          <p className="text-sm text-slate-800 leading-relaxed" data-testid="bs-learning">{scope.learning_style || "-"}</p>
         </div>
       </div>
 

@@ -583,7 +583,7 @@ def test_sentiment_trend_days_out_of_range(s):
     assert r2.status_code == 422
 
 
-# Iter4: Aggregation correctness — created sentiment record for today must reflect in days=1 bucket.
+# Iter4: Aggregation correctness - created sentiment record for today must reflect in days=1 bucket.
 def test_sentiment_trend_aggregation_today_bucket(s):
     # Create a record as parent (positive, will land in today's bucket)
     r = s.post(f"{API}/sentiment/records",
@@ -641,7 +641,7 @@ def test_children_delete_parent_own(s):
 
 
 # ===================================================================
-# Iter 5 — Schools multi-tenancy + subscription (MOCKED)
+# Iter 5 - Schools multi-tenancy + subscription (MOCKED)
 # ===================================================================
 def test_schools_me_principal_demo(s):
     r = s.get(f"{API}/schools/me", headers=_auth(state["principal_token"]))
@@ -767,7 +767,7 @@ def test_schools_leave_teacher_ok(s):
 
 
 # ===================================================================
-# Iter 5 — Trend kind + child_id filters
+# Iter 5 - Trend kind + child_id filters
 # ===================================================================
 def test_sentiment_trend_kind_filter(s):
     r = s.get(f"{API}/sentiment/trend?days=7&kind=feedback",
@@ -808,7 +808,7 @@ def test_sentiment_trend_child_id_filter_parent(s):
 
 
 # ===================================================================
-# Iter 6 — Behaviour scope on astrology + Subject recommendations on sentiment
+# Iter 6 - Behaviour scope on astrology + Subject recommendations on sentiment
 # ===================================================================
 def test_astrology_includes_behaviour_scope(s):
     """POST /api/astrology/niche should return a fully formed behaviour_scope object."""

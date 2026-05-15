@@ -104,7 +104,7 @@ export default function TeacherDashboard() {
           </Card>
           <Card className="rounded-3xl p-6 bg-gradient-to-br from-sky-500 to-indigo-500 text-white border-0">
             <div className="text-xs uppercase tracking-widest font-bold text-white/80 mb-1">Average age</div>
-            <div className="text-3xl font-black">{students.length ? Math.round(students.reduce((a, s) => a + s.age, 0) / students.length) : "—"}</div>
+            <div className="text-3xl font-black">{students.length ? Math.round(students.reduce((a, s) => a + s.age, 0) / students.length) : "-"}</div>
           </Card>
         </div>
 

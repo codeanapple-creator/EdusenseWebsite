@@ -50,7 +50,7 @@ export default function Register() {
         const { api } = await import("../lib/api");
         await api.post("/schools/join", { code: schoolCode.trim().toUpperCase() });
       } catch (err) {
-        toast.message("Account created — could not join school: " + (err.response?.data?.detail || err.message));
+        toast.message("Account created - could not join school: " + (err.response?.data?.detail || err.message));
       }
     }
     setSubmitting(false);

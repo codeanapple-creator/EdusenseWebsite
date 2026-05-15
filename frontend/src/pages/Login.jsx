@@ -51,7 +51,7 @@ export default function Login() {
             <div className="cosmic-bg rounded-3xl p-10 text-white relative overflow-hidden h-[560px] flex flex-col justify-end">
               <div className="text-xs uppercase tracking-[0.25em] text-indigo-300 font-bold mb-3">Welcome back</div>
               <h2 className="text-4xl font-black tracking-tight leading-tight">Continue your <span className="text-yellow-400 font-script text-6xl">cosmic</span> journey.</h2>
-              <p className="mt-4 text-indigo-100/80 max-w-md">Pick up where you left off — niche insights, books, and activities tailored to your child or class.</p>
+              <p className="mt-4 text-indigo-100/80 max-w-md">Pick up where you left off - niche insights, books, and activities tailored to your child or class.</p>
             </div>
           </div>
           <Card className="rounded-3xl p-8 lg:p-10 border-slate-100 bg-white shadow-sm" data-testid="login-card">

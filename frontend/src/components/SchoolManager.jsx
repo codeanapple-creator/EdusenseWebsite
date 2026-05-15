@@ -57,7 +57,7 @@ export default function SchoolManager() {
     try {
       const { data } = await api.post("/schools/subscribe");
       setSchool({ ...school, ...data });
-      toast.success("Pro plan activated (MOCKED — Razorpay pending)");
+      toast.success("Pro plan activated (MOCKED - Razorpay pending)");
     } catch (e) {
       toast.error(formatApiErrorDetail(e.response?.data?.detail) || e.message);
     } finally {
@@ -167,7 +167,7 @@ export default function SchoolManager() {
         <div className="rounded-2xl border border-slate-200 p-4">
           <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-slate-500 mb-1"><ShieldCheck size={14} strokeWidth={2.5} /> Renews on</div>
           <div className="text-base font-bold text-slate-900" data-testid="school-renew-date">
-            {school.current_period_end ? new Date(school.current_period_end).toLocaleDateString() : "—"}
+            {school.current_period_end ? new Date(school.current_period_end).toLocaleDateString() : "-"}
           </div>
         </div>
       </div>

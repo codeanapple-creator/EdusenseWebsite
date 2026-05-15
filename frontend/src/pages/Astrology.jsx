@@ -48,7 +48,7 @@ export default function Astrology() {
               Decode your child's <span className="font-script text-yellow-400 text-5xl md:text-7xl">calling</span>.
             </h1>
             <p className="mt-4 text-indigo-100/80 max-w-2xl mx-auto">
-              Enter the birth details below. Get niche, career paths, behavioural traits, learning style and concrete parenting tips — all in one reading.
+              Enter the birth details below. Get niche, career paths, behavioural traits, learning style and concrete parenting tips - all in one reading.
             </p>
           </div>
 

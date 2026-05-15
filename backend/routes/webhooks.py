@@ -1,4 +1,4 @@
-"""Razorpay webhook handler — subscription.* events.
+"""Razorpay webhook handler - subscription.* events.
 
 Verifies HMAC-SHA256 signature, dedupes by event id, then transitions the
 school's subscription state. Idempotent + safe.

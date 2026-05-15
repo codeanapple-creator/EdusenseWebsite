@@ -132,7 +132,7 @@ export default function PrincipalDashboard() {
               </ResponsiveContainer>
             </div>
             {overview.grade_distribution.length === 0 && (
-              <div className="text-center text-sm text-slate-500 py-6">No student data yet — teachers can add students to populate this chart.</div>
+              <div className="text-center text-sm text-slate-500 py-6">No student data yet - teachers can add students to populate this chart.</div>
             )}
           </Card>
         </div>

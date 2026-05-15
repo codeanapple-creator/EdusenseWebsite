@@ -118,7 +118,7 @@ export default function SentimentTrendChart({ showChildFilter = false }) {
 
       <div className="mt-4 pt-4 border-t border-slate-100">
         <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-slate-500 mb-3">
-          <Activity size={12} strokeWidth={2.5} /> Avg Likert score (0–5)
+          <Activity size={12} strokeWidth={2.5} /> Avg Likert score (0-5)
         </div>
         <div style={{ width: "100%", height: 140 }}>
           <ResponsiveContainer width="100%" height={140}>

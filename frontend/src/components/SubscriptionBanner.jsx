@@ -20,7 +20,7 @@ export default function SubscriptionBanner() {
   const icon = isGrace ? <AlertCircle size={18} strokeWidth={2.5} /> : <Crown size={18} strokeWidth={2.5} />;
   const message = isGrace
     ? `Your Pro plan ended. You're in a 7-day grace period until ${new Date(school.grace_until).toLocaleDateString()}.`
-    : "Your Pro plan expired. You've been moved to Free — renew to lift the 30-student limit.";
+    : "Your Pro plan expired. You've been moved to Free - renew to lift the 30-student limit.";
 
   return (
     <div className={`rounded-2xl border ${styles} p-3 mb-6 flex items-center gap-3 flex-wrap`} data-testid="subscription-banner">

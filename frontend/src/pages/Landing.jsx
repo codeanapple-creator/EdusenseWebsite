@@ -15,7 +15,7 @@ const PRODUCTS = [
     key: "behaviourscope",
     flagship: true,
     title: "BehaviourScope™ Western Astrology",
-    tagline: "A parent's compass — niche × behaviour × parenting",
+    tagline: "A parent's compass - niche × behaviour × parenting",
     desc: "Enter your child's name, place and birth-time. Get their sun-sign, AI-suggested niche, career paths, behavioural traits, social/emotional/learning style and concrete parenting tips.",
     icon: Stars,
     accent: "from-indigo-600 via-violet-500 to-pink-500",
@@ -38,7 +38,7 @@ const PRODUCTS = [
     key: "curator",
     title: "Education Curator",
     tagline: "Age-appropriate books · links · activities",
-    desc: "AI-curated reading lists, vetted learning links and hands-on activities — by subject and age — for every child in your care.",
+    desc: "AI-curated reading lists, vetted learning links and hands-on activities - by subject and age - for every child in your care.",
     icon: BookOpen,
     accent: "from-amber-500 to-orange-400",
     cta: "Pick recommendations",
@@ -66,10 +66,10 @@ export default function Landing() {
               <Sparkles size={14} strokeWidth={2.5} /> EDUSENSE • by Codeanapple
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 leading-[1.05]">
-              <span className="shimmer-text">BehaviourScope™</span> — for the primary years.
+              <span className="shimmer-text">BehaviourScope™</span> - for the primary years.
             </h1>
             <p className="mt-6 text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
-              EDUSENSE blends <b>western astrology</b> with <b>research-backed sentiment analysis</b> by <b>Dr Bhawna Tiwari</b> to help parents, teachers and principals see <i>who the child really is</i> — and then nurture it with the right books, links and activities.
+              EDUSENSE blends <b>research-backed sentiment analysis</b> with <b>western astrology</b> by <b>Dr Bhawna Tiwari</b> to help parents, teachers and principals see <i>who the child really is</i> - and then nurture it with the right books, links and activities.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/register?role=parent">
@@ -152,7 +152,7 @@ export default function Landing() {
           <div>
             <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-3">Sample BehaviourScope™ readings</div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Three children. Three compasses.</h2>
-            <p className="text-slate-600 mt-2 text-sm max-w-xl">A peek at what every BehaviourScope™ reading delivers — niche, traits, learning style and a concrete parenting tip.</p>
+            <p className="text-slate-600 mt-2 text-sm max-w-xl">A peek at what every BehaviourScope™ reading delivers - niche, traits, learning style and a concrete parenting tip.</p>
           </div>
           <Link to="/products/behaviourscope">
             <Button variant="outline" className="rounded-full font-bold border-slate-300" data-testid="see-all-readings-cta">
@@ -179,7 +179,7 @@ export default function Landing() {
                 Where the stars meet <span className="text-yellow-400 font-script text-5xl md:text-7xl">a child's calling</span>.
               </h2>
               <p className="mt-6 text-indigo-100/80 max-w-lg leading-relaxed">
-                Birth-chart-driven niche + behaviour scope: behavioural traits, social style, emotional pattern, learning style, growth areas, and 4–6 concrete parenting tips you can use this week.
+                Birth-chart-driven niche + behaviour scope: behavioural traits, social style, emotional pattern, learning style, growth areas, and 4-6 concrete parenting tips you can use this week.
               </p>
               <div className="mt-8">
                 <Link to="/register?role=parent">
@@ -233,7 +233,7 @@ export default function Landing() {
               <div className="text-xs uppercase tracking-widest font-bold text-emerald-700 mb-2">Built on peer-reviewed research</div>
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-2">Sentiment Lab implements Dr Bhawna Tiwari's thesis.</h3>
               <p className="text-slate-700 text-sm leading-relaxed">
-                <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> — NRC 8-emotion lexicon (anger, anticipation, disgust, fear, joy, sadness, surprise, trust), 3-class polarity + mixed, Likert (0–5), and 8 aspect categories (Happiness Index, Active Participation, Sharing, Self-initiation, Gross/Fine Motors, Behaviour, Learning).
+                <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> - NRC 8-emotion lexicon (anger, anticipation, disgust, fear, joy, sadness, surprise, trust), 3-class polarity + mixed, Likert (0-5), and 8 aspect categories (Happiness Index, Active Participation, Sharing, Self-initiation, Gross/Fine Motors, Behaviour, Learning).
               </p>
             </div>
             <div className="md:col-span-3 flex md:justify-end">

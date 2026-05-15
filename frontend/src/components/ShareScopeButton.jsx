@@ -52,7 +52,7 @@ function renderCanvas(canvas, result) {
   }
   ctx.globalAlpha = 1;
 
-  // Header — brand pill
+  // Header - brand pill
   ctx.fillStyle = "rgba(99,102,241,0.18)";
   ctx.strokeStyle = "rgba(165,180,252,0.35)";
   ctx.lineWidth = 2;
@@ -238,7 +238,7 @@ export default function ShareScopeButton({ result, testid = "share-scope-btn" })
         await navigator.share({
           files: [file],
           title: `${result.name}'s BehaviourScope™`,
-          text: `${result.name} · ${result.sun_sign} · ${result.niche} — via EDUSENSE BehaviourScope™`,
+          text: `${result.name} · ${result.sun_sign} · ${result.niche} - via EDUSENSE BehaviourScope™`,
         });
         toast.success("Shared!");
       } else {
@@ -262,7 +262,7 @@ export default function ShareScopeButton({ result, testid = "share-scope-btn" })
         <DialogContent className="max-w-md" data-testid="share-scope-dialog">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2"><Sparkles size={18} className="text-indigo-500" strokeWidth={2.5} /> Your shareable BehaviourScope™ card</DialogTitle>
-            <DialogDescription>1080×1920 PNG — perfect for WhatsApp Status, Instagram Stories or saving for your records.</DialogDescription>
+            <DialogDescription>1080×1920 PNG - perfect for WhatsApp Status, Instagram Stories or saving for your records.</DialogDescription>
           </DialogHeader>
           <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center min-h-[300px]" data-testid="share-scope-preview">
             {rendering && <Loader2 className="animate-spin text-slate-400" size={28} />}

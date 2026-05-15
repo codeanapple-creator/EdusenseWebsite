@@ -1,4 +1,4 @@
-"""Sentiment analysis (Dr Bhawna Tiwari) — analyze, records CRUD, summary, trend."""
+"""Sentiment analysis (Dr Bhawna Tiwari) - analyze, records CRUD, summary, trend."""
 import asyncio
 import uuid
 from datetime import datetime, timezone, timedelta

@@ -144,7 +144,7 @@ export default function ChildrenManager({ onChildrenChange }) {
       </div>
 
       {children.length === 0 ? (
-        <div className="text-center text-slate-500 py-8">No children added yet — tap "Add child" to start.</div>
+        <div className="text-center text-slate-500 py-8">No children added yet - tap "Add child" to start.</div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="children-list">
           {children.map((c) => (

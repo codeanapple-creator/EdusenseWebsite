@@ -1,4 +1,4 @@
-"""EDUSENSE FastAPI app — slim entrypoint with modular routers."""
+"""EDUSENSE FastAPI app - slim entrypoint with modular routers."""
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone

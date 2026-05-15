@@ -10,10 +10,10 @@ import { SAMPLE_READINGS } from "../lib/sampleReadings";
 import { Stars, Sparkles, ArrowRight, CheckCircle2, HeartHandshake, ScrollText, Crown, ShieldCheck, Compass, Quote } from "lucide-react";
 
 const FEATURES = [
-  { title: "Niche & career paths", desc: "A short, parent-friendly niche phrase plus 4–6 future-facing career directions grounded in the child's sun-sign profile.", icon: Compass },
-  { title: "Behavioural traits", desc: "4–6 observations on how your child typically behaves — useful for school reports, parent-teacher meetings and home routines.", icon: Sparkles },
+  { title: "Niche & career paths", desc: "A short, parent-friendly niche phrase plus 4-6 future-facing career directions grounded in the child's sun-sign profile.", icon: Compass },
+  { title: "Behavioural traits", desc: "4-6 observations on how your child typically behaves - useful for school reports, parent-teacher meetings and home routines.", icon: Sparkles },
   { title: "Learning + social + emotional style", desc: "One-line, plain-language descriptions you can share with teachers and grandparents alike.", icon: ScrollText },
-  { title: "Concrete parenting tips", desc: "4–6 actionable strategies you can use this week — not vague advice.", icon: HeartHandshake },
+  { title: "Concrete parenting tips", desc: "4-6 actionable strategies you can use this week - not vague advice.", icon: HeartHandshake },
 ];
 
 const FAQS = [
@@ -27,11 +27,11 @@ const FAQS = [
   },
   {
     q: "Do I need to know the exact time of birth?",
-    a: "Yes — date and time of birth together give the most resonant reading. If the time is approximate, results will still be useful but a touch more generic.",
+    a: "Yes - date and time of birth together give the most resonant reading. If the time is approximate, results will still be useful but a touch more generic.",
   },
   {
     q: "Who is BehaviourScope™ for?",
-    a: "Parents of children aged 3–14 (the primary-school years), teachers wanting to understand a student's natural orientation, and principals running BehaviourScope™ as a value-added service for their school families.",
+    a: "Parents of children aged 3-14 (the primary-school years), teachers wanting to understand a student's natural orientation, and principals running BehaviourScope™ as a value-added service for their school families.",
   },
   {
     q: "How does this relate to the Sentiment Lab?",
@@ -43,14 +43,14 @@ const FAQS = [
   },
   {
     q: "Is there a free tier?",
-    a: "Yes — Free plan supports a single child and up to 30 students for schools. Pro plan (₹1,499/month per school) unlocks unlimited students and priority support.",
+    a: "Yes - Free plan supports a single child and up to 30 students for schools. Pro plan (₹1,499/month per school) unlocks unlimited students and priority support.",
   },
 ];
 
 export default function ProductBehaviourScope() {
   useEffect(() => {
-    document.title = "BehaviourScope™ Western Astrology — EDUSENSE by Codeanapple";
-    const desc = "BehaviourScope™ — AI-powered western astrology niche, behaviour scope and parenting tips for primary-school children, built by Codeanapple. Free for the first child.";
+    document.title = "BehaviourScope™ Western Astrology - EDUSENSE by Codeanapple";
+    const desc = "BehaviourScope™ - AI-powered western astrology niche, behaviour scope and parenting tips for primary-school children, built by Codeanapple. Free for the first child.";
     let m = document.querySelector('meta[name="description"]');
     if (!m) {
       m = document.createElement("meta");
@@ -141,7 +141,7 @@ export default function ProductBehaviourScope() {
               <br />Western Astrology
             </h1>
             <p className="mt-6 text-base sm:text-lg text-indigo-100/80 max-w-2xl mx-auto leading-relaxed">
-              A parent's compass — niche, behaviour scope, learning style and 4–6 concrete parenting tips, all generated from a single birth chart.
+              A parent's compass - niche, behaviour scope, learning style and 4-6 concrete parenting tips, all generated from a single birth chart.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link to="/register?role=parent">
@@ -257,7 +257,7 @@ export default function ProductBehaviourScope() {
               <div className="text-xs uppercase tracking-widest font-bold text-emerald-700 mb-2">Availability</div>
               <h3 className="text-2xl font-bold text-slate-900 mb-2">Live across India · works for parents worldwide.</h3>
               <p className="text-sm text-slate-700 leading-relaxed">
-                BehaviourScope™ runs on Claude Sonnet 4.5 and is hosted on EDUSENSE's secure cloud. Available in <b>English and हिंदी</b> (toggle on the reading page); Marathi is on the roadmap. WhatsApp consultations are available in IST (9:00 – 19:00).
+                BehaviourScope™ runs on Claude Sonnet 4.5 and is hosted on EDUSENSE's secure cloud. Available in <b>English and हिंदी</b> (toggle on the reading page); Marathi is on the roadmap. WhatsApp consultations are available in IST (9:00 - 19:00).
               </p>
             </div>
           </div>
