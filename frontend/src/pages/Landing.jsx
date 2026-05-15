@@ -8,7 +8,7 @@ import { Sparkles, Users, GraduationCap, ShieldCheck, BookOpen, Stars, ArrowRigh
 import SampleReadingCard from "../components/SampleReadingCard";
 import { SAMPLE_READINGS } from "../lib/sampleReadings";
 
-const HERO = "https://images.unsplash.com/photo-1765223085025-0405fcfbb338?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxraWQlMjByZWFkaW5nJTIwYm9vayUyMGVkdWNhdGlvbnxlbnwwfHx8fDE3NzgyMzY0MzB8MA&ixlib=rb-4.1.0&q=85";
+const HERO = "/hero-child-book.jpg";
 
 const PRODUCTS = [
   {
