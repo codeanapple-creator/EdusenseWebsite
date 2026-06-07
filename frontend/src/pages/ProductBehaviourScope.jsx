@@ -126,36 +126,36 @@ export default function ProductBehaviourScope() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-amber-50 grid-pattern" data-testid="behaviourscope-marketing-page">
+    <div className="min-h-screen bg-white grid-pattern" data-testid="behaviourscope-marketing-page">
       <Navbar />
 
       {/* HERO */}
       <section className="cosmic-bg text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/20 border border-indigo-400/30 px-4 py-1.5 text-xs uppercase tracking-[0.25em] font-bold text-indigo-200 mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#0a1f5c]/20 border border-orange-400/30 px-4 py-1.5 text-xs uppercase tracking-[0.25em] font-bold text-orange-200 mb-6">
               <Stars size={14} strokeWidth={2.5} /> a Codeanapple product
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tighter leading-[1.02]" data-testid="bs-hero-title">
               <span className="shimmer-text">BehaviourScope™</span>
               <br />Western Astrology
             </h1>
-            <p className="mt-6 text-base sm:text-lg text-indigo-100/80 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-6 text-base sm:text-lg text-blue-100/80 max-w-2xl mx-auto leading-relaxed">
               A parent's compass - niche, behaviour scope, learning style and 4-6 concrete parenting tips, all generated from a single birth chart.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link to="/register?role=parent">
-                <Button className="rounded-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold px-7 py-6 text-base btn-lift" data-testid="bs-hero-cta">
+                <Button className="rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold px-7 py-6 text-base btn-lift" data-testid="bs-hero-cta">
                   Generate my child's scope <ArrowRight className="ml-1.5" size={18} strokeWidth={2.5} />
                 </Button>
               </Link>
               <Link to="/login">
-                <Button variant="outline" className="rounded-full font-bold px-7 py-6 text-base bg-transparent border-indigo-300/40 text-white hover:bg-white/10" data-testid="bs-hero-signin">
+                <Button variant="outline" className="rounded-full font-bold px-7 py-6 text-base bg-transparent border-orange-300/40 text-white hover:bg-white/10" data-testid="bs-hero-signin">
                   Sign in
                 </Button>
               </Link>
             </div>
-            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs text-indigo-200/80">
+            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs text-orange-200/80">
               <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-emerald-400" strokeWidth={2.5} /> The system generates instantly</span>
               <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-emerald-400" strokeWidth={2.5} /> 60-second reading</span>
               <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-emerald-400" strokeWidth={2.5} /> Free for the first child</span>
@@ -167,7 +167,7 @@ export default function ProductBehaviourScope() {
       {/* WHAT YOU GET */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="bs-features-section">
         <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-3">What's in every reading</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#0a1f5c] mb-3">What's in every reading</div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">A complete behavioural snapshot.</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -175,7 +175,7 @@ export default function ProductBehaviourScope() {
             const Icon = f.icon;
             return (
               <Card key={f.title} className="rounded-3xl p-6 bg-white border-slate-100">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-600 to-pink-500 flex items-center justify-center mb-4">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#0a1f5c] to-[#f97316] flex items-center justify-center mb-4">
                   <Icon size={20} strokeWidth={2.5} className="text-white" />
                 </div>
                 <h3 className="font-bold text-slate-900 mb-1.5">{f.title}</h3>
@@ -189,7 +189,7 @@ export default function ProductBehaviourScope() {
       {/* SAMPLE READINGS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="bs-samples-section">
         <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-3">Sample readings</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-orange-700 mb-3">Sample readings</div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Three children. Three compasses.</h2>
           <p className="text-slate-600 mt-3 text-sm max-w-2xl mx-auto">
             Here's what a BehaviourScope™ reading looks like for three real-world sun-sign archetypes.
@@ -205,7 +205,7 @@ export default function ProductBehaviourScope() {
       {/* PRICING */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="bs-pricing-section">
         <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-3">Pricing</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#0a1f5c] mb-3">Pricing</div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Simple. Honest. Scales with you.</h2>
         </div>
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -225,19 +225,19 @@ export default function ProductBehaviourScope() {
             </Link>
           </Card>
 
-          <Card className="rounded-3xl p-8 bg-gradient-to-br from-indigo-600 via-violet-500 to-pink-500 text-white border-0 relative overflow-hidden" data-testid="pricing-pro">
-            <Badge className="rounded-full bg-yellow-400 text-slate-900 border-0 font-bold uppercase tracking-widest text-[10px]"><Crown size={11} className="mr-1" /> Pro for schools</Badge>
+          <Card className="rounded-3xl p-8 bg-gradient-to-br from-[#0a1f5c] via-[#1e3a8a] to-[#f97316] text-white border-0 relative overflow-hidden" data-testid="pricing-pro">
+            <Badge className="rounded-full bg-[#f97316] text-slate-900 border-0 font-bold uppercase tracking-widest text-[10px]"><Crown size={11} className="mr-1" /> Pro for schools</Badge>
             <div className="mt-4 mb-2 text-5xl font-black">₹1,499<span className="text-base font-bold text-white/70">/mo</span></div>
             <div className="text-sm text-white/80 mb-6">Per school</div>
             <ul className="space-y-3 text-sm mb-8">
-              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-yellow-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Unlimited students &amp; teachers</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-yellow-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> School-wide sentiment analytics</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-yellow-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> 7-day grace on lapse</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-yellow-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Multi-child support for every parent</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-yellow-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Priority WhatsApp support</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-[#fdba74] mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Unlimited students &amp; teachers</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-[#fdba74] mt-0.5 flex-shrink-0" strokeWidth={2.5} /> School-wide sentiment analytics</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-[#fdba74] mt-0.5 flex-shrink-0" strokeWidth={2.5} /> 7-day grace on lapse</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-[#fdba74] mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Multi-child support for every parent</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-[#fdba74] mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Priority WhatsApp support</li>
             </ul>
             <Link to="/register?role=principal">
-              <Button className="w-full rounded-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold py-6" data-testid="pricing-pro-cta">Upgrade my school</Button>
+              <Button className="w-full rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-6" data-testid="pricing-pro-cta">Upgrade my school</Button>
             </Link>
             <p className="text-[11px] text-white/70 mt-3 text-center">Billing via Razorpay (test mode). Real billing activates once keys are provided.</p>
           </Card>
@@ -246,10 +246,10 @@ export default function ProductBehaviourScope() {
 
       {/* AVAILABILITY */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="bs-availability-section">
-        <Card className="rounded-3xl p-8 bg-gradient-to-br from-amber-50 via-white to-sky-50 border-amber-100">
+        <Card className="rounded-3xl p-8 bg-gradient-to-br from-orange-50 via-white to-blue-50 border-orange-100">
           <div className="grid md:grid-cols-3 gap-6 items-center">
             <div className="md:col-span-1 flex justify-center">
-              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-600 to-pink-500 flex items-center justify-center shadow-xl">
+              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#0a1f5c] to-[#f97316] flex items-center justify-center shadow-xl">
                 <ShieldCheck className="text-white" size={32} strokeWidth={2.5} />
               </div>
             </div>
@@ -267,12 +267,12 @@ export default function ProductBehaviourScope() {
       {/* TESTIMONIAL */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Card className="rounded-3xl p-8 lg:p-12 bg-white border-slate-100">
-          <Quote className="text-indigo-300 mb-3" size={36} strokeWidth={2.5} />
+          <Quote className="text-orange-300 mb-3" size={36} strokeWidth={2.5} />
           <p className="text-lg sm:text-xl text-slate-800 leading-relaxed mb-5 font-medium">
             "The behaviour scope nailed my daughter's 'needs to talk it out' learning style. The parenting tips alone saved me three months of trial-and-error."
           </p>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold">S</div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#0a1f5c] to-[#f97316] flex items-center justify-center text-white font-bold">S</div>
             <div>
               <div className="font-bold text-slate-900">Shilpa N.</div>
               <div className="text-xs text-slate-500">Parent · Bengaluru · Gemini child, age 9</div>
@@ -284,7 +284,7 @@ export default function ProductBehaviourScope() {
       {/* FAQ */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-testid="bs-faq-section">
         <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-3">FAQ</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#0a1f5c] mb-3">FAQ</div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Questions parents ask first.</h2>
         </div>
         <Accordion type="single" collapsible className="space-y-3" data-testid="bs-faq-accordion">
@@ -310,13 +310,13 @@ export default function ProductBehaviourScope() {
       <section className="cosmic-bg text-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter leading-tight">
-            Ready to meet your child's <span className="font-script text-yellow-400 text-5xl sm:text-6xl">compass</span>?
+            Ready to meet your child's <span className="font-script text-[#fdba74] text-5xl sm:text-6xl">compass</span>?
           </h2>
-          <p className="mt-5 text-indigo-100/80 max-w-xl mx-auto">
+          <p className="mt-5 text-blue-100/80 max-w-xl mx-auto">
             Free for your first child. 60 seconds to your first BehaviourScope™ reading.
           </p>
           <Link to="/register?role=parent" className="inline-block mt-7">
-            <Button className="rounded-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold px-8 py-6 text-base btn-lift" data-testid="bs-final-cta">
+            <Button className="rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold px-8 py-6 text-base btn-lift" data-testid="bs-final-cta">
               Start free <ArrowRight className="ml-1.5" size={18} strokeWidth={2.5} />
             </Button>
           </Link>
@@ -324,13 +324,13 @@ export default function ProductBehaviourScope() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-amber-50 border-t border-amber-200/60">
+      <footer className="bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-600">
           <div className="flex items-center gap-2">
-            <img src="/codeanapple-logo.png" alt="Code An Apple" className="w-8 h-8 rounded-lg object-contain bg-white p-0.5 border border-slate-200" data-testid="bs-footer-logo" />
-            <span className="font-bold text-slate-900">EDUSENSE</span>
+            <img src="/edusense-logo.png" alt="Edusense" className="w-9 h-9 object-contain" data-testid="bs-footer-logo" />
+            <span className="font-bold text-[#0a1f5c]">Edusense</span>
             <span className="text-slate-400">·</span>
-            <span>by Code An Apple</span>
+            <span>by Code an Apple</span>
           </div>
           <div>BehaviourScope™ is a product of EDUSENSE · © {new Date().getFullYear()}</div>
         </div>

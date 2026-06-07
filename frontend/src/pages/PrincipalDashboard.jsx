@@ -34,7 +34,7 @@ export default function PrincipalDashboard() {
 
   if (!overview) {
     return (
-      <div className="min-h-screen bg-amber-50">
+      <div className="min-h-screen bg-white">
         <Navbar />
         <div className="max-w-7xl mx-auto px-4 py-20 text-center text-slate-500 animate-pulse">Loading analytics…</div>
       </div>
@@ -48,19 +48,19 @@ export default function PrincipalDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <SubscriptionBanner />
         <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
           <div>
-            <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-1">Principal control room</div>
+            <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#0a1f5c] mb-1">Principal control room</div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="principal-dashboard-title">
               School pulse · {user.name}
             </h1>
           </div>
           <Link to="/sentiment">
-            <Button variant="outline" className="rounded-full font-bold border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-6 py-3 btn-lift" data-testid="principal-sentiment-btn">
+            <Button variant="outline" className="rounded-full font-bold border-indigo-300 text-[#0a1f5c] hover:bg-indigo-50 px-6 py-3 btn-lift" data-testid="principal-sentiment-btn">
               <Activity size={16} className="mr-1.5" strokeWidth={2.5} /> Sentiment Lab
             </Button>
           </Link>
@@ -99,7 +99,7 @@ export default function PrincipalDashboard() {
         <div className="grid lg:grid-cols-2 gap-6 mb-8">
           <Card className="rounded-3xl p-6 bg-white border-slate-100" data-testid="chart-roles">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center"><Users className="text-sky-600" size={18} strokeWidth={2.5} /></div>
+              <div className="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center"><Users className="text-[#f97316]" size={18} strokeWidth={2.5} /></div>
               <h3 className="text-lg font-bold text-slate-900">Users by role</h3>
             </div>
             <div style={{ width: "100%", height: 280 }}>
@@ -117,7 +117,7 @@ export default function PrincipalDashboard() {
 
           <Card className="rounded-3xl p-6 bg-white border-slate-100" data-testid="chart-grades">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center"><TrendingUp className="text-amber-600" size={18} strokeWidth={2.5} /></div>
+              <div className="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center"><TrendingUp className="text-orange-600" size={18} strokeWidth={2.5} /></div>
               <h3 className="text-lg font-bold text-slate-900">Students by grade</h3>
             </div>
             <div style={{ width: "100%", height: 280 }}>
@@ -141,13 +141,13 @@ export default function PrincipalDashboard() {
         <Card className="rounded-3xl p-6 bg-white border-slate-100 mb-6" data-testid="sentiment-overview-card">
           <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center"><Activity className="text-indigo-600" size={20} strokeWidth={2.5} /></div>
+              <div className="w-10 h-10 rounded-xl bg-[#0a1f5c]/10 flex items-center justify-center"><Activity className="text-[#0a1f5c]" size={20} strokeWidth={2.5} /></div>
               <div>
                 <h3 className="text-lg font-bold text-slate-900">Sentiment overview</h3>
                 <p className="text-xs text-slate-500">A feelings-radar for your school, built on Dr Bhawna Tiwari's research</p>
               </div>
             </div>
-            <Badge className="rounded-full bg-amber-100 text-amber-700 border-amber-200 font-bold">{sentSummary?.total_records ?? 0} records</Badge>
+            <Badge className="rounded-full bg-orange-100 text-orange-700 border-orange-200 font-bold">{sentSummary?.total_records ?? 0} records</Badge>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4">
@@ -162,9 +162,9 @@ export default function PrincipalDashboard() {
               <div className="flex items-center gap-2 text-rose-700 text-xs uppercase tracking-widest font-bold mb-1"><Frown size={14} strokeWidth={2.5} /> Negative</div>
               <div className="text-2xl font-black text-rose-700">{sentSummary?.overall?.negative ?? 0}</div>
             </div>
-            <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-4">
-              <div className="flex items-center gap-2 text-amber-700 text-xs uppercase tracking-widest font-bold mb-1"><Activity size={14} strokeWidth={2.5} /> Mixed</div>
-              <div className="text-2xl font-black text-amber-700">{sentSummary?.overall?.mixed ?? 0}</div>
+            <div className="rounded-2xl border border-orange-100 bg-white/60 p-4">
+              <div className="flex items-center gap-2 text-orange-700 text-xs uppercase tracking-widest font-bold mb-1"><Activity size={14} strokeWidth={2.5} /> Mixed</div>
+              <div className="text-2xl font-black text-orange-700">{sentSummary?.overall?.mixed ?? 0}</div>
             </div>
           </div>
           {sentSummary?.by_kind && Object.keys(sentSummary.by_kind).length > 0 && (
@@ -176,7 +176,7 @@ export default function PrincipalDashboard() {
                     <span className="font-bold text-emerald-700">+{vals.positive || 0}</span>
                     <span className="font-bold text-slate-600">·{vals.neutral || 0}</span>
                     <span className="font-bold text-rose-700">−{vals.negative || 0}</span>
-                    <span className="font-bold text-amber-700">~{vals.mixed || 0}</span>
+                    <span className="font-bold text-orange-700">~{vals.mixed || 0}</span>
                   </div>
                 </div>
               ))}
@@ -192,13 +192,13 @@ export default function PrincipalDashboard() {
         {/* Students table */}
         <Card className="rounded-3xl p-6 bg-white border-slate-100" data-testid="principal-students-card">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center"><BookOpen className="text-indigo-600" size={18} strokeWidth={2.5} /></div>
+            <div className="w-9 h-9 rounded-xl bg-[#0a1f5c]/10 flex items-center justify-center"><BookOpen className="text-[#0a1f5c]" size={18} strokeWidth={2.5} /></div>
             <h3 className="text-lg font-bold text-slate-900">All students (school-wide)</h3>
           </div>
           <div className="rounded-2xl overflow-hidden border border-slate-200">
             <Table>
               <TableHeader>
-                <TableRow className="bg-amber-50/60">
+                <TableRow className="bg-white/60">
                   <TableHead className="font-bold">Name</TableHead>
                   <TableHead className="font-bold">Grade</TableHead>
                   <TableHead className="font-bold">Age</TableHead>
@@ -214,7 +214,7 @@ export default function PrincipalDashboard() {
                     <TableCell className="font-bold">{s.name}</TableCell>
                     <TableCell>{s.grade}</TableCell>
                     <TableCell>{s.age}</TableCell>
-                    <TableCell><Badge className="rounded-full bg-sky-100 text-sky-700 border-sky-200 font-bold text-xs">{s.subject_focus}</Badge></TableCell>
+                    <TableCell><Badge className="rounded-full bg-orange-100 text-[#f97316] border-orange-200 font-bold text-xs">{s.subject_focus}</Badge></TableCell>
                   </TableRow>
                 ))}
               </TableBody>

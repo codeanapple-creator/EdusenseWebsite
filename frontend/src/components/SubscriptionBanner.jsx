@@ -15,7 +15,7 @@ export default function SubscriptionBanner() {
 
   const isGrace = school.subscription_status === "grace";
   const styles = isGrace
-    ? "bg-amber-100 border-amber-300 text-amber-900"
+    ? "bg-orange-100 border-amber-300 text-amber-900"
     : "bg-rose-100 border-rose-300 text-rose-900";
   const icon = isGrace ? <AlertCircle size={18} strokeWidth={2.5} /> : <Crown size={18} strokeWidth={2.5} />;
   const message = isGrace

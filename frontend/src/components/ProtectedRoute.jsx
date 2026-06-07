@@ -8,7 +8,7 @@ export default function ProtectedRoute({ children, roles }) {
 
   if (loading || user === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="animate-pulse text-slate-500">Loading…</div>
       </div>
     );

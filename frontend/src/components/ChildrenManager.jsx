@@ -94,7 +94,7 @@ export default function ChildrenManager({ onChildrenChange }) {
         </div>
         <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) reset(); }}>
           <DialogTrigger asChild>
-            <Button onClick={openAdd} className="rounded-full bg-sky-500 hover:bg-sky-400 font-bold px-5 btn-lift" data-testid="add-child-btn">
+            <Button onClick={openAdd} className="rounded-full bg-[#f97316] hover:bg-[#ea580c] font-bold px-5 btn-lift" data-testid="add-child-btn">
               <Plus size={16} strokeWidth={2.5} className="mr-1.5" /> Add child
             </Button>
           </DialogTrigger>
@@ -134,7 +134,7 @@ export default function ChildrenManager({ onChildrenChange }) {
                 <Input value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} className="rounded-xl" data-testid="child-notes-input" />
               </div>
               <DialogFooter>
-                <Button type="submit" disabled={submitting} className="rounded-full bg-sky-500 hover:bg-sky-400 font-bold" data-testid="child-save-btn">
+                <Button type="submit" disabled={submitting} className="rounded-full bg-[#f97316] hover:bg-[#ea580c] font-bold" data-testid="child-save-btn">
                   {submitting ? "Saving…" : editing ? "Save" : "Add"}
                 </Button>
               </DialogFooter>
@@ -148,7 +148,7 @@ export default function ChildrenManager({ onChildrenChange }) {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="children-list">
           {children.map((c) => (
-            <div key={c.id} className="rounded-2xl border border-slate-200 p-4 bg-amber-50/40" data-testid={`child-card-${c.id}`}>
+            <div key={c.id} className="rounded-2xl border border-slate-200 p-4 bg-white/40" data-testid={`child-card-${c.id}`}>
               <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="font-bold text-slate-900">{c.name}</div>
                 <div className="flex items-center gap-1">
@@ -161,9 +161,9 @@ export default function ChildrenManager({ onChildrenChange }) {
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5 text-xs">
-                {c.grade && <Badge className="rounded-full bg-sky-100 text-sky-700 border-sky-200 font-bold">Grade {c.grade}</Badge>}
-                {c.age != null && <Badge className="rounded-full bg-amber-100 text-amber-700 border-amber-200 font-bold">{c.age} yrs</Badge>}
-                {c.date_of_birth && <Badge className="rounded-full bg-indigo-100 text-indigo-700 border-indigo-200 font-bold">DOB {c.date_of_birth}</Badge>}
+                {c.grade && <Badge className="rounded-full bg-orange-100 text-[#f97316] border-orange-200 font-bold">Grade {c.grade}</Badge>}
+                {c.age != null && <Badge className="rounded-full bg-orange-100 text-orange-700 border-orange-200 font-bold">{c.age} yrs</Badge>}
+                {c.date_of_birth && <Badge className="rounded-full bg-[#0a1f5c]/10 text-[#0a1f5c] border-[#0a1f5c]/20 font-bold">DOB {c.date_of_birth}</Badge>}
               </div>
               {c.notes && <p className="text-xs text-slate-600 mt-2">{c.notes}</p>}
             </div>

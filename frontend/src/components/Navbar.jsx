@@ -14,18 +14,18 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-xl bg-amber-50/80 border-b border-amber-200/60">
+    <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group" data-testid="brand-link">
           <img
-            src="/codeanapple-logo.png"
-            alt="Code An Apple logo"
-            className="w-10 h-10 rounded-xl object-contain bg-white p-1 shadow-md group-hover:scale-105 transition-transform"
+            src="/edusense-logo.png"
+            alt="Edusense by Code an Apple"
+            className="w-11 h-11 object-contain group-hover:scale-105 transition-transform"
             data-testid="brand-logo-img"
           />
-          <div className="leading-none">
-            <div className="font-extrabold text-lg tracking-tight text-slate-900">EDUSENSE</div>
-            <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500">by Code An Apple</div>
+          <div className="leading-tight">
+            <div className="font-extrabold text-lg tracking-tight text-[#0a1f5c]">Edusense</div>
+            <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500">by Code an Apple</div>
           </div>
         </Link>
 
@@ -57,7 +57,7 @@ export default function Navbar() {
                 <Button variant="ghost" className="rounded-full font-bold" data-testid="nav-login-btn">Login</Button>
               </Link>
               <Link to="/register">
-                <Button className="rounded-full bg-sky-500 hover:bg-sky-400 font-bold btn-lift" data-testid="nav-register-btn">
+                <Button className="rounded-full bg-[#f97316] hover:bg-[#ea580c] font-bold btn-lift" data-testid="nav-register-btn">
                   Get Started
                 </Button>
               </Link>

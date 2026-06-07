@@ -18,7 +18,7 @@ const PRODUCTS = [
     tagline: "A parent's compass - niche × behaviour × parenting",
     desc: "Enter your child's name, place and birth-time. The system generates their sun-sign, niche, career paths, behavioural traits, social/emotional/learning style and concrete parenting tips.",
     icon: Stars,
-    accent: "from-indigo-600 via-violet-500 to-pink-500",
+    accent: "from-[#0a1f5c] via-[#1e3a8a] to-[#f97316]",
     cta: "Explore BehaviourScope",
     href: "/products/behaviourscope",
     testid: "product-behaviourscope",
@@ -29,7 +29,7 @@ const PRODUCTS = [
     tagline: "Dr Bhawna Tiwari's methodology in your pocket",
     desc: "Paste any parent feedback, student journal or teacher note - and instantly see how the child is feeling, what's going well, and what needs your attention, in plain language.",
     icon: Activity,
-    accent: "from-emerald-500 to-sky-500",
+    accent: "from-emerald-500 to-blue-500",
     cta: "Open Sentiment Lab",
     href: "/sentiment",
     testid: "product-sentiment",
@@ -40,7 +40,7 @@ const PRODUCTS = [
     tagline: "Age-appropriate books · links · activities",
     desc: "The system generates reading lists, vetted learning links and hands-on activities - by subject and age - for every child in your care.",
     icon: BookOpen,
-    accent: "from-amber-500 to-orange-400",
+    accent: "from-orange-500 to-orange-400",
     cta: "Pick recommendations",
     href: "/dashboard",
     testid: "product-curator",
@@ -49,20 +49,20 @@ const PRODUCTS = [
 
 const ROLES = [
   { key: "parent", title: "Parent", desc: "Discover your child's niche, behaviour scope, books & activities.", icon: Users, accent: "from-sky-500 to-cyan-400" },
-  { key: "teacher", title: "Teacher", desc: "Manage students and capture sentiment-tagged classroom notes.", icon: GraduationCap, accent: "from-amber-500 to-orange-400" },
+  { key: "teacher", title: "Teacher", desc: "Manage students and capture sentiment-tagged classroom notes.", icon: GraduationCap, accent: "from-orange-500 to-orange-400" },
   { key: "principal", title: "Principal", desc: "School-wide analytics, sentiment trends and Pro plan controls.", icon: ShieldCheck, accent: "from-indigo-500 to-violet-500" },
 ];
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-amber-50 grid-pattern">
+    <div className="min-h-screen bg-white grid-pattern">
       <Navbar />
 
       {/* HERO */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-20 lg:pb-24">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7" data-testid="hero-content">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white border border-amber-200 px-3 py-1 text-xs uppercase tracking-widest font-bold text-amber-700 mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white border border-orange-200 px-3 py-1 text-xs uppercase tracking-widest font-bold text-orange-700 mb-6">
               <Sparkles size={14} strokeWidth={2.5} /> EDUSENSE • by Codeanapple
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 leading-[1.05]">
@@ -73,7 +73,7 @@ export default function Landing() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/register?role=parent">
-                <Button className="rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-7 py-6 text-base btn-lift shadow-md" data-testid="hero-get-started-btn">
+                <Button className="rounded-full bg-[#0a1f5c] hover:bg-[#142c7a] text-white font-bold px-7 py-6 text-base btn-lift shadow-md" data-testid="hero-get-started-btn">
                   Try BehaviourScope <ArrowRight className="ml-1.5" size={18} strokeWidth={2.5} />
                 </Button>
               </Link>
@@ -87,18 +87,18 @@ export default function Landing() {
             <div className="mt-10 flex flex-wrap gap-6 text-sm text-slate-600">
               <div className="flex items-center gap-2"><Stars size={16} className="text-indigo-500" strokeWidth={2.5} /> Western-astrology niche + behaviour scope</div>
               <div className="flex items-center gap-2"><ScrollText size={16} className="text-emerald-600" strokeWidth={2.5} /> Feelings made simple, by Dr Bhawna Tiwari</div>
-              <div className="flex items-center gap-2"><Compass size={16} className="text-amber-600" strokeWidth={2.5} /> Subject-tied activity recommendations</div>
+              <div className="flex items-center gap-2"><Compass size={16} className="text-orange-600" strokeWidth={2.5} /> Subject-tied activity recommendations</div>
             </div>
           </div>
 
           <div className="lg:col-span-5">
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-indigo-200 via-pink-200 to-amber-200 rounded-[2.5rem] blur-2xl opacity-60" />
-              <div className="relative rounded-[2rem] overflow-hidden border border-amber-200 shadow-xl bg-white">
+              <div className="relative rounded-[2rem] overflow-hidden border border-orange-200 shadow-xl bg-white">
                 <img src={HERO} alt="Child reading" className="w-full h-[440px] object-cover" />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-amber-100 animate-float hidden md:flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-pink-500 flex items-center justify-center"><HeartHandshake className="text-white" size={18} strokeWidth={2.5} /></div>
+              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-orange-100 animate-float hidden md:flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0a1f5c] to-[#f97316] flex items-center justify-center"><HeartHandshake className="text-white" size={18} strokeWidth={2.5} /></div>
                 <div>
                   <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Parent's compass</div>
                   <div className="font-bold text-slate-900">BehaviourScope™</div>
@@ -112,7 +112,7 @@ export default function Landing() {
       {/* PRODUCTS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" data-testid="products-section">
         <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-3">The EDUSENSE product suite</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#0a1f5c] mb-3">The EDUSENSE product suite</div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Three products, one daily ritual.</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
@@ -125,7 +125,7 @@ export default function Landing() {
                 data-testid={p.testid}
               >
                 {p.flagship && (
-                  <Badge className="absolute top-4 right-4 rounded-full bg-gradient-to-r from-indigo-600 to-pink-500 text-white border-0 font-bold uppercase tracking-widest text-[10px]" data-testid="flagship-badge">
+                  <Badge className="absolute top-4 right-4 rounded-full bg-gradient-to-r from-[#0a1f5c] to-[#f97316] text-white border-0 font-bold uppercase tracking-widest text-[10px]" data-testid="flagship-badge">
                     Flagship
                   </Badge>
                 )}
@@ -133,7 +133,7 @@ export default function Landing() {
                   <Icon size={22} strokeWidth={2.5} className="text-white" />
                 </div>
                 <h3 className="text-xl font-bold mb-1 text-slate-900">{p.title}</h3>
-                <div className="text-xs font-bold uppercase tracking-widest text-indigo-600 mb-3">{p.tagline}</div>
+                <div className="text-xs font-bold uppercase tracking-widest text-[#0a1f5c] mb-3">{p.tagline}</div>
                 <p className="text-slate-600 text-sm leading-relaxed mb-5">{p.desc}</p>
                 <Link to={p.href}>
                   <Button variant="outline" className="rounded-full font-bold border-slate-300" data-testid={`${p.testid}-cta`}>
@@ -150,7 +150,7 @@ export default function Landing() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-testid="sample-readings-gallery">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div>
-            <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-3">Sample BehaviourScope™ readings</div>
+            <div className="text-xs uppercase tracking-[0.22em] font-bold text-orange-700 mb-3">Sample BehaviourScope™ readings</div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">Three children. Three compasses.</h2>
             <p className="text-slate-600 mt-2 text-sm max-w-xl">A peek at what every BehaviourScope™ reading delivers - niche, traits, learning style and a concrete parenting tip.</p>
           </div>
@@ -172,18 +172,18 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-indigo-500/20 border border-indigo-400/30 px-4 py-1.5 text-xs uppercase tracking-[0.25em] font-bold text-indigo-200 mb-5">
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#0a1f5c]/20 border border-orange-400/30 px-4 py-1.5 text-xs uppercase tracking-[0.25em] font-bold text-orange-200 mb-5">
                 <Stars size={14} strokeWidth={2.5} /> BehaviourScope™ Western Astrology
               </div>
               <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-                Where the stars meet <span className="text-yellow-400 font-script text-5xl md:text-7xl">a child's calling</span>.
+                Where the stars meet <span className="text-[#fdba74] font-script text-5xl md:text-7xl">a child's calling</span>.
               </h2>
-              <p className="mt-6 text-indigo-100/80 max-w-lg leading-relaxed">
+              <p className="mt-6 text-blue-100/80 max-w-lg leading-relaxed">
                 Birth-chart-driven niche + behaviour scope: behavioural traits, social style, emotional pattern, learning style, growth areas, and 4-6 concrete parenting tips you can use this week.
               </p>
               <div className="mt-8">
                 <Link to="/register?role=parent">
-                  <Button className="rounded-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold px-7 py-6 text-base btn-lift" data-testid="astrology-cta-btn">
+                  <Button className="rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold px-7 py-6 text-base btn-lift" data-testid="astrology-cta-btn">
                     Generate my child's scope <Stars className="ml-2" size={18} strokeWidth={2.5} />
                   </Button>
                 </Link>
@@ -191,30 +191,30 @@ export default function Landing() {
             </div>
             <div className="glass rounded-3xl p-8">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/30 border border-indigo-400/40 flex items-center justify-center">
-                  <HeartHandshake className="text-pink-300" size={20} strokeWidth={2.5} />
+                <div className="w-10 h-10 rounded-xl bg-[#0a1f5c]/30 border border-orange-400/40 flex items-center justify-center">
+                  <HeartHandshake className="text-[#fdba74]" size={20} strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div className="text-xs uppercase tracking-widest text-indigo-300 font-bold">Sample reading</div>
+                  <div className="text-xs uppercase tracking-widest text-orange-300 font-bold">Sample reading</div>
                   <div className="font-bold">A Gemini child, age 9</div>
                 </div>
               </div>
               <div className="space-y-3 text-sm">
-                <div className="flex justify-between border-b border-indigo-500/20 pb-3">
-                  <span className="text-indigo-300">Niche</span>
-                  <span className="font-bold text-yellow-400">Curious Communicator</span>
+                <div className="flex justify-between border-b border-orange-500/20 pb-3">
+                  <span className="text-orange-300">Niche</span>
+                  <span className="font-bold text-[#fdba74]">Curious Communicator</span>
                 </div>
-                <div className="flex justify-between border-b border-indigo-500/20 pb-3">
-                  <span className="text-indigo-300">Learning style</span>
+                <div className="flex justify-between border-b border-orange-500/20 pb-3">
+                  <span className="text-orange-300">Learning style</span>
                   <span className="font-bold">Visual + verbal pairings</span>
                 </div>
-                <div className="flex justify-between border-b border-indigo-500/20 pb-3">
-                  <span className="text-indigo-300">Growth area</span>
+                <div className="flex justify-between border-b border-orange-500/20 pb-3">
+                  <span className="text-orange-300">Growth area</span>
                   <span className="font-bold">Sustained focus</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-indigo-300">Parenting tip</span>
-                  <span className="font-bold text-right text-yellow-200">Set 20-min "deep dive" rituals</span>
+                  <span className="text-orange-300">Parenting tip</span>
+                  <span className="font-bold text-right text-[#fed7aa]">Set 20-min "deep dive" rituals</span>
                 </div>
               </div>
             </div>
@@ -224,10 +224,10 @@ export default function Landing() {
 
       {/* METHODOLOGY STRIP */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-testid="methodology-strip">
-        <Card className="rounded-3xl p-7 lg:p-10 bg-gradient-to-br from-emerald-50 via-white to-sky-50 border-emerald-100">
+        <Card className="rounded-3xl p-7 lg:p-10 bg-gradient-to-br from-emerald-50 via-white to-blue-50 border-emerald-100">
           <div className="grid md:grid-cols-12 gap-6 items-center">
             <div className="md:col-span-2">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-sky-500 flex items-center justify-center"><ScrollText className="text-white" size={26} strokeWidth={2.5} /></div>
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-blue-500 flex items-center justify-center"><ScrollText className="text-white" size={26} strokeWidth={2.5} /></div>
             </div>
             <div className="md:col-span-7">
               <div className="text-xs uppercase tracking-widest font-bold text-emerald-700 mb-2">Built on peer-reviewed research</div>
@@ -250,7 +250,7 @@ export default function Landing() {
       {/* ROLES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-sky-600 mb-3">Three doors, one journey</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#f97316] mb-3">Three doors, one journey</div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">A login crafted for everyone in the school.</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
@@ -275,13 +275,13 @@ export default function Landing() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-amber-50 border-t border-amber-200/60">
+      <footer className="bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-600">
           <div className="flex items-center gap-2">
-            <img src="/codeanapple-logo.png" alt="Code An Apple" className="w-8 h-8 rounded-lg object-contain bg-white p-0.5 border border-slate-200" data-testid="footer-logo" />
-            <span className="font-bold text-slate-900">EDUSENSE</span>
+            <img src="/edusense-logo.png" alt="Edusense" className="w-9 h-9 object-contain" data-testid="footer-logo" />
+            <span className="font-bold text-[#0a1f5c]">Edusense</span>
             <span className="text-slate-400">·</span>
-            <span>by Code An Apple</span>
+            <span>by Code an Apple</span>
             <span className="text-slate-400 hidden sm:inline">·</span>
             <span className="hidden sm:inline text-xs text-slate-500">Sentiment research by Dr Bhawna Tiwari</span>
           </div>

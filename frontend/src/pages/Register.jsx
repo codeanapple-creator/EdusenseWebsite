@@ -59,15 +59,15 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div className="hidden lg:block">
             <div className="cosmic-bg rounded-3xl p-10 text-white relative overflow-hidden h-[600px] flex flex-col justify-end">
-              <div className="text-xs uppercase tracking-[0.25em] text-indigo-300 font-bold mb-3">Begin the journey</div>
-              <h2 className="text-4xl font-black tracking-tight leading-tight">Three roles. <span className="text-yellow-400 font-script text-6xl">One</span> sky of possibilities.</h2>
-              <p className="mt-4 text-indigo-100/80 max-w-md">Sign up as a parent, teacher, or principal to unlock niche guidance, books, links and activities.</p>
+              <div className="text-xs uppercase tracking-[0.25em] text-orange-300 font-bold mb-3">Begin the journey</div>
+              <h2 className="text-4xl font-black tracking-tight leading-tight">Three roles. <span className="text-[#fdba74] font-script text-6xl">One</span> sky of possibilities.</h2>
+              <p className="mt-4 text-blue-100/80 max-w-md">Sign up as a parent, teacher, or principal to unlock niche guidance, books, links and activities.</p>
             </div>
           </div>
           <Card className="rounded-3xl p-8 lg:p-10 border-slate-100 bg-white shadow-sm" data-testid="register-card">
@@ -75,7 +75,7 @@ export default function Register() {
             <p className="text-slate-500 mb-6 text-sm">Pick your role to get started.</p>
 
             <Tabs value={role} onValueChange={setRole} className="mb-6">
-              <TabsList className="grid grid-cols-3 rounded-full bg-amber-100 p-1 h-auto">
+              <TabsList className="grid grid-cols-3 rounded-full bg-orange-100 p-1 h-auto">
                 {ROLES.map((r) => {
                   const Icon = r.icon;
                   return (
@@ -83,7 +83,7 @@ export default function Register() {
                       key={r.key}
                       value={r.key}
                       data-testid={`register-role-${r.key}`}
-                      className="rounded-full font-bold data-[state=active]:bg-white data-[state=active]:text-sky-600 data-[state=active]:shadow-sm py-2"
+                      className="rounded-full font-bold data-[state=active]:bg-white data-[state=active]:text-[#f97316] data-[state=active]:shadow-sm py-2"
                     >
                       <Icon size={14} strokeWidth={2.5} className="mr-1.5" /> {r.label}
                     </TabsTrigger>
@@ -114,13 +114,13 @@ export default function Register() {
                 </div>
               )}
               {error && <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl p-3" data-testid="register-error">{error}</div>}
-              <Button type="submit" disabled={submitting} className="w-full rounded-full bg-sky-500 hover:bg-sky-400 font-bold py-6 btn-lift" data-testid="register-submit-btn">
+              <Button type="submit" disabled={submitting} className="w-full rounded-full bg-[#f97316] hover:bg-[#ea580c] font-bold py-6 btn-lift" data-testid="register-submit-btn">
                 {submitting ? "Creating account…" : `Sign up as ${role}`}
               </Button>
             </form>
             <div className="mt-6 text-center text-sm text-slate-600">
               Already a member?{" "}
-              <Link to="/login" className="text-sky-600 font-bold hover:underline" data-testid="register-to-login-link">Sign in</Link>
+              <Link to="/login" className="text-[#f97316] font-bold hover:underline" data-testid="register-to-login-link">Sign in</Link>
             </div>
           </Card>
         </div>

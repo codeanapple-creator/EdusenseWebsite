@@ -16,14 +16,14 @@ export default function SampleReadingCard({ reading, testid }) {
         </Badge>
       </div>
 
-      <div className="text-xs uppercase tracking-widest font-bold text-indigo-600 mb-1">Niche · age {reading.age}</div>
+      <div className="text-xs uppercase tracking-widest font-bold text-[#0a1f5c] mb-1">Niche · age {reading.age}</div>
       <h3 className="text-2xl font-black text-slate-900 tracking-tight mb-4" data-testid={`${testid}-niche`}>{reading.niche}</h3>
 
       <div className="mb-4">
         <div className="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1.5 flex items-center gap-1"><Sparkles size={10} strokeWidth={2.5} /> Traits</div>
         <div className="flex flex-wrap gap-1.5">
           {reading.traits.map((t, i) => (
-            <Badge key={i} className="rounded-full bg-sky-100 text-sky-700 hover:bg-sky-100 border-sky-200 font-bold text-xs">{t}</Badge>
+            <Badge key={i} className="rounded-full bg-orange-100 text-[#f97316] hover:bg-orange-100 border-orange-200 font-bold text-xs">{t}</Badge>
           ))}
         </div>
       </div>
@@ -33,13 +33,13 @@ export default function SampleReadingCard({ reading, testid }) {
         <p className="text-sm text-slate-700">{reading.careers.join(" · ")}</p>
       </div>
 
-      <div className="rounded-xl bg-amber-50/60 border border-amber-100 p-3 mb-4">
-        <div className="text-[10px] uppercase tracking-widest font-bold text-amber-700 mb-1">Learning style</div>
+      <div className="rounded-xl bg-white/60 border border-orange-100 p-3 mb-4">
+        <div className="text-[10px] uppercase tracking-widest font-bold text-orange-700 mb-1">Learning style</div>
         <p className="text-sm text-slate-800 leading-snug">{reading.learning_style}</p>
       </div>
 
-      <div className="rounded-xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-200/60 p-3">
-        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-sky-700 mb-1"><HeartHandshake size={11} strokeWidth={2.5} /> Parenting tip</div>
+      <div className="rounded-xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-orange-200/60 p-3">
+        <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-[#f97316] mb-1"><HeartHandshake size={11} strokeWidth={2.5} /> Parenting tip</div>
         <p className="text-sm text-slate-800 leading-snug font-medium">{reading.parenting_tip}</p>
       </div>
     </Card>

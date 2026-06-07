@@ -75,19 +75,19 @@ export default function TeacherDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <SubscriptionBanner />
         <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
           <div>
-            <div className="text-xs uppercase tracking-[0.22em] font-bold text-amber-700 mb-1">Teacher space</div>
+            <div className="text-xs uppercase tracking-[0.22em] font-bold text-orange-700 mb-1">Teacher space</div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="teacher-dashboard-title">
               Welcome, {user.name.split(" ")[0]} 🍎
             </h1>
           </div>
           <Link to="/sentiment">
-            <Button variant="outline" className="rounded-full font-bold border-indigo-300 text-indigo-700 hover:bg-indigo-50 px-6 py-3 btn-lift" data-testid="teacher-sentiment-btn">
+            <Button variant="outline" className="rounded-full font-bold border-indigo-300 text-[#0a1f5c] hover:bg-indigo-50 px-6 py-3 btn-lift" data-testid="teacher-sentiment-btn">
               <Activity size={16} className="mr-1.5" strokeWidth={2.5} /> Sentiment Lab
             </Button>
           </Link>
@@ -111,7 +111,7 @@ export default function TeacherDashboard() {
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
           <Card className="rounded-3xl p-7 bg-white border-slate-100 lg:col-span-1" data-testid="add-student-card">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center"><GraduationCap className="text-amber-600" size={20} strokeWidth={2.5} /></div>
+              <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center"><GraduationCap className="text-orange-600" size={20} strokeWidth={2.5} /></div>
               <h2 className="text-xl font-bold text-slate-900">Add student</h2>
             </div>
             <form onSubmit={addStudent} className="space-y-4">
@@ -138,7 +138,7 @@ export default function TeacherDashboard() {
                   </Select>
                 </div>
               </div>
-              <Button type="submit" disabled={loadingAdd} className="w-full rounded-full bg-sky-500 hover:bg-sky-400 font-bold py-6 btn-lift" data-testid="add-student-btn">
+              <Button type="submit" disabled={loadingAdd} className="w-full rounded-full bg-[#f97316] hover:bg-[#ea580c] font-bold py-6 btn-lift" data-testid="add-student-btn">
                 {loadingAdd ? "Adding…" : "Add student"}
               </Button>
             </form>
@@ -149,7 +149,7 @@ export default function TeacherDashboard() {
             <div className="rounded-2xl overflow-hidden border border-slate-200">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-amber-50/60">
+                  <TableRow className="bg-white/60">
                     <TableHead className="font-bold">Name</TableHead>
                     <TableHead className="font-bold">Grade</TableHead>
                     <TableHead className="font-bold">Age</TableHead>
@@ -168,7 +168,7 @@ export default function TeacherDashboard() {
                       <TableCell className="font-bold">{s.name}</TableCell>
                       <TableCell>{s.grade}</TableCell>
                       <TableCell>{s.age}</TableCell>
-                      <TableCell><Badge className="rounded-full bg-sky-100 text-sky-700 border-sky-200 font-bold text-xs">{s.subject_focus}</Badge></TableCell>
+                      <TableCell><Badge className="rounded-full bg-orange-100 text-[#f97316] border-orange-200 font-bold text-xs">{s.subject_focus}</Badge></TableCell>
                       <TableCell className="text-right">
                         <Button variant="ghost" size="sm" onClick={() => removeStudent(s.id)} className="rounded-full" data-testid={`student-delete-${s.id}`}>
                           <Trash2 size={16} className="text-red-500" />
@@ -184,7 +184,7 @@ export default function TeacherDashboard() {
 
         <Card className="rounded-3xl p-7 bg-white border-slate-100" data-testid="teacher-recommendations-card">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center"><BookOpen className="text-indigo-600" size={20} strokeWidth={2.5} /></div>
+            <div className="w-10 h-10 rounded-xl bg-[#0a1f5c]/10 flex items-center justify-center"><BookOpen className="text-[#0a1f5c]" size={20} strokeWidth={2.5} /></div>
             <div>
               <h2 className="text-xl font-bold text-slate-900">Share content with students</h2>
               <p className="text-sm text-slate-500">The system generates curated books, links and activities by subject and age.</p>
@@ -211,25 +211,25 @@ export default function TeacherDashboard() {
           {recs && (
             <div className="mt-6 grid lg:grid-cols-3 gap-4" data-testid="teacher-rec-result">
               <div>
-                <div className="text-xs uppercase tracking-widest font-bold text-sky-600 mb-2">Books</div>
+                <div className="text-xs uppercase tracking-widest font-bold text-[#f97316] mb-2">Books</div>
                 <ul className="space-y-2">
                   {recs.books.map((b, i) => (
-                    <li key={i} className="bg-amber-50/60 rounded-xl p-3 border border-amber-100"><div className="font-bold">{b.title}</div><div className="text-xs text-slate-600">{b.author}</div></li>
+                    <li key={i} className="bg-white/60 rounded-xl p-3 border border-orange-100"><div className="font-bold">{b.title}</div><div className="text-xs text-slate-600">{b.author}</div></li>
                   ))}
                 </ul>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-widest font-bold text-indigo-600 mb-2">Links</div>
+                <div className="text-xs uppercase tracking-widest font-bold text-[#0a1f5c] mb-2">Links</div>
                 <ul className="space-y-2">
                   {recs.links.map((l, i) => (
                     <li key={i} className="bg-indigo-50/60 rounded-xl p-3 border border-indigo-100">
-                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="font-bold text-indigo-700 inline-flex items-center gap-1.5 hover:underline">{l.title} <ExternalLink size={12} /></a>
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="font-bold text-[#0a1f5c] inline-flex items-center gap-1.5 hover:underline">{l.title} <ExternalLink size={12} /></a>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-widest font-bold text-amber-600 mb-2">Activities</div>
+                <div className="text-xs uppercase tracking-widest font-bold text-orange-600 mb-2">Activities</div>
                 <ul className="space-y-2">
                   {recs.activities.map((a, i) => (
                     <li key={i} className="bg-sky-50/60 rounded-xl p-3 border border-sky-100"><div className="font-bold">{a.title}</div><div className="text-xs text-slate-600">{a.duration_minutes} min</div></li>

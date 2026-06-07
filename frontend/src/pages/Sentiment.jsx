@@ -96,14 +96,14 @@ export default function Sentiment() {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-3 py-1 text-[10px] uppercase tracking-[0.25em] font-bold text-emerald-700 mb-3">
             <ScrollText size={12} strokeWidth={2.5} /> A Codeanapple product · built on Dr Bhawna Tiwari's research
           </div>
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-indigo-600 mb-1">Sentiment lab</div>
+          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#0a1f5c] mb-1">Sentiment lab</div>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900" data-testid="sentiment-page-title">
             Sentiment Analyzer
           </h1>
@@ -114,8 +114,8 @@ export default function Sentiment() {
 
         <Tabs defaultValue="analyzer" className="space-y-6">
           <TabsList className="rounded-full bg-white border border-slate-200 p-1 h-auto">
-            <TabsTrigger value="analyzer" className="rounded-full font-bold data-[state=active]:bg-indigo-600 data-[state=active]:text-white px-5 py-2" data-testid="sentiment-tab-analyzer">Analyze</TabsTrigger>
-            <TabsTrigger value="history" className="rounded-full font-bold data-[state=active]:bg-indigo-600 data-[state=active]:text-white px-5 py-2" data-testid="sentiment-tab-history">History</TabsTrigger>
+            <TabsTrigger value="analyzer" className="rounded-full font-bold data-[state=active]:bg-[#0a1f5c] data-[state=active]:text-white px-5 py-2" data-testid="sentiment-tab-analyzer">Analyze</TabsTrigger>
+            <TabsTrigger value="history" className="rounded-full font-bold data-[state=active]:bg-[#0a1f5c] data-[state=active]:text-white px-5 py-2" data-testid="sentiment-tab-history">History</TabsTrigger>
           </TabsList>
 
           <TabsContent value="analyzer">
@@ -141,8 +141,8 @@ export default function Sentiment() {
                     </div>
                   )}
 
-                  <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-4 space-y-3">
-                    <div className="text-xs uppercase tracking-widest font-bold text-amber-700">Optional · subject-specific recommendations</div>
+                  <div className="rounded-xl border border-orange-200 bg-white/60 p-4 space-y-3">
+                    <div className="text-xs uppercase tracking-widest font-bold text-orange-700">Optional · subject-specific recommendations</div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1.5">
                         <Label className="text-xs font-bold text-slate-600">Subject</Label>
@@ -173,7 +173,7 @@ export default function Sentiment() {
                       placeholder="Paste feedback, journal entry, or notes…"
                       data-testid="sentiment-text-input"
                     />
-                    <button type="button" onClick={() => setText(presets[user.role] || presets.parent)} className="text-xs text-sky-600 hover:underline font-bold" data-testid="sentiment-load-sample">Load sample text</button>
+                    <button type="button" onClick={() => setText(presets[user.role] || presets.parent)} className="text-xs text-[#f97316] hover:underline font-bold" data-testid="sentiment-load-sample">Load sample text</button>
                   </div>
 
                   {kind !== "standalone" && (
@@ -183,7 +183,7 @@ export default function Sentiment() {
                     </label>
                   )}
 
-                  <Button type="submit" disabled={loading} className="w-full rounded-full bg-indigo-600 hover:bg-indigo-500 font-bold py-6 btn-lift" data-testid="sentiment-analyze-btn">
+                  <Button type="submit" disabled={loading} className="w-full rounded-full bg-[#0a1f5c] hover:bg-[#142c7a] font-bold py-6 btn-lift" data-testid="sentiment-analyze-btn">
                     {loading ? (<><Loader2 className="animate-spin mr-2" size={16} /> Analyzing…</>) : (<><Sparkles className="mr-2" size={16} strokeWidth={2.5} /> Analyze sentiment</>)}
                   </Button>
                 </form>
@@ -194,8 +194,8 @@ export default function Sentiment() {
                   <SentimentResultCard result={result} testid="sentiment-result-main" />
                 ) : (
                   <Card className="rounded-3xl p-10 bg-white border-slate-100 h-full flex flex-col items-center justify-center text-center">
-                    <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center mb-4">
-                      <Activity className="text-indigo-600" size={28} strokeWidth={2.5} />
+                    <div className="w-16 h-16 rounded-2xl bg-[#0a1f5c]/10 flex items-center justify-center mb-4">
+                      <Activity className="text-[#0a1f5c]" size={28} strokeWidth={2.5} />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2">Analyze any educational text</h3>
                     <p className="text-sm text-slate-600 max-w-sm">Submit any feedback, journal or note on the left - we'll show you the 8 feelings inside it, a happiness score, and what part of school life it's really about. All in plain English.</p>
@@ -230,7 +230,7 @@ export default function Sentiment() {
                     <div key={r.id} className="rounded-2xl border border-slate-200 p-4" data-testid={`sentiment-record-${r.id}`}>
                       <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
                         <div className="flex items-center gap-2 text-xs">
-                          <span className="rounded-full bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-3 py-1">{KIND_LABELS[r.kind] || r.kind}</span>
+                          <span className="rounded-full bg-[#0a1f5c]/10 text-[#0a1f5c] border border-[#0a1f5c]/20 font-bold px-3 py-1">{KIND_LABELS[r.kind] || r.kind}</span>
                           {r.subject_name && <span className="text-slate-600">· {r.subject_name}</span>}
                           <span className="text-slate-500">· by {r.user_name} ({r.user_role})</span>
                           <span className="text-slate-400">· {new Date(r.created_at).toLocaleString()}</span>

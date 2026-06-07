@@ -253,7 +253,7 @@ export default function ShareScopeButton({ result, testid = "share-scope-btn" })
     <>
       <Button
         onClick={() => setOpen(true)}
-        className="rounded-full bg-gradient-to-r from-indigo-600 to-pink-500 hover:opacity-90 text-white font-bold px-6 py-3 btn-lift"
+        className="rounded-full bg-gradient-to-r from-[#0a1f5c] to-[#f97316] hover:opacity-90 text-white font-bold px-6 py-3 btn-lift"
         data-testid={testid}
       >
         <Share2 size={16} className="mr-1.5" strokeWidth={2.5} /> Share my BehaviourScope
@@ -269,7 +269,7 @@ export default function ShareScopeButton({ result, testid = "share-scope-btn" })
             <canvas ref={canvasRef} style={{ width: "100%", height: "auto", display: rendering ? "none" : "block" }} />
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
-            <Button onClick={nativeShare} disabled={!dataUrl} className="rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold flex-1" data-testid="share-scope-share-btn">
+            <Button onClick={nativeShare} disabled={!dataUrl} className="rounded-full bg-[#0a1f5c] hover:bg-[#142c7a] text-white font-bold flex-1" data-testid="share-scope-share-btn">
               <Share2 size={16} className="mr-1.5" strokeWidth={2.5} /> Share
             </Button>
             <Button onClick={download} disabled={!dataUrl} variant="outline" className="rounded-full font-bold flex-1" data-testid="share-scope-download-btn">
