@@ -1,28 +1,16 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import { Card } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion";
-import SampleReadingCard from "../components/SampleReadingCard";
-import { SAMPLE_READINGS } from "../lib/sampleReadings";
 import {
-  Sparkles,
+  ArrowUpRight,
   ArrowRight,
-  CheckCircle2,
-  Compass,
-  Activity,
-  BookOpen,
-  ScrollText,
-  Stars,
-  GraduationCap,
-  Users,
-  Quote,
   MessageCircle,
-  ShieldCheck,
-  Crown,
-  Clock,
-  Heart,
+  Phone,
+  Mail,
+  Star,
+  PlayCircle,
+  Quote,
 } from "lucide-react";
 
 const WHATSAPP_NUMBER = "+919999999999";
@@ -31,81 +19,89 @@ const WHATSAPP_TEXT = encodeURIComponent(
 );
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, "")}?text=${WHATSAPP_TEXT}`;
 
+const MARQUEE_WORDS = [
+  "BehaviourScope™",
+  "Curious Communicator",
+  "Bold Initiator",
+  "Empathic Caregiver",
+  "जिज्ञासु संवादक",
+  "Active Participation",
+  "Happiness Index",
+  "Learning Style",
+  "Niche Finder",
+  "Sharing",
+  "Self-initiation",
+  "Sentiment Lab",
+  "Dr Bhawna Tiwari",
+  "Free for the first child",
+];
+
 const STEPS = [
   {
-    icon: Compass,
-    title: "Tell us about your child",
-    desc: "Name, place and time of birth - 30 seconds. No login needed for a sample.",
+    num: "01",
+    title: "30 seconds of detail",
+    desc: "Drop your child's name, place and time of birth. That's the whole form.",
   },
   {
-    icon: Sparkles,
-    title: "Get the BehaviourScope™",
-    desc: "Instant niche, behaviour traits, learning style, and 4-6 parenting tips - in plain English or हिंदी.",
+    num: "02",
+    title: "We listen, we read, we map",
+    desc: "Western-astrology archetypes meet Dr Bhawna Tiwari's primary-education research. The system writes a parent-friendly compass.",
   },
   {
-    icon: BookOpen,
-    title: "Act on it weekly",
-    desc: "Subject-tied books, links and activities curated for your child's age. Track feelings with Sentiment Lab.",
+    num: "03",
+    title: "You act, every week",
+    desc: "Books, links, activities and feelings tracking - so the reading doesn't sit in a PDF, it shapes Tuesdays.",
   },
 ];
 
 const TESTIMONIALS = [
   {
     name: "Shilpa N.",
-    role: "Parent · Bengaluru",
+    role: "Parent · Bengaluru · Gemini child, age 9",
     quote:
       "The behaviour scope nailed my daughter's 'needs to talk it out' learning style. The parenting tips alone saved me three months of trial-and-error.",
-    accent: "bg-[#0a1f5c]",
   },
   {
     name: "Rohit P.",
-    role: "Father of 2 · Pune",
+    role: "Father of two · Pune",
     quote:
       "Finally an app that doesn't just tell me my child's marks. It tells me who he is and what to do about it.",
-    accent: "bg-[#f97316]",
   },
   {
-    name: "Mrs. Anita Kulkarni",
+    name: "Anita Kulkarni",
     role: "Principal · Nashik",
     quote:
       "Sentiment Lab gave us a feelings-radar on the whole school. We caught burnout in two teachers before it spread. Worth every rupee.",
-    accent: "bg-[#0a1f5c]",
+  },
+  {
+    name: "Priya M.",
+    role: "Parent · Mumbai · Cancer child, age 7",
+    quote:
+      "Reading it felt like someone finally got my son. The Hindi version made my mother-in-law cry happy tears.",
   },
 ];
 
 const FAQS = [
-  {
-    q: "Is Edusense a substitute for child psychology?",
-    a: "No. BehaviourScope™ is a western-astrology lens designed to spark reflection, not diagnose. For clinical concerns, please consult a qualified child psychologist.",
-  },
-  {
-    q: "Who is this for - parents or schools?",
-    a: "Both. Parents get free unlimited BehaviourScope™ readings for their first child plus subject-tied recommendations. Schools (Pro plan ₹1,499/month) unlock unlimited students, school-wide sentiment analytics and priority WhatsApp support.",
-  },
-  {
-    q: "What languages are supported?",
-    a: "English and हिंदी today. Marathi is on the roadmap.",
-  },
-  {
-    q: "How is this 'research-backed'?",
-    a: "Our Sentiment Lab implements the methodology from Dr Bhawna Tiwari's PhD thesis 'Sentimental Analysis approach to improve teaching and learning in primary education' - 8 NRC emotions, polarity, a 0-5 happiness score, and 8 aspect categories tuned for primary-school children.",
-  },
-  {
-    q: "Is my child's data safe?",
-    a: "Yes. Birth details are stored only against your account. We don't share or sell child data. You can delete any reading from your dashboard at any time.",
-  },
-  {
-    q: "Can I try before I buy?",
-    a: "Yes - the Free plan supports 1 child and unlimited BehaviourScope™ readings forever. No credit card needed.",
-  },
+  { q: "Is this a substitute for child psychology?", a: "No. BehaviourScope™ is an interpretive western-astrology lens designed to spark reflection, not diagnose. For clinical concerns, please consult a qualified child psychologist." },
+  { q: "Who is Edusense built for?", a: "Parents of children aged 3-14, teachers wanting to understand a student's natural orientation, and principals running a value-added service for their school families." },
+  { q: "Which languages are supported?", a: "English and हिंदी today, with Marathi on the roadmap. Toggle on the reading page." },
+  { q: "Is my child's data safe?", a: "Birth details are stored only against your account. We don't share or sell child data. Delete any reading from your dashboard at any time." },
+  { q: "How is this 'research-backed'?", a: "Sentiment Lab implements Dr Bhawna Tiwari's PhD thesis 'Sentimental Analysis approach to improve teaching and learning in primary education' - in plain English a parent can act on." },
+  { q: "Can I try without paying?", a: "Yes. Free plan supports 1 child and unlimited BehaviourScope™ readings, forever. No credit card needed." },
 ];
 
-const STATS = [
-  { value: "60 sec", label: "to first reading" },
-  { value: "₹0", label: "for parents to start" },
-  { value: "EN + हिंदी", label: "languages live" },
-  { value: "Dr Tiwari", label: "research-backed" },
-];
+const Marquee = () => (
+  <div className="overflow-hidden border-y-2 border-[#0a1f5c] bg-[#0a1f5c] text-white py-6">
+    <div className="flex whitespace-nowrap animate-marquee">
+      {[...MARQUEE_WORDS, ...MARQUEE_WORDS].map((w, i) => (
+        <span key={i} className="mx-8 text-2xl md:text-4xl font-black tracking-tight inline-flex items-center gap-8">
+          {w}
+          <Star size={16} className="text-[#f97316] fill-[#f97316]" />
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 export default function EdusensePromo() {
   useEffect(() => {
@@ -122,388 +118,464 @@ export default function EdusensePromo() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900" data-testid="edusense-promo-page">
-      {/* TOP NAV (minimal, no logout/dashboard - this is a marketing page) */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/85 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5 group" data-testid="promo-brand-link">
-            <img
-              src="/edusense-logo.png"
-              alt="Edusense by Code an Apple"
-              className="w-11 h-11 object-contain group-hover:scale-105 transition-transform"
-            />
+    <div className="min-h-screen bg-[#fffaf5] text-[#0a1f5c] selection:bg-[#f97316] selection:text-white" data-testid="edusense-promo-page">
+      <style>{`
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .animate-marquee { animation: marquee 40s linear infinite; }
+        .promo-grain {
+          background-image:
+            radial-gradient(circle at 1px 1px, rgba(10,31,92,0.06) 1px, transparent 0);
+          background-size: 24px 24px;
+        }
+      `}</style>
+
+      {/* ── ANNOUNCEMENT BAR ───────────────────────── */}
+      <div className="bg-[#0a1f5c] text-white text-center text-xs md:text-sm py-2 px-4 font-medium">
+        <span className="hidden sm:inline">Live in English &amp; हिंदी ·</span> Free for your first child. No card.
+        <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="ml-3 underline decoration-[#f97316] decoration-2 underline-offset-4 hover:text-[#fdba74]">
+          Chat on WhatsApp →
+        </a>
+      </div>
+
+      {/* ── NAV ───────────────────────── */}
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#fffaf5]/85 border-b border-[#0a1f5c]/10">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 group" data-testid="promo-brand-link">
+            <img src="/edusense-logo.png" alt="Edusense" className="w-12 h-12 object-contain group-hover:scale-110 transition-transform" />
             <div className="leading-tight">
-              <div className="font-extrabold text-lg tracking-tight text-[#0a1f5c]">Edusense</div>
-              <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500">by Code an Apple</div>
+              <div className="font-black text-xl tracking-tight">edusense<span className="text-[#f97316]">.</span></div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-[#0a1f5c]/60">edusense.co.in</div>
             </div>
           </Link>
-          <nav className="flex items-center gap-2">
-            <a href="#parents" className="hidden md:inline-flex">
-              <Button variant="ghost" className="rounded-full font-bold text-slate-700">For Parents</Button>
-            </a>
-            <a href="#schools" className="hidden md:inline-flex">
-              <Button variant="ghost" className="rounded-full font-bold text-slate-700">For Schools</Button>
-            </a>
-            <a href="#pricing" className="hidden md:inline-flex">
-              <Button variant="ghost" className="rounded-full font-bold text-slate-700">Pricing</Button>
-            </a>
-            <Link to="/login">
-              <Button variant="outline" className="rounded-full font-bold border-slate-300" data-testid="promo-signin-btn">
+          <nav className="hidden lg:flex items-center gap-1">
+            <a href="#story" className="px-4 py-2 text-sm font-bold hover:text-[#f97316] transition-colors">Story</a>
+            <a href="#how" className="px-4 py-2 text-sm font-bold hover:text-[#f97316] transition-colors">How it works</a>
+            <a href="#research" className="px-4 py-2 text-sm font-bold hover:text-[#f97316] transition-colors">Research</a>
+            <a href="#pricing" className="px-4 py-2 text-sm font-bold hover:text-[#f97316] transition-colors">Pricing</a>
+            <a href="#faq" className="px-4 py-2 text-sm font-bold hover:text-[#f97316] transition-colors">FAQ</a>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Link to="/login" className="hidden sm:block">
+              <Button variant="ghost" className="rounded-none font-bold hover:bg-transparent hover:text-[#f97316]" data-testid="promo-signin-btn">
                 Sign in
               </Button>
             </Link>
             <Link to="/register?role=parent">
-              <Button className="rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold btn-lift" data-testid="promo-getstarted-btn">
-                Get started
+              <Button className="rounded-none bg-[#0a1f5c] hover:bg-[#f97316] text-white font-bold px-6 py-6 border-2 border-[#0a1f5c] hover:border-[#f97316] transition-colors" data-testid="promo-getstarted-btn">
+                Get started <ArrowUpRight className="ml-1.5" size={16} strokeWidth={3} />
               </Button>
             </Link>
-          </nav>
+          </div>
         </div>
       </header>
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-orange-50/40 to-blue-50/40" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white border border-orange-200 px-4 py-1.5 text-xs uppercase tracking-[0.22em] font-bold text-orange-700 shadow-sm mb-6" data-testid="promo-eyebrow">
-              <Sparkles size={14} strokeWidth={2.5} /> Edusense · edusense.co.in
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-tighter leading-[1.02] text-[#0a1f5c]" data-testid="promo-hero-title">
-              See who your child <span className="shimmer-text">really is</span>.
-            </h1>
-            <p className="mt-7 text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              A pocket-sized compass for the primary years. <b>BehaviourScope™</b> western astrology meets <b>research-backed sentiment analysis</b> by <b>Dr Bhawna Tiwari</b> - so parents, teachers and principals can nurture <i>who the child really is</i>.
-            </p>
+      {/* ── HERO: editorial split with massive type ───────────────── */}
+      <section id="story" className="relative overflow-hidden promo-grain">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pt-12 lg:pt-20 pb-16 lg:pb-32">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+            {/* LEFT — copy */}
+            <div className="lg:col-span-7">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="h-px flex-1 bg-[#0a1f5c]/30" />
+                <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#0a1f5c]/70">Edusense · Issue 01 · 2026</span>
+                <div className="h-px flex-1 bg-[#0a1f5c]/30" />
+              </div>
 
-            {/* DUAL CTA */}
-            <div className="mt-10 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto" data-testid="promo-hero-ctas">
-              <Card className="rounded-2xl p-5 bg-white border-2 border-[#f97316]/30 hover:border-[#f97316] transition-colors shadow-sm text-left">
-                <div className="flex items-center gap-2 mb-2">
-                  <Heart size={16} className="text-[#f97316]" strokeWidth={2.5} />
-                  <div className="text-xs uppercase tracking-widest font-bold text-[#f97316]">For Parents</div>
-                </div>
-                <div className="font-bold text-[#0a1f5c] mb-3">Free for your first child</div>
-                <Link to="/register?role=parent">
-                  <Button className="w-full rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-5 btn-lift" data-testid="promo-cta-parent">
-                    Try BehaviourScope <ArrowRight className="ml-1.5" size={16} strokeWidth={2.5} />
-                  </Button>
-                </Link>
-              </Card>
+              <h1 className="font-black tracking-[-0.04em] leading-[0.88] text-[#0a1f5c]" data-testid="promo-hero-title">
+                <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">See who</span>
+                <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">your child</span>
+                <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">
+                  <span className="font-script font-normal text-[#f97316] italic" style={{ letterSpacing: "-0.01em" }}>really </span>
+                  is.
+                </span>
+              </h1>
 
-              <Card className="rounded-2xl p-5 bg-white border-2 border-[#0a1f5c]/30 hover:border-[#0a1f5c] transition-colors shadow-sm text-left">
-                <div className="flex items-center gap-2 mb-2">
-                  <GraduationCap size={16} className="text-[#0a1f5c]" strokeWidth={2.5} />
-                  <div className="text-xs uppercase tracking-widest font-bold text-[#0a1f5c]">For Schools</div>
+              <div className="mt-10 grid sm:grid-cols-2 gap-6 max-w-2xl">
+                <p className="text-base lg:text-lg text-[#0a1f5c]/85 leading-relaxed">
+                  A pocket-sized compass for the primary years. <b>BehaviourScope™</b> western astrology meets <b>Sentiment Lab</b> - research from <b>Dr Bhawna Tiwari</b>'s PhD thesis, written in everyday English a parent can actually use.
+                </p>
+                <div className="flex flex-col gap-3 sm:items-start">
+                  <Link to="/register?role=parent" className="w-full sm:w-auto">
+                    <Button className="w-full sm:w-auto rounded-none bg-[#f97316] hover:bg-[#0a1f5c] text-white font-bold px-8 py-7 text-base border-2 border-[#f97316] hover:border-[#0a1f5c]" data-testid="promo-hero-cta-parent">
+                      Free for your first child <ArrowUpRight className="ml-2" size={18} strokeWidth={3} />
+                    </Button>
+                  </Link>
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+                    <Button variant="ghost" className="w-full sm:w-auto rounded-none font-bold px-2 py-2 text-[#0a1f5c] hover:text-[#f97316] hover:bg-transparent underline decoration-2 decoration-[#0a1f5c] hover:decoration-[#f97316] underline-offset-[6px]" data-testid="promo-hero-cta-school">
+                      Or book a school demo
+                    </Button>
+                  </a>
                 </div>
-                <div className="font-bold text-[#0a1f5c] mb-3">Pro plan ₹1,499/month</div>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-                  <Button className="w-full rounded-full bg-[#0a1f5c] hover:bg-[#142c7a] text-white font-bold py-5 btn-lift" data-testid="promo-cta-school">
-                    Book a demo <ArrowRight className="ml-1.5" size={16} strokeWidth={2.5} />
-                  </Button>
-                </a>
-              </Card>
+              </div>
             </div>
 
-            {/* STATS */}
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto" data-testid="promo-stats">
-              {STATS.map((s) => (
-                <div key={s.label} className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="text-2xl md:text-3xl font-black text-[#0a1f5c] tracking-tight">{s.value}</div>
-                  <div className="text-[11px] uppercase tracking-widest font-bold text-slate-500 mt-1">{s.label}</div>
+            {/* RIGHT — bird mascot with floating cards */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative aspect-square max-w-md mx-auto lg:ml-auto lg:mr-0">
+                <div className="absolute inset-8 bg-[#f97316]" />
+                <img
+                  src="/edusense-logo.png"
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-contain p-12 mix-blend-multiply"
+                  data-testid="promo-hero-bird"
+                />
+                {/* floating tag 1 */}
+                <div className="absolute -top-2 -left-2 sm:-left-8 bg-white border-2 border-[#0a1f5c] px-4 py-3 shadow-[6px_6px_0_0_#0a1f5c] rotate-[-4deg]">
+                  <div className="text-[9px] uppercase tracking-widest font-black text-[#f97316]">Niche</div>
+                  <div className="font-black text-lg">Curious Communicator</div>
                 </div>
-              ))}
+                {/* floating tag 2 */}
+                <div className="absolute -bottom-4 -right-2 sm:-right-6 bg-white border-2 border-[#0a1f5c] px-4 py-3 shadow-[-6px_6px_0_0_#f97316] rotate-[3deg]">
+                  <div className="text-[9px] uppercase tracking-widest font-black text-[#0a1f5c]">Parenting tip</div>
+                  <div className="font-bold text-sm max-w-[180px]">Set 20-min "deep dive" rituals this week.</div>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+
+        {/* mega number band */}
+        <div className="border-t-2 border-[#0a1f5c]/15">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-2 lg:grid-cols-4 divide-x-2 divide-[#0a1f5c]/15">
+            {[
+              { n: "60s", l: "to first reading" },
+              { n: "₹0", l: "for parents to start" },
+              { n: "8", l: "feelings decoded" },
+              { n: "2", l: "languages live" },
+            ].map((s, i) => (
+              <div key={i} className="py-8 lg:py-10 px-5 lg:px-8" data-testid={`promo-stat-${i}`}>
+                <div className="text-5xl lg:text-7xl font-black tracking-tighter text-[#0a1f5c]">{s.n}</div>
+                <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-[#0a1f5c]/60 mt-2">{s.l}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20" data-testid="promo-how-it-works">
-        <div className="text-center mb-12">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#f97316] mb-3">How it works</div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#0a1f5c]">Three steps. One daily ritual.</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {STEPS.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <Card key={i} className="rounded-3xl p-7 bg-white border-slate-100 relative overflow-hidden hover:shadow-xl transition-shadow" data-testid={`promo-step-${i + 1}`}>
-                <div className="absolute -top-6 -right-6 text-[140px] font-black text-orange-50 select-none">{i + 1}</div>
-                <div className="relative">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0a1f5c] to-[#f97316] flex items-center justify-center mb-5 shadow-md">
-                    <Icon className="text-white" size={22} strokeWidth={2.5} />
-                  </div>
-                  <h3 className="text-xl font-bold text-[#0a1f5c] mb-2">{s.title}</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{s.desc}</p>
+      {/* ── MARQUEE ──────────────────── */}
+      <Marquee />
+
+      {/* ── HOW IT WORKS — vertical timeline list ─────────────────── */}
+      <section id="how" className="bg-[#fffaf5] py-20 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 mb-16">
+            <div className="lg:col-span-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#f97316]">How it works</span>
+              <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[0.92]">
+                Three steps.<br />
+                <span className="font-script font-normal italic text-[#f97316] text-7xl md:text-8xl lg:text-9xl">one ritual.</span>
+              </h2>
+            </div>
+            <div className="lg:col-span-6 lg:col-start-7 self-end">
+              <p className="text-base lg:text-lg text-[#0a1f5c]/85 leading-relaxed max-w-md">
+                A reading isn't useful if it sits in a PDF. Edusense turns insight into a weekly habit.
+              </p>
+            </div>
+          </div>
+
+          <div className="divide-y-2 divide-[#0a1f5c]/15 border-y-2 border-[#0a1f5c]/15">
+            {STEPS.map((s) => (
+              <div key={s.num} className="grid lg:grid-cols-12 gap-6 py-10 lg:py-14 group hover:bg-white transition-colors" data-testid={`promo-step-${s.num}`}>
+                <div className="lg:col-span-2">
+                  <div className="text-6xl lg:text-7xl font-black text-[#f97316] tracking-tighter">{s.num}</div>
                 </div>
-              </Card>
-            );
-          })}
+                <div className="lg:col-span-6">
+                  <h3 className="text-3xl lg:text-4xl font-black tracking-tight">{s.title}</h3>
+                </div>
+                <div className="lg:col-span-4">
+                  <p className="text-base text-[#0a1f5c]/80 leading-relaxed">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* DR BHAWNA TIWARI CREDIBILITY */}
-      <section className="bg-gradient-to-br from-[#050d2e] via-[#0a1f5c] to-[#142c7a] text-white relative overflow-hidden" data-testid="promo-research-section">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-[#f97316] rounded-full blur-[120px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#fdba74] rounded-full blur-[150px]" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-          <div className="grid lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#f97316]/20 border border-[#f97316]/40 px-4 py-1.5 text-xs uppercase tracking-[0.22em] font-bold text-orange-200 mb-6">
-                <ScrollText size={14} strokeWidth={2.5} /> Research-backed
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-tight">
-                Built on the PhD research of <span className="shimmer-text">Dr Bhawna Tiwari</span>.
+      {/* ── RESEARCH (Dr Bhawna Tiwari) — dark editorial spread ──────── */}
+      <section id="research" className="bg-[#0a1f5c] text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "16px 16px" }} />
+        <div className="relative max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-20 lg:py-32">
+          <div className="grid lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-5">
+              <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#f97316]">Built on PhD research</span>
+              <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[0.92]">
+                Dr Bhawna<br />
+                <span className="font-script font-normal italic text-[#f97316] text-7xl md:text-8xl lg:text-9xl">Tiwari's </span><br />
+                method.
               </h2>
-              <p className="mt-6 text-base sm:text-lg text-blue-100/80 leading-relaxed max-w-xl">
-                Edusense's Sentiment Lab implements Dr Tiwari's thesis - <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> - giving you the same rigour academics use, in everyday language a parent can act on.
+              <p className="mt-8 text-base lg:text-lg text-white/80 leading-relaxed max-w-md">
+                Edusense's Sentiment Lab implements her thesis - <i>"Sentimental Analysis approach to improve teaching and learning in primary education"</i> - giving you the same rigour academics use, in everyday language.
               </p>
-              <div className="mt-8 grid sm:grid-cols-2 gap-3 max-w-xl">
+            </div>
+
+            <div className="lg:col-span-6 lg:col-start-7">
+              {/* Quote block */}
+              <div className="bg-white text-[#0a1f5c] p-8 lg:p-10 border-4 border-[#f97316] mb-6 relative">
+                <Quote className="absolute -top-5 -left-5 bg-[#f97316] text-white p-1.5" size={40} strokeWidth={2.5} />
+                <p className="text-xl lg:text-2xl font-medium leading-snug">
+                  "Sentimental analysis can move primary education from gut-feel to evidence - if it's translated into language parents and teachers actually use every day."
+                </p>
+                <div className="mt-6 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-[#0a1f5c] text-white font-black grid place-items-center text-lg">BT</div>
+                  <div>
+                    <div className="font-black">Dr Bhawna Tiwari</div>
+                    <div className="text-xs text-[#0a1f5c]/60">PhD · Primary Education Research</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 {[
-                  "8 NRC emotions: joy, trust, anger, fear & more",
-                  "Polarity: positive · negative · mixed",
-                  "0-5 happiness score, week-over-week",
-                  "8 aspect categories: participation, sharing, motor, learning",
-                ].map((line) => (
-                  <div key={line} className="flex items-start gap-2 text-sm text-blue-100">
-                    <CheckCircle2 size={16} className="text-orange-400 mt-0.5 flex-shrink-0" strokeWidth={2.5} />
-                    <span>{line}</span>
+                  ["8", "NRC emotions"],
+                  ["0-5", "happiness score"],
+                  ["3", "polarity classes + mixed"],
+                  ["8", "aspect categories"],
+                ].map(([n, l], i) => (
+                  <div key={i} className="border-2 border-white/20 p-5">
+                    <div className="text-4xl lg:text-5xl font-black text-[#f97316] tracking-tighter">{n}</div>
+                    <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-white/70 mt-1">{l}</div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="lg:col-span-5">
-              <div className="glass rounded-3xl p-8" data-testid="promo-research-card">
-                <Quote className="text-orange-300 mb-3" size={36} strokeWidth={2.5} />
-                <p className="text-base sm:text-lg leading-relaxed font-medium">
-                  "Sentimental analysis can move primary education from gut-feel to evidence - if it's translated into language parents and teachers actually use every day."
-                </p>
-                <div className="mt-5 flex items-center gap-3 pt-5 border-t border-white/15">
-                  <div className="w-11 h-11 rounded-full bg-[#f97316] flex items-center justify-center text-white font-bold">BT</div>
-                  <div>
-                    <div className="font-bold">Dr Bhawna Tiwari</div>
-                    <div className="text-xs text-blue-200">PhD · Primary Education Research</div>
-                  </div>
-                </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING — comparison-table style ─────────────────── */}
+      <section id="pricing" className="bg-[#fffaf5] py-20 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 mb-16">
+            <div className="lg:col-span-7">
+              <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#f97316]">Pricing</span>
+              <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[0.92]">
+                Simple.<br />
+                <span className="font-script font-normal italic text-[#f97316] text-7xl md:text-8xl lg:text-9xl">Honest. </span><br />
+                Scales with you.
+              </h2>
+            </div>
+          </div>
+
+          {/* Comparison row */}
+          <div className="border-2 border-[#0a1f5c] bg-white">
+            {/* Header row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 border-b-2 border-[#0a1f5c]">
+              <div className="hidden md:block p-6 lg:p-8 bg-[#fffaf5]" />
+              <div className="p-6 lg:p-8 border-l-2 border-[#0a1f5c]/15 md:border-l-2">
+                <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-[#0a1f5c]/60 mb-2">Free forever</div>
+                <div className="text-5xl lg:text-6xl font-black tracking-tighter">₹0</div>
+                <div className="text-sm text-[#0a1f5c]/60 mt-1">For curious parents</div>
+              </div>
+              <div className="p-6 lg:p-8 border-l-2 border-[#0a1f5c]/15 bg-[#0a1f5c] text-white relative">
+                <div className="absolute -top-3 left-6 bg-[#f97316] text-white text-[10px] uppercase tracking-widest font-black px-3 py-1">Pro · for schools</div>
+                <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-white/70 mb-2">Pro</div>
+                <div className="text-5xl lg:text-6xl font-black tracking-tighter">₹1,499<span className="text-base font-bold text-white/70">/mo</span></div>
+                <div className="text-sm text-white/70 mt-1">Per school · Razorpay</div>
+              </div>
+            </div>
+
+            {/* Rows */}
+            {[
+              ["BehaviourScope™ readings", "Unlimited · 1 child", "Unlimited · all students"],
+              ["Book / link / activity recommendations", "Yes", "Yes"],
+              ["Sentiment Lab access", "Yes", "Yes + school-wide analytics"],
+              ["Hindi readings", "Yes", "Yes"],
+              ["Teachers & principals seats", "—", "Unlimited"],
+              ["7-day grace on lapse", "—", "Yes"],
+              ["WhatsApp support", "Standard", "Priority"],
+            ].map((row, i) => (
+              <div key={i} className="grid grid-cols-1 md:grid-cols-3 border-b border-[#0a1f5c]/10 last:border-b-0" data-testid={`promo-pricing-row-${i}`}>
+                <div className="p-5 lg:p-6 font-bold text-sm bg-[#fffaf5] md:bg-transparent">{row[0]}</div>
+                <div className="p-5 lg:p-6 text-sm text-[#0a1f5c]/85 border-t md:border-t-0 md:border-l-2 border-[#0a1f5c]/15">{row[1]}</div>
+                <div className="p-5 lg:p-6 text-sm text-[#0a1f5c]/85 border-t md:border-t-0 md:border-l-2 border-[#0a1f5c]/15">{row[2]}</div>
+              </div>
+            ))}
+
+            {/* CTAs row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 border-t-2 border-[#0a1f5c]">
+              <div className="hidden md:block bg-[#fffaf5]" />
+              <div className="p-5 lg:p-6 border-t md:border-t-0 md:border-l-2 border-[#0a1f5c]/15">
+                <Link to="/register?role=parent">
+                  <Button variant="outline" className="w-full rounded-none border-2 border-[#0a1f5c] hover:bg-[#0a1f5c] hover:text-white font-bold py-6" data-testid="promo-pricing-free-cta">
+                    Start free <ArrowRight className="ml-2" size={16} strokeWidth={3} />
+                  </Button>
+                </Link>
+              </div>
+              <div className="p-5 lg:p-6 border-t md:border-t-0 md:border-l-2 border-[#0a1f5c]/15 bg-[#0a1f5c]">
+                <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
+                  <Button className="w-full rounded-none bg-[#f97316] hover:bg-white hover:text-[#0a1f5c] text-white font-bold py-6 border-2 border-[#f97316] hover:border-white" data-testid="promo-pricing-pro-cta">
+                    Book a 15-min demo <ArrowRight className="ml-2" size={16} strokeWidth={3} />
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SAMPLE READINGS */}
-      <section id="parents" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20" data-testid="promo-samples-section">
-        <div className="text-center mb-12">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#f97316] mb-3">Sample readings</div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#0a1f5c]">Three children. Three compasses.</h2>
-          <p className="text-slate-600 mt-4 text-base max-w-2xl mx-auto">
-            A peek at what every BehaviourScope™ reading delivers - niche, traits, learning style and a concrete parenting tip you can use this week.
-          </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {SAMPLE_READINGS.map((r) => (
-            <SampleReadingCard key={r.sign} reading={r} testid={`promo-sample-${r.sign.toLowerCase()}`} />
-          ))}
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section id="pricing" className="bg-slate-50 border-y border-slate-200" data-testid="promo-pricing-section">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#f97316] mb-3">Pricing</div>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#0a1f5c]">Simple. Honest. Scales with you.</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Card className="rounded-3xl p-8 bg-white border-slate-200" data-testid="promo-pricing-free">
-              <Badge className="rounded-full bg-slate-100 text-slate-700 border-slate-200 font-bold uppercase tracking-widest text-[10px]">Free forever</Badge>
-              <div className="mt-4 mb-2 text-5xl font-black text-[#0a1f5c]">₹0</div>
-              <div className="text-sm text-slate-500 mb-6">For curious parents</div>
-              <ul className="space-y-3 text-sm text-slate-700 mb-8">
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-emerald-500 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> 1 child profile</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-emerald-500 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Unlimited BehaviourScope™ readings</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-emerald-500 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Book / link / activity recommendations</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-emerald-500 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Sentiment Lab access</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-emerald-500 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> WhatsApp consultation link</li>
-              </ul>
-              <Link to="/register?role=parent">
-                <Button variant="outline" className="w-full rounded-full font-bold border-slate-300 py-6" data-testid="promo-pricing-free-cta">Start free</Button>
-              </Link>
-            </Card>
-
-            <Card id="schools" className="rounded-3xl p-8 bg-gradient-to-br from-[#0a1f5c] via-[#142c7a] to-[#f97316] text-white border-0 relative overflow-hidden" data-testid="promo-pricing-pro">
-              <Badge className="rounded-full bg-orange-400 text-[#0a1f5c] border-0 font-bold uppercase tracking-widest text-[10px]"><Crown size={11} className="mr-1" /> Pro for schools</Badge>
-              <div className="mt-4 mb-2 text-5xl font-black">₹1,499<span className="text-base font-bold text-white/70">/mo</span></div>
-              <div className="text-sm text-white/80 mb-6">Per school</div>
-              <ul className="space-y-3 text-sm mb-8">
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-orange-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Unlimited students &amp; teachers</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-orange-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> School-wide sentiment analytics</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-orange-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> 7-day grace on lapse</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-orange-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Multi-child support for every parent</li>
-                <li className="flex items-start gap-2"><CheckCircle2 size={16} className="text-orange-300 mt-0.5 flex-shrink-0" strokeWidth={2.5} /> Priority WhatsApp support</li>
-              </ul>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-                <Button className="w-full rounded-full bg-orange-400 hover:bg-orange-300 text-[#0a1f5c] font-bold py-6" data-testid="promo-pricing-pro-cta">
-                  Book a 15-min demo <ArrowRight className="ml-1.5" size={16} strokeWidth={2.5} />
-                </Button>
-              </a>
-              <p className="text-[11px] text-white/70 mt-3 text-center">Billing via Razorpay. Cancel anytime.</p>
-            </Card>
+      {/* ── TESTIMONIALS — scrolling card row ─────────────────── */}
+      <section className="bg-[#0a1f5c] py-20 lg:py-28 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 mb-12">
+          <div className="grid lg:grid-cols-12 gap-8 items-end">
+            <div className="lg:col-span-7">
+              <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#f97316]">Loved by families &amp; schools</span>
+              <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[0.92] text-white">
+                What they're<br />
+                <span className="font-script font-normal italic text-[#f97316] text-7xl md:text-8xl lg:text-9xl">saying.</span>
+              </h2>
+            </div>
+            <div className="lg:col-span-5 flex items-center gap-2 text-white/80">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <Star key={i} size={20} className="text-[#f97316] fill-[#f97316]" />
+              ))}
+              <span className="ml-2 font-bold">4.9 / 5 · early parents</span>
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* TESTIMONIALS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20" data-testid="promo-testimonials-section">
-        <div className="text-center mb-12">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#f97316] mb-3">Loved by families &amp; schools</div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#0a1f5c]">What parents &amp; principals say.</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-5 max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           {TESTIMONIALS.map((t, i) => (
-            <Card key={i} className="rounded-3xl p-7 bg-white border-slate-100 hover:shadow-xl transition-shadow" data-testid={`promo-testimonial-${i}`}>
-              <Quote className="text-orange-300 mb-3" size={28} strokeWidth={2.5} />
-              <p className="text-slate-800 leading-relaxed mb-5">"{t.quote}"</p>
-              <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
-                <div className={`w-10 h-10 rounded-full ${t.accent} flex items-center justify-center text-white font-bold`}>
-                  {t.name[0]}
-                </div>
-                <div>
-                  <div className="font-bold text-[#0a1f5c]">{t.name}</div>
-                  <div className="text-xs text-slate-500">{t.role}</div>
-                </div>
+            <div key={i} className="bg-white p-7 border-2 border-white relative" data-testid={`promo-testimonial-${i}`}>
+              <Quote className="text-[#f97316] mb-3" size={28} strokeWidth={2.5} />
+              <p className="text-[#0a1f5c] leading-relaxed text-base">"{t.quote}"</p>
+              <div className="mt-6 pt-5 border-t-2 border-[#0a1f5c]/10">
+                <div className="font-black text-[#0a1f5c]">{t.name}</div>
+                <div className="text-xs text-[#0a1f5c]/60 mt-0.5">{t.role}</div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* WHATSAPP CONSULTATION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20" data-testid="promo-whatsapp-section">
-        <Card className="rounded-3xl p-8 lg:p-12 bg-gradient-to-br from-emerald-50 via-white to-orange-50 border-emerald-100">
-          <div className="grid lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8">
-              <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 border border-emerald-200 px-3 py-1 text-[10px] uppercase tracking-[0.22em] font-bold text-emerald-700 mb-4">
-                <MessageCircle size={12} strokeWidth={2.5} /> Free human consultation
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-[#0a1f5c] mb-3">
-                Still unsure? Talk to a real human on WhatsApp.
-              </h3>
-              <p className="text-slate-700 leading-relaxed text-base">
-                We'll walk you through your child's first BehaviourScope™ reading and answer any questions about pricing, schools or research methodology. <span className="font-bold text-emerald-700">No obligation, no sales script.</span>
-              </p>
-              <div className="mt-5 flex items-center gap-4 text-sm text-slate-600">
-                <span className="flex items-center gap-1.5"><Clock size={14} strokeWidth={2.5} /> 9 AM - 7 PM IST</span>
-                <span className="flex items-center gap-1.5"><ShieldCheck size={14} strokeWidth={2.5} /> Private &amp; confidential</span>
-              </div>
-            </div>
-            <div className="lg:col-span-4 flex lg:justify-end">
-              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="w-full">
-                <Button className="w-full rounded-full bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-7 text-base btn-lift shadow-lg" data-testid="promo-whatsapp-cta">
-                  <MessageCircle className="mr-2" size={20} strokeWidth={2.5} /> Chat on WhatsApp
-                </Button>
-              </a>
-            </div>
+      {/* ── WHATSAPP STRIP ─────────────────── */}
+      <section className="bg-[#f97316] text-white py-16 lg:py-20" data-testid="promo-whatsapp-strip">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-8">
+            <div className="text-[11px] uppercase tracking-[0.3em] font-bold text-white/80 mb-2">Free human consultation</div>
+            <h3 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[0.95]">
+              Still unsure?<br />Talk to a real human.
+            </h3>
+            <p className="mt-4 text-white/90 max-w-xl text-base lg:text-lg">
+              9 AM - 7 PM IST · private &amp; confidential. We'll walk you through your child's first BehaviourScope™ reading. No sales script.
+            </p>
           </div>
-        </Card>
-      </section>
-
-      {/* FAQ */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20" data-testid="promo-faq-section">
-        <div className="text-center mb-10">
-          <div className="text-xs uppercase tracking-[0.22em] font-bold text-[#f97316] mb-3">Questions parents ask first</div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#0a1f5c]">FAQ.</h2>
-        </div>
-        <Accordion type="single" collapsible className="space-y-3" data-testid="promo-faq-accordion">
-          {FAQS.map((f, i) => (
-            <AccordionItem
-              key={i}
-              value={`item-${i}`}
-              className="rounded-2xl border border-slate-200 bg-white px-5"
-              data-testid={`promo-faq-item-${i}`}
-            >
-              <AccordionTrigger className="text-left font-bold text-[#0a1f5c] hover:no-underline">
-                {f.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm text-slate-700 leading-relaxed">
-                {f.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#050d2e] via-[#0a1f5c] to-[#142c7a]" />
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-[#f97316] rounded-full blur-[100px]" />
-          <div className="absolute bottom-10 right-20 w-96 h-96 bg-[#fdba74] rounded-full blur-[140px]" />
-        </div>
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 text-center text-white">
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black tracking-tighter leading-tight">
-            Meet your child's <span className="shimmer-text">compass</span> today.
-          </h2>
-          <p className="mt-6 text-base sm:text-lg text-blue-100/80 max-w-xl mx-auto">
-            Free for your first child. 60 seconds to your first BehaviourScope™ reading. No credit card required.
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link to="/register?role=parent">
-              <Button className="rounded-full bg-[#f97316] hover:bg-[#ea580c] text-white font-bold px-8 py-7 text-base btn-lift" data-testid="promo-final-cta-parent">
-                Start free as a parent <ArrowRight className="ml-1.5" size={18} strokeWidth={2.5} />
-              </Button>
-            </Link>
-            <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-              <Button variant="outline" className="rounded-full font-bold px-8 py-7 text-base bg-transparent border-white/40 text-white hover:bg-white/10" data-testid="promo-final-cta-school">
-                Book a school demo <MessageCircle className="ml-1.5" size={18} strokeWidth={2.5} />
+          <div className="lg:col-span-4 flex lg:justify-end">
+            <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="w-full">
+              <Button className="w-full rounded-none bg-white text-[#0a1f5c] hover:bg-[#0a1f5c] hover:text-white border-2 border-white hover:border-[#0a1f5c] font-bold py-8 text-base" data-testid="promo-whatsapp-cta">
+                <MessageCircle className="mr-2" size={20} strokeWidth={3} /> Chat on WhatsApp
               </Button>
             </a>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2.5 mb-3">
-                <img src="/edusense-logo.png" alt="Edusense" className="w-10 h-10 object-contain" />
-                <div className="leading-tight">
-                  <div className="font-extrabold text-lg tracking-tight text-[#0a1f5c]">Edusense</div>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-slate-500">by Code an Apple</div>
+      {/* ── FAQ ─────────────────── */}
+      <section id="faq" className="bg-[#fffaf5] py-20 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-5">
+            <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#f97316]">FAQ</span>
+            <h2 className="mt-4 text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[0.92]">
+              Questions<br />parents<br />
+              <span className="font-script font-normal italic text-[#f97316] text-7xl md:text-8xl lg:text-9xl">ask first.</span>
+            </h2>
+          </div>
+          <div className="lg:col-span-7">
+            <Accordion type="single" collapsible className="space-y-0 border-y-2 border-[#0a1f5c]" data-testid="promo-faq-accordion">
+              {FAQS.map((f, i) => (
+                <AccordionItem
+                  key={i}
+                  value={`item-${i}`}
+                  className="border-b border-[#0a1f5c]/15 last:border-b-0"
+                  data-testid={`promo-faq-item-${i}`}
+                >
+                  <AccordionTrigger className="text-left font-black text-lg lg:text-xl text-[#0a1f5c] hover:no-underline hover:text-[#f97316] py-6">
+                    {f.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-base text-[#0a1f5c]/80 leading-relaxed pb-6">
+                    {f.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BIG FINAL CTA ─────────────────── */}
+      <section className="bg-[#0a1f5c] text-white py-24 lg:py-40 relative overflow-hidden">
+        <div className="absolute -top-20 -right-20 w-[500px] h-[500px] bg-[#f97316] rounded-full blur-[120px] opacity-50" />
+        <div className="relative max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 text-center">
+          <div className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#f97316] mb-6">edusense.co.in</div>
+          <h2 className="font-black tracking-[-0.04em] leading-[0.88]">
+            <span className="block text-[14vw] sm:text-[10vw] lg:text-[9vw]">Meet your</span>
+            <span className="block text-[14vw] sm:text-[10vw] lg:text-[9vw]">
+              child's <span className="font-script font-normal italic text-[#f97316]" style={{ letterSpacing: "-0.01em" }}>compass </span>
+            </span>
+            <span className="block text-[14vw] sm:text-[10vw] lg:text-[9vw]">today.</span>
+          </h2>
+          <p className="mt-10 text-white/70 max-w-xl mx-auto text-base lg:text-lg">
+            Free for your first child. 60 seconds to your first BehaviourScope™ reading. No credit card required.
+          </p>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            <Link to="/register?role=parent">
+              <Button className="rounded-none bg-[#f97316] hover:bg-white hover:text-[#0a1f5c] text-white font-bold px-10 py-7 text-base border-2 border-[#f97316] hover:border-white" data-testid="promo-final-cta-parent">
+                Start free <ArrowUpRight className="ml-2" size={18} strokeWidth={3} />
+              </Button>
+            </Link>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
+              <Button variant="outline" className="rounded-none bg-transparent border-2 border-white hover:bg-white hover:text-[#0a1f5c] text-white font-bold px-10 py-7 text-base" data-testid="promo-final-cta-school">
+                Book a school demo <MessageCircle className="ml-2" size={18} strokeWidth={3} />
+              </Button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ─────────────────── */}
+      <footer className="bg-[#050d2e] text-white/70 py-16">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid md:grid-cols-12 gap-8 mb-12 pb-12 border-b border-white/15">
+            <div className="md:col-span-5">
+              <div className="flex items-center gap-3 mb-4">
+                <img src="/edusense-logo.png" alt="Edusense" className="w-12 h-12 object-contain bg-white/5" />
+                <div>
+                  <div className="font-black text-2xl tracking-tight text-white">edusense<span className="text-[#f97316]">.</span></div>
+                  <div className="text-[10px] uppercase tracking-[0.22em] text-white/50">by Code an Apple</div>
                 </div>
               </div>
-              <p className="text-sm text-slate-600 max-w-md leading-relaxed">
+              <p className="text-sm leading-relaxed max-w-sm">
                 The compass for the primary years. BehaviourScope™ western astrology + Sentiment Lab built on Dr Bhawna Tiwari's PhD research.
               </p>
-              <p className="text-xs text-slate-500 mt-3">edusense.co.in · contact@edusense.co.in</p>
             </div>
-            <div>
-              <div className="text-xs uppercase tracking-widest font-bold text-[#0a1f5c] mb-3">Product</div>
-              <ul className="space-y-2 text-sm text-slate-600">
-                <li><Link to="/products/behaviourscope" className="hover:text-[#f97316]">BehaviourScope™</Link></li>
-                <li><a href="#pricing" className="hover:text-[#f97316]">Pricing</a></li>
-                <li><Link to="/login" className="hover:text-[#f97316]">Sign in</Link></li>
-                <li><Link to="/register?role=parent" className="hover:text-[#f97316]">Get started</Link></li>
+            <div className="md:col-span-2">
+              <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-white mb-4">Product</div>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link to="/products/behaviourscope" className="hover:text-[#f97316] transition-colors">BehaviourScope™</Link></li>
+                <li><a href="#pricing" className="hover:text-[#f97316] transition-colors">Pricing</a></li>
+                <li><Link to="/login" className="hover:text-[#f97316] transition-colors">Sign in</Link></li>
               </ul>
             </div>
-            <div>
-              <div className="text-xs uppercase tracking-widest font-bold text-[#0a1f5c] mb-3">Company</div>
-              <ul className="space-y-2 text-sm text-slate-600">
-                <li><a href="#" className="hover:text-[#f97316]">About</a></li>
-                <li><a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-[#f97316]">WhatsApp</a></li>
-                <li><a href="#" className="hover:text-[#f97316]">Privacy</a></li>
-                <li><a href="#" className="hover:text-[#f97316]">Terms</a></li>
+            <div className="md:col-span-2">
+              <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-white mb-4">Company</div>
+              <ul className="space-y-2.5 text-sm">
+                <li><a href="#research" className="hover:text-[#f97316] transition-colors">Research</a></li>
+                <li><a href="#faq" className="hover:text-[#f97316] transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-[#f97316] transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-[#f97316] transition-colors">Terms</a></li>
+              </ul>
+            </div>
+            <div className="md:col-span-3">
+              <div className="text-[11px] uppercase tracking-[0.22em] font-bold text-white mb-4">Contact</div>
+              <ul className="space-y-2.5 text-sm">
+                <li className="flex items-center gap-2"><Mail size={14} /> contact@edusense.co.in</li>
+                <li className="flex items-center gap-2"><Phone size={14} /> {WHATSAPP_NUMBER}</li>
+                <li className="flex items-center gap-2"><MessageCircle size={14} /> <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-[#f97316]">WhatsApp us</a></li>
               </ul>
             </div>
           </div>
-          <div className="pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
             <div>© {new Date().getFullYear()} Edusense by Code an Apple. All rights reserved.</div>
-            <div>Sentiment research by Dr Bhawna Tiwari · BehaviourScope™ is a trademark of Code an Apple.</div>
+            <div>BehaviourScope™ is a trademark of Code an Apple · Research by Dr Bhawna Tiwari</div>
           </div>
         </div>
       </footer>
