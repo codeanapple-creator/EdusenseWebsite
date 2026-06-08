@@ -14,6 +14,7 @@ import TeacherDashboard from "./pages/TeacherDashboard";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import Sentiment from "./pages/Sentiment";
 import ProductBehaviourScope from "./pages/ProductBehaviourScope";
+import EdusensePromo from "./pages/EdusensePromo";
 
 function DashboardRouter() {
   const { user } = useAuth();
@@ -29,6 +30,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/products/behaviourscope" element={<ProductBehaviourScope />} />
+            <Route path="/edusense" element={<EdusensePromo />} />
+            <Route path="/promo" element={<EdusensePromo />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<DashboardRouter />} />
