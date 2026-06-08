@@ -13,7 +13,7 @@ import {
   Quote,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "+919999999999";
+const WHATSAPP_NUMBER = "+919755093999";
 const WHATSAPP_TEXT = encodeURIComponent(
   "Hi! I'd like a free Edusense consultation for my child / school."
 );
