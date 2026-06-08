@@ -20,37 +20,37 @@ const WHATSAPP_TEXT = encodeURIComponent(
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, "")}?text=${WHATSAPP_TEXT}`;
 
 const MARQUEE_WORDS = [
-  "BehaviourScope™",
-  "Curious Communicator",
-  "Bold Initiator",
-  "Empathic Caregiver",
-  "जिज्ञासु संवादक",
-  "Active Participation",
+  "Sentiment Lab",
   "Happiness Index",
+  "Active Participation",
   "Learning Style",
-  "Niche Finder",
+  "Dr Bhawna Tiwari",
+  "जिज्ञासु संवादक",
   "Sharing",
   "Self-initiation",
-  "Sentiment Lab",
-  "Dr Bhawna Tiwari",
+  "Curious Communicator",
+  "Bold Initiator",
+  "BehaviourScope™",
+  "Empathic Caregiver",
+  "Niche Finder",
   "Free for the first child",
 ];
 
 const STEPS = [
   {
     num: "01",
-    title: "30 seconds of detail",
-    desc: "Drop your child's name, place and time of birth. That's the whole form.",
+    title: "Paste any note or journal",
+    desc: "Parent feedback, child journal, teacher note - even a WhatsApp rant. The Sentiment Lab does the rest.",
   },
   {
     num: "02",
-    title: "We listen, we read, we map",
-    desc: "Western-astrology archetypes meet Dr Bhawna Tiwari's primary-education research. The system writes a parent-friendly compass.",
+    title: "We read between the lines",
+    desc: "Built on Dr Bhawna Tiwari's PhD research - 8 feelings, a 0-5 happiness score, polarity, and which part of school life it's about. In plain English.",
   },
   {
     num: "03",
     title: "You act, every week",
-    desc: "Books, links, activities and feelings tracking - so the reading doesn't sit in a PDF, it shapes Tuesdays.",
+    desc: "Books, links, activities and weekly trends - so the insight doesn't sit in a PDF, it shapes Tuesdays.",
   },
 ];
 
@@ -182,17 +182,17 @@ export default function EdusensePromo() {
               </div>
 
               <h1 className="font-black tracking-[-0.04em] leading-[0.88] text-[#0a1f5c]" data-testid="promo-hero-title">
-                <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">See who</span>
+                <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">How is</span>
                 <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">your child</span>
                 <span className="block text-[15vw] sm:text-[11vw] lg:text-[9.5vw]">
                   <span className="font-script font-normal text-[#f97316] italic" style={{ letterSpacing: "-0.01em" }}>really </span>
-                  is.
+                  doing?
                 </span>
               </h1>
 
               <div className="mt-10 grid sm:grid-cols-2 gap-6 max-w-2xl">
                 <p className="text-base lg:text-lg text-[#0a1f5c]/85 leading-relaxed">
-                  A pocket-sized compass for the primary years. <b>BehaviourScope™</b> western astrology meets <b>Sentiment Lab</b> - research from <b>Dr Bhawna Tiwari</b>'s PhD thesis, written in everyday English a parent can actually use.
+                  <b>Edusense</b> reads the everyday signals - parent feedback, journals, teacher notes - and tells you, in plain English, how the child is feeling, what's working and what's hurting. Built on <b>Dr Bhawna Tiwari</b>'s PhD research in primary education. <span className="text-[#f97316]">Plus a bonus <b>BehaviourScope™</b> western-astrology niche reading for fun.</span>
                 </p>
                 <div className="flex flex-col gap-3 sm:items-start">
                   <Link to="/register?role=parent" className="w-full sm:w-auto">
@@ -221,13 +221,13 @@ export default function EdusensePromo() {
                 />
                 {/* floating tag 1 */}
                 <div className="absolute -top-2 -left-2 sm:-left-8 bg-white border-2 border-[#0a1f5c] px-4 py-3 shadow-[6px_6px_0_0_#0a1f5c] rotate-[-4deg]">
-                  <div className="text-[9px] uppercase tracking-widest font-black text-[#f97316]">Niche</div>
-                  <div className="font-black text-lg">Curious Communicator</div>
+                  <div className="text-[9px] uppercase tracking-widest font-black text-[#f97316]">Happiness this week</div>
+                  <div className="font-black text-lg">4.2 / 5 · trending up</div>
                 </div>
                 {/* floating tag 2 */}
                 <div className="absolute -bottom-4 -right-2 sm:-right-6 bg-white border-2 border-[#0a1f5c] px-4 py-3 shadow-[-6px_6px_0_0_#f97316] rotate-[3deg]">
-                  <div className="text-[9px] uppercase tracking-widest font-black text-[#0a1f5c]">Parenting tip</div>
-                  <div className="font-bold text-sm max-w-[180px]">Set 20-min "deep dive" rituals this week.</div>
+                  <div className="text-[9px] uppercase tracking-widest font-black text-[#0a1f5c]">Aspect</div>
+                  <div className="font-bold text-sm max-w-[180px]">Active participation is dropping - try peer-pair days.</div>
                 </div>
               </div>
             </div>
@@ -238,9 +238,9 @@ export default function EdusensePromo() {
         <div className="border-t-2 border-[#0a1f5c]/15">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 grid grid-cols-2 lg:grid-cols-4 divide-x-2 divide-[#0a1f5c]/15">
             {[
-              { n: "60s", l: "to first reading" },
-              { n: "₹0", l: "for parents to start" },
               { n: "8", l: "feelings decoded" },
+              { n: "0-5", l: "happiness score" },
+              { n: "₹0", l: "to start" },
               { n: "2", l: "languages live" },
             ].map((s, i) => (
               <div key={i} className="py-8 lg:py-10 px-5 lg:px-8" data-testid={`promo-stat-${i}`}>
@@ -342,7 +342,53 @@ export default function EdusensePromo() {
         </div>
       </section>
 
-      {/* ── PRICING — comparison-table style ─────────────────── */}
+      {/* ── BEHAVIOURSCOPE BONUS STRIP — astrology as add-on, not main ────── */}
+      <section className="bg-[#fffaf5] py-16 lg:py-24 border-y-2 border-[#0a1f5c]/10" data-testid="promo-bonus-section">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 bg-[#f97316]/15 border border-[#f97316]/30 px-3 py-1 mb-5">
+                <Star size={12} className="text-[#f97316] fill-[#f97316]" />
+                <span className="text-[11px] uppercase tracking-[0.22em] font-bold text-[#f97316]">Plus, a fun bonus</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[0.95]">
+                BehaviourScope™ western<br />astrology - <span className="font-script font-normal italic text-[#f97316] text-5xl md:text-6xl lg:text-7xl">on the house.</span>
+              </h2>
+              <p className="mt-6 text-base lg:text-lg text-[#0a1f5c]/80 leading-relaxed max-w-xl">
+                Every parent account also unlocks a one-tap western-astrology niche reading - sun-sign archetype, learning style and a few playful parenting tips. Not a science, just a delightful conversation-starter at the dinner table.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-6 text-sm font-bold text-[#0a1f5c]/70">
+                <span className="flex items-center gap-2"><Star size={14} className="text-[#f97316] fill-[#f97316]" /> Free with any plan</span>
+                <span className="flex items-center gap-2"><Star size={14} className="text-[#f97316] fill-[#f97316]" /> English + हिंदी</span>
+                <span className="flex items-center gap-2"><Star size={14} className="text-[#f97316] fill-[#f97316]" /> 60-second reading</span>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="relative max-w-sm mx-auto">
+                {/* Sample reading card mock */}
+                <div className="bg-white border-2 border-[#0a1f5c] p-6 shadow-[8px_8px_0_0_#f97316]">
+                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-[#0a1f5c]/15">
+                    <div>
+                      <div className="text-[10px] uppercase tracking-widest font-black text-[#0a1f5c]/60">Sample · Gemini</div>
+                      <div className="font-black text-lg">Aanya, 9</div>
+                    </div>
+                    <Star size={20} className="text-[#f97316] fill-[#f97316]" />
+                  </div>
+                  <div className="text-[10px] uppercase tracking-widest font-black text-[#f97316] mb-1">Niche</div>
+                  <div className="text-2xl font-black mb-4">Curious Communicator</div>
+                  <div className="text-xs text-[#0a1f5c]/70 leading-relaxed">
+                    Learning style: <b className="text-[#0a1f5c]">visual + verbal pairings</b>. Tip: try 20-min "deep dive" rituals to convert curiosity into mastery.
+                  </div>
+                </div>
+                <div className="absolute -top-3 -right-3 bg-[#0a1f5c] text-white text-[10px] uppercase tracking-widest font-black px-3 py-1 rotate-[6deg]">
+                  Bonus reading
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="pricing" className="bg-[#fffaf5] py-20 lg:py-32">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 mb-16">
@@ -376,10 +422,11 @@ export default function EdusensePromo() {
 
             {/* Rows */}
             {[
-              ["BehaviourScope™ readings", "Unlimited · 1 child", "Unlimited · all students"],
-              ["Book / link / activity recommendations", "Yes", "Yes"],
               ["Sentiment Lab access", "Yes", "Yes + school-wide analytics"],
-              ["Hindi readings", "Yes", "Yes"],
+              ["Book / link / activity recommendations", "Yes", "Yes"],
+              ["Weekly happiness-trend chart", "Yes · 1 child", "Yes · all students"],
+              ["Hindi (हिंदी) readings", "Yes", "Yes"],
+              ["BehaviourScope™ astrology bonus", "Yes · 1 child", "Yes · all students"],
               ["Teachers & principals seats", "—", "Unlimited"],
               ["7-day grace on lapse", "—", "Yes"],
               ["WhatsApp support", "Standard", "Priority"],
